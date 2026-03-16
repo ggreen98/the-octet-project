@@ -2,7 +2,7 @@
 
 import { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, Trail } from "@react-three/drei";
 import * as THREE from "three";
 
 // Single electron that orbits within its parent group's XZ plane
@@ -27,16 +27,23 @@ function Electron({
   });
 
   return (
-    <mesh ref={ref}>
-      <sphereGeometry args={[0.07, 16, 16]} />
-      <meshStandardMaterial
-        color={color}
-        emissive={color}
-        emissiveIntensity={5}
-        roughness={0}
-        metalness={0}
-      />
-    </mesh>
+    <Trail
+      width={0.07}
+      length={10}
+      color={color}
+      attenuation={(t) => t * t * t}
+    >
+      <mesh ref={ref}>
+        <sphereGeometry args={[0.055, 12, 12]} />
+        <meshStandardMaterial
+          color={color}
+          emissive={color}
+          emissiveIntensity={8}
+          roughness={0}
+          metalness={0}
+        />
+      </mesh>
+    </Trail>
   );
 }
 
