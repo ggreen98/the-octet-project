@@ -28,7 +28,7 @@ function Electron({
 
   return (
     <Trail
-      width={0.07}
+      width={0.45}
       length={10}
       color={color}
       attenuation={(t) => t * t * t}
@@ -166,14 +166,14 @@ function AtomScene() {
         radius={1.1}
         rotation={[0, 0, 0]}
         electronCount={2}
-        speed={1.9}
+        speed={8}
         color="#00ff41"
       />
       <OrbitalShell
         radius={1.1}
         rotation={[Math.PI / 2, 0, Math.PI / 5]}
         electronCount={2}
-        speed={1.5}
+        speed={6.5}
         color="#00ff41"
       />
 
@@ -182,14 +182,14 @@ function AtomScene() {
         radius={1.9}
         rotation={[Math.PI / 4, 0, 0]}
         electronCount={2}
-        speed={0.95}
+        speed={5}
         color="#00e5ff"
       />
       <OrbitalShell
         radius={1.9}
         rotation={[-Math.PI / 3, Math.PI / 5, Math.PI / 4]}
         electronCount={2}
-        speed={0.72}
+        speed={4}
         color="#00e5ff"
       />
     </group>
