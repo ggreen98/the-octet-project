@@ -98,47 +98,101 @@ function OrbitalShell({
   );
 }
 
-// Animated nucleus: icosahedron core + pulsing outer halo
+// Carbon nucleus: 6 protons + 6 neutrons packed in a tight cluster
+const NUCLEONS: { pos: [number, number, number]; type: "proton" | "neutron" }[] = [
+  { pos: [0,      0,     0    ], type: "proton"  },
+  { pos: [0.22,   0,     0    ], type: "neutron" },
+  { pos: [-0.22,  0,     0    ], type: "proton"  },
+  { pos: [0,      0.22,  0    ], type: "neutron" },
+  { pos: [0,     -0.22,  0    ], type: "proton"  },
+  { pos: [0,      0,     0.22 ], type: "neutron" },
+  { pos: [0,      0,    -0.22 ], type: "proton"  },
+  { pos: [0.14,   0.14,  0.14 ], type: "neutron" },
+  { pos: [-0.14,  0.14,  0.14 ], type: "proton"  },
+  { pos: [0.14,  -0.14,  0.14 ], type: "neutron" },
+  { pos: [-0.14, -0.14, -0.14 ], type: "proton"  },
+  { pos: [0.14,   0.14, -0.14 ], type: "neutron" },
+];
+
+const PROTON_COLOR  = "#ff4500"; // red-orange
+const NEUTRON_COLOR = "#4499ff"; // steel blue
+
+function Nucleon({
+  basePos,
+  color,
+  phase,
+}: {
+  basePos: [number, number, number];
+  color: string;
+  phase: number;
+}) {
+  const ref = useRef<THREE.Mesh>(null);
+
+  useFrame(({ clock }) => {
+    if (!ref.current) return;
+    const t = clock.elapsedTime;
+    // Subtle nuclear vibration — each nucleon jiggles with a unique phase
+    ref.current.position.set(
+      basePos[0] + Math.sin(t * 3.1 + phase)       * 0.012,
+      basePos[1] + Math.sin(t * 2.7 + phase + 1.1) * 0.012,
+      basePos[2] + Math.cos(t * 2.4 + phase + 2.2) * 0.012
+    );
+  });
+
+  return (
+    <mesh ref={ref}>
+      <sphereGeometry args={[0.11, 16, 16]} />
+      <meshStandardMaterial
+        color={color}
+        emissive={color}
+        emissiveIntensity={1.8}
+        roughness={0.3}
+        metalness={0.4}
+      />
+    </mesh>
+  );
+}
+
 function Nucleus() {
-  const coreRef = useRef<THREE.Mesh>(null);
-  const haloRef = useRef<THREE.Mesh>(null);
+  const groupRef  = useRef<THREE.Group>(null);
+  const haloRef   = useRef<THREE.Mesh>(null);
 
   useFrame(({ clock }) => {
     const t = clock.elapsedTime;
-    if (coreRef.current) {
-      coreRef.current.rotation.x = t * 0.3;
-      coreRef.current.rotation.y = t * 0.4;
+    if (groupRef.current) {
+      groupRef.current.rotation.x = t * 0.2;
+      groupRef.current.rotation.y = t * 0.3;
     }
     if (haloRef.current) {
-      const s = 1 + Math.sin(t * 1.6) * 0.1;
+      const s = 1 + Math.sin(t * 1.6) * 0.08;
       haloRef.current.scale.setScalar(s);
       (haloRef.current.material as THREE.MeshStandardMaterial).opacity =
-        0.1 + Math.sin(t * 1.6) * 0.04;
+        0.08 + Math.sin(t * 1.6) * 0.03;
     }
   });
 
   return (
     <group>
-      {/* Inner icosahedron core */}
-      <mesh ref={coreRef}>
-        <icosahedronGeometry args={[0.24, 1]} />
-        <meshStandardMaterial
-          color="#ffb300"
-          emissive="#ff6600"
-          emissiveIntensity={3}
-          roughness={0.2}
-          metalness={0.6}
-        />
-      </mesh>
+      {/* Rotating nucleon cluster */}
+      <group ref={groupRef}>
+        {NUCLEONS.map((n, i) => (
+          <Nucleon
+            key={i}
+            basePos={n.pos}
+            color={n.type === "proton" ? PROTON_COLOR : NEUTRON_COLOR}
+            phase={i * 1.3}
+          />
+        ))}
+      </group>
       {/* Pulsing outer halo */}
       <mesh ref={haloRef}>
-        <sphereGeometry args={[0.46, 32, 32]} />
+        <sphereGeometry args={[0.52, 32, 32]} />
         <meshStandardMaterial
-          color="#ff8c00"
-          emissive="#ff4400"
-          emissiveIntensity={1}
+          color="#ff6600"
+          emissive="#ff3300"
+          emissiveIntensity={0.8}
           transparent
-          opacity={0.12}
+          opacity={0.08}
           roughness={1}
           side={THREE.BackSide}
         />
@@ -204,8 +258,8 @@ export function ElectronOrbital() {
       gl={{ antialias: true, alpha: true }}
     >
       <ambientLight intensity={0.06} />
-      {/* Warm nucleus light */}
-      <pointLight position={[0, 0, 0]} intensity={4} color="#ffb300" decay={2} />
+      {/* Nucleus light — warm mix of proton red and neutron blue */}
+      <pointLight position={[0, 0, 0]} intensity={4} color="#ff6622" decay={2} />
       {/* Cool fill from above */}
       <pointLight position={[4, 4, 4]} intensity={0.6} color="#00ff41" decay={2} />
       {/* Rim light */}
