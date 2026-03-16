@@ -151,6 +151,10 @@
   text-shadow: 0 0 10px rgba(0, 255, 65, 0.4);
 }
 
+.glow-blue {
+  text-shadow: 0 0 6px #4499ff, 0 0 14px #4499ff, 0 0 28px rgba(68, 153, 255, 0.45);
+}
+
 /* ─── CRT Corner Brackets ───────────────────────────────── */
 .crt-card {
   position: relative;

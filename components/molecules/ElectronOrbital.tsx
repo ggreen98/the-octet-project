@@ -126,7 +126,7 @@ function ShellSphere({ radius, color }: { radius: number; color: string }) {
 //   o2: [-0.052, +0.052, -0.052]  → proton
 //   o3: [-0.052, -0.052, +0.052]  → neutron
 
-const D  = 0.20;                         // alpha-cluster separation
+const D  = 0.11;                         // alpha-cluster separation
 const SQ3 = Math.sqrt(3) / 2;            // ≈ 0.866
 
 const ALPHA_CENTRES: [number, number, number][] = [

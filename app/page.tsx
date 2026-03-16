@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { OrbitalCanvas } from "@/components/molecules/OrbitalCanvas";
+import { HexDotGrid } from "@/components/ui/HexDotGrid";
 
 const modules = [
   { id: "01", title: "ATOMIC STRUCTURE", progress: 100, status: "COMPLETE" },
@@ -34,11 +35,17 @@ const capabilities = [
 export default function Home() {
   return (
     <main
-      className="scanlines grid-bg font-terminal min-h-screen overflow-x-hidden"
+      className="scanlines font-terminal min-h-screen overflow-x-hidden"
       style={{ backgroundColor: "#010d0a", color: "#c8ffd4" }}
     >
+      {/* Hex dot grid background */}
+      <HexDotGrid />
+
       {/* Boot scan line */}
       <div className="boot-scan" />
+
+      {/* ── Page content (sits above canvas z:0) ────────── */}
+      <div className="relative" style={{ zIndex: 2 }}>
 
       {/* ── NAV ─────────────────────────────────────────── */}
       <nav
@@ -105,11 +112,11 @@ export default function Home() {
           {/* Headline */}
           <h1
             className="font-heading leading-none mb-8 animate-flicker"
-            style={{ fontSize: "clamp(2.8rem, 7.5vw, 6.5rem)", letterSpacing: "-0.02em", color: "#c8ffd4" }}
+            style={{ fontSize: "clamp(2.8rem, 7.5vw, 6.5rem)", letterSpacing: "-0.02em", color: "#c8e8ff" }}
           >
             <span className="block animate-fade-up anim-d2" style={{ animationFillMode: "both" }}>THE</span>
             <span className="block animate-fade-up anim-d3" style={{ animationFillMode: "both" }}>MOLECULAR</span>
-            <span className="block glow animate-fade-up anim-d4" style={{ color: "#00ff41", animationFillMode: "both" }}>WORLD,</span>
+            <span className="block glow-blue animate-fade-up anim-d4" style={{ color: "#4499ff", animationFillMode: "both" }}>WORLD,</span>
             <span className="block animate-fade-up anim-d5" style={{ animationFillMode: "both" }}>DECODED.</span>
           </h1>
 
@@ -466,6 +473,8 @@ export default function Home() {
         </div>
         <div>© {new Date().getFullYear()} THE OCTET PROJECT</div>
       </footer>
+
+      </div>{/* end page content wrapper */}
     </main>
   );
 }
