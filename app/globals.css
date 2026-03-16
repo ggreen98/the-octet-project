@@ -45,8 +45,24 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Phosphor CRT Palette */
+  --color-phosphor: #00ff41;
+  --color-phosphor-dim: rgba(0, 255, 65, 0.45);
+  --color-amber: #ffb300;
+  --color-cyan-glow: #00e5ff;
+  --color-screen: #010d0a;
+  --color-screen-surface: rgba(0, 255, 65, 0.04);
+  --color-screen-border: rgba(0, 255, 65, 0.18);
+  --color-text-primary: #c8ffd4;
+  --color-text-dim: rgba(200, 255, 212, 0.5);
+
+  /* Fonts */
+  --font-heading: var(--font-orbitron), sans-serif;
+  --font-terminal: var(--font-share-mono), monospace;
 }
 
+/* shadcn base vars */
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -82,48 +98,243 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
-}
-
+/* ─── Base ─────────────────────────────────────────────── */
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    box-sizing: border-box;
   }
+
   body {
-    @apply bg-background text-foreground;
+    background-color: #010d0a;
+    color: #c8ffd4;
+    font-family: var(--font-share-mono), "Share Tech Mono", monospace;
+    overflow-x: hidden;
   }
-  html {
-    @apply font-sans;
+}
+
+/* ─── CRT Scanlines ─────────────────────────────────────── */
+.scanlines::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0, 0, 0, 0.1) 3px,
+    rgba(0, 0, 0, 0.1) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ─── Grid Background ───────────────────────────────────── */
+.grid-bg {
+  background-image: linear-gradient(
+      rgba(0, 255, 65, 0.025) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(0, 255, 65, 0.025) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+/* ─── Phosphor Glow ─────────────────────────────────────── */
+.glow {
+  text-shadow: 0 0 6px #00ff41, 0 0 14px #00ff41, 0 0 28px rgba(0, 255, 65, 0.5);
+}
+
+.glow-amber {
+  text-shadow: 0 0 6px #ffb300, 0 0 14px #ffb300, 0 0 28px rgba(255, 179, 0, 0.4);
+}
+
+.glow-subtle {
+  text-shadow: 0 0 10px rgba(0, 255, 65, 0.4);
+}
+
+/* ─── CRT Corner Brackets ───────────────────────────────── */
+.crt-card {
+  position: relative;
+  background: rgba(0, 255, 65, 0.03);
+  border: 1px solid rgba(0, 255, 65, 0.15);
+}
+
+.crt-card::before,
+.crt-card::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: #00ff41;
+  border-style: solid;
+  opacity: 0.7;
+}
+
+.crt-card::before {
+  top: -1px;
+  left: -1px;
+  border-width: 2px 0 0 2px;
+}
+
+.crt-card::after {
+  bottom: -1px;
+  right: -1px;
+  border-width: 0 2px 2px 0;
+}
+
+/* ─── Keyframes ─────────────────────────────────────────── */
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
   }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scan-boot {
+  0% {
+    transform: translateY(-100%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+@keyframes flicker {
+  0%,
+  89%,
+  91%,
+  93%,
+  95%,
+  100% {
+    opacity: 1;
+  }
+  90%,
+  92%,
+  94% {
+    opacity: 0.82;
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 6px rgba(0, 255, 65, 0.3), 0 0 20px rgba(0, 255, 65, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(0, 255, 65, 0.5), 0 0 40px rgba(0, 255, 65, 0.2);
+  }
+}
+
+@keyframes type-in {
+  from {
+    max-width: 0;
+  }
+  to {
+    max-width: 100%;
+  }
+}
+
+@keyframes slide-right {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* ─── Animation Utilities ───────────────────────────────── */
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}
+
+.animate-flicker {
+  animation: flicker 9s ease infinite;
+}
+
+.animate-fade-up {
+  animation: fade-up 0.7s ease both;
+}
+
+.anim-d1 { animation-delay: 0.1s; }
+.anim-d2 { animation-delay: 0.2s; }
+.anim-d3 { animation-delay: 0.35s; }
+.anim-d4 { animation-delay: 0.5s; }
+.anim-d5 { animation-delay: 0.65s; }
+.anim-d6 { animation-delay: 0.8s; }
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease both;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* Boot scan line */
+.boot-scan {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 255, 65, 0.06) 50%,
+    transparent 100%
+  );
+  background-size: 100% 80px;
+  animation: scan-boot 1.2s ease-out 0.1s both;
+}
+
+/* Typing effect line */
+.typing-line {
+  overflow: hidden;
+  white-space: nowrap;
+  animation: type-in 1.4s steps(36, end) 0.5s both;
+  border-right: 2px solid #00ff41;
+  animation-name: type-in, blink;
+  animation-duration: 1.4s, 0.8s;
+  animation-timing-function: steps(36, end), step-end;
+  animation-delay: 0.5s, 1.9s;
+  animation-fill-mode: both, both;
+  animation-iteration-count: 1, infinite;
+}
+
+/* Progress bar fill */
+.bar-fill {
+  animation: slide-right 1.2s ease both;
+}
+
+/* Font helpers */
+.font-heading {
+  font-family: var(--font-orbitron), sans-serif;
+}
+
+.font-terminal {
+  font-family: var(--font-share-mono), monospace;
 }
