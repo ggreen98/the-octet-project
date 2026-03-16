@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-const HEX_SIZE = 36;       // distance between hex centres (px)
+const HEX_SIZE = 20;       // distance between hex centres (px)
 const DOT_RADIUS = 1.6;    // dot draw radius (px)
 const SQRT3 = Math.sqrt(3);
 

@@ -197,6 +197,12 @@ function Nucleon({
       basePos[1] + Math.sin(t * 6.3 + phase + 1.1) * 0.045,
       basePos[2] + Math.cos(t * 5.7 + phase + 2.2) * 0.045
     );
+    // Subtle flicker: combine a slow pulse with fast noise using two sine waves
+    const flicker =
+      1.8 +
+      Math.sin(t * 3.7 + phase * 2.1) * 0.35 +
+      Math.sin(t * 11.3 + phase * 0.7) * 0.15;
+    (ref.current.material as THREE.MeshStandardMaterial).emissiveIntensity = flicker;
   });
 
   return (
@@ -215,6 +221,7 @@ function Nucleon({
 
 function Nucleus() {
   const clusterRef = useRef<THREE.Group>(null);
+  const glowRef    = useRef<THREE.Mesh>(null);
 
   useFrame(({ clock }) => {
     const t = clock.elapsedTime;
@@ -222,10 +229,28 @@ function Nucleus() {
       clusterRef.current.rotation.x = t * 0.2;
       clusterRef.current.rotation.y = t * 0.3;
     }
+    if (glowRef.current) {
+      (glowRef.current.material as THREE.MeshStandardMaterial).opacity =
+        0.055 + Math.sin(t * 1.8) * 0.025;
+    }
   });
 
   return (
     <group>
+      {/* Soft glow halo */}
+      <mesh ref={glowRef}>
+        <sphereGeometry args={[0.45, 32, 32]} />
+        <meshStandardMaterial
+          color="#ff5500"
+          emissive="#ff3300"
+          emissiveIntensity={0.6}
+          transparent
+          opacity={0.055}
+          roughness={1}
+          side={THREE.BackSide}
+          depthWrite={false}
+        />
+      </mesh>
       <group ref={clusterRef}>
         {NUCLEONS.map((n, i) => (
           <Nucleon
