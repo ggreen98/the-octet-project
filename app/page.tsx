@@ -2,13 +2,13 @@ import Link from "next/link";
 import { OrbitalCanvas } from "@/components/molecules/OrbitalCanvas";
 import { HexDotGrid } from "@/components/ui/HexDotGrid";
 
-const modules = [
-  { id: "01", title: "ATOMIC STRUCTURE", progress: 100, status: "COMPLETE" },
-  { id: "02", title: "CHEMICAL BONDING", progress: 72, status: "ACTIVE" },
-  { id: "03", title: "MOLECULAR GEOMETRY", progress: 35, status: "ACTIVE" },
-  { id: "04", title: "THERMODYNAMICS", progress: 0, status: "LOCKED" },
-  { id: "05", title: "ORGANIC CHEMISTRY", progress: 0, status: "LOCKED" },
-  { id: "06", title: "REACTION KINETICS", progress: 0, status: "LOCKED" },
+const courses = [
+  { id: "01", title: "CHEMISTRY I: GENERAL CHEMISTRY", progress: 100, status: "COMPLETE", lessons: 8 },
+  { id: "02", title: "CHEMICAL BONDING", progress: 72, status: "ACTIVE", lessons: 10 },
+  { id: "03", title: "MOLECULAR GEOMETRY", progress: 35, status: "ACTIVE", lessons: 7 },
+  { id: "04", title: "THERMODYNAMICS", progress: 0, status: "LOCKED", lessons: 12 },
+  { id: "05", title: "ORGANIC CHEMISTRY", progress: 0, status: "LOCKED", lessons: 15 },
+  { id: "06", title: "REACTION KINETICS", progress: 0, status: "LOCKED", lessons: 9 },
 ];
 
 const capabilities = [
@@ -21,7 +21,7 @@ const capabilities = [
   {
     id: "SYS.02",
     title: "GUIDED LESSON SYSTEM",
-    body: "Progressive curriculum built from the atomic level up. From electron configuration to complex organic reactions.",
+    body: "Structured courses built from the atomic level up, each broken into focused lessons. From electron configuration to complex organic reactions.",
     icon: "◈",
   },
   {
@@ -36,7 +36,7 @@ export default function Home() {
   return (
     <main
       className="scanlines font-terminal min-h-screen overflow-x-hidden"
-      style={{ backgroundColor: "#010d0a", color: "#c8ffd4" }}
+      style={{ backgroundColor: "#010d0a", color: "#c8e8ff" }}
     >
       {/* Hex dot grid background */}
       <HexDotGrid />
@@ -62,19 +62,19 @@ export default function Home() {
           </span>
           <span
             className="font-heading text-sm hidden sm:block"
-            style={{ color: "#c8ffd4", letterSpacing: "0.2em" }}
+            style={{ color: "#c8e8ff", letterSpacing: "0.2em" }}
           >
             THE OCTET PROJECT
           </span>
         </Link>
 
         <div className="hidden md:flex items-center gap-8 text-xs tracking-widest">
-          {["LESSONS", "MOLECULES", "ABOUT"].map((l) => (
+          {["COURSES", "MOLECULES", "ABOUT"].map((l) => (
             <Link
               key={l}
               href={`/${l.toLowerCase()}`}
               className="transition-colors duration-200"
-              style={{ color: "rgba(200, 255, 212, 0.45)" }}
+              style={{ color: "rgba(180, 215, 255, 0.45)" }}
             >
               {l}
             </Link>
@@ -85,7 +85,7 @@ export default function Home() {
           href="/signup"
           className="font-heading text-xs px-4 py-2 transition-all duration-200"
           style={{
-            background: "#00ff41",
+            background: "#4499ff",
             color: "#010d0a",
             letterSpacing: "0.15em",
           }}
@@ -135,14 +135,14 @@ export default function Home() {
             <Link
               href="/signup"
               className="font-heading text-xs px-7 py-3.5 transition-all duration-200 animate-pulse-glow"
-              style={{ background: "#00ff41", color: "#010d0a", letterSpacing: "0.15em" }}
+              style={{ background: "#4499ff", color: "#010d0a", letterSpacing: "0.15em" }}
             >
               INITIALIZE SEQUENCE →
             </Link>
             <Link
               href="/molecules"
               className="font-heading text-xs px-7 py-3.5 transition-all duration-200"
-              style={{ border: "1px solid rgba(0, 255, 65, 0.35)", color: "#00ff41", background: "transparent", letterSpacing: "0.15em" }}
+              style={{ border: "1px solid rgba(68, 153, 255, 0.35)", color: "#4499ff", background: "transparent", letterSpacing: "0.15em" }}
             >
               EXPLORE MOLECULES
             </Link>
@@ -151,9 +151,9 @@ export default function Home() {
           {/* Stats */}
           <div
             className="flex flex-wrap gap-6 text-xs animate-fade-up"
-            style={{ color: "rgba(200, 255, 212, 0.4)", animationFillMode: "both", animationDelay: "0.9s" }}
+            style={{ color: "rgba(180, 215, 255, 0.4)", animationFillMode: "both", animationDelay: "0.9s" }}
           >
-            {[["124+", "MODULES"], ["300+", "MOLECULES"], ["∞", "CURIOSITY"]].map(
+            {[["124+", "LESSONS"], ["300+", "MOLECULES"], ["∞", "CURIOSITY"]].map(
               ([val, label]) => (
                 <div key={label} className="flex items-baseline gap-1.5">
                   <span className="font-heading text-base glow-subtle" style={{ color: "#00ff41" }}>
@@ -175,7 +175,7 @@ export default function Home() {
           {/* Caption */}
           <div
             className="text-center text-xs tracking-widest py-3 lg:pb-5"
-            style={{ color: "rgba(200, 255, 212, 0.28)" }}
+            style={{ color: "rgba(180, 215, 255, 0.28)" }}
           >
             <span className="animate-blink" style={{ color: "rgba(0,255,65,0.4)" }}>■</span>
             {" "}DRAG TO ROTATE{" "}
@@ -187,12 +187,12 @@ export default function Home() {
             className="absolute top-8 right-6 crt-card px-3 py-2 text-xs"
             style={{ color: "#ffb300" }}
           >
-            <div className="font-heading text-xl glow-amber leading-none">C</div>
+            <div className="font-heading text-xl glow-amber leading-none">O</div>
             <div style={{ color: "rgba(255, 179, 0, 0.55)", fontSize: "0.58rem", letterSpacing: "0.1em" }}>
-              CARBON
+              OXYGEN
             </div>
             <div style={{ color: "rgba(255, 179, 0, 0.35)", fontSize: "0.58rem" }}>
-              Z = 6
+              Z = 8
             </div>
           </div>
         </div>
@@ -217,7 +217,7 @@ export default function Home() {
           <span
             key={label}
             className="flex items-center gap-1.5"
-            style={{ color: amber ? "#ffb300" : "rgba(200, 255, 212, 0.3)" }}
+            style={{ color: amber ? "#ffb300" : "rgba(180, 215, 255, 0.35)" }}
           >
             {dot && (
               <span
@@ -238,7 +238,7 @@ export default function Home() {
           </p>
           <h2
             className="font-heading text-2xl md:text-4xl"
-            style={{ color: "#c8ffd4", letterSpacing: "-0.01em" }}
+            style={{ color: "#c8e8ff", letterSpacing: "-0.01em" }}
           >
             WHAT YOU GET
           </h2>
@@ -259,7 +259,7 @@ export default function Home() {
               >
                 {cap.title}
               </h3>
-              <p className="text-sm leading-relaxed" style={{ color: "rgba(200, 255, 212, 0.5)" }}>
+              <p className="text-sm leading-relaxed" style={{ color: "rgba(180, 215, 255, 0.6)" }}>
                 {cap.body}
               </p>
             </div>
@@ -274,43 +274,48 @@ export default function Home() {
       >
         <div className="mb-14">
           <p className="text-xs tracking-widest mb-3" style={{ color: "rgba(0, 255, 65, 0.45)" }}>
-            // AVAILABLE MODULES
+            // AVAILABLE COURSES
           </p>
           <h2
             className="font-heading text-2xl md:text-4xl"
-            style={{ color: "#c8ffd4", letterSpacing: "-0.01em" }}
+            style={{ color: "#c8e8ff", letterSpacing: "-0.01em" }}
           >
             THE CURRICULUM
           </h2>
         </div>
 
         <div className="space-y-3 max-w-3xl">
-          {modules.map((mod, i) => (
+          {courses.map((course, i) => (
             <div
-              key={mod.id}
+              key={course.id}
               className="flex items-center gap-4 md:gap-6 px-5 py-4"
               style={{
-                background: mod.status === "LOCKED" ? "rgba(0,255,65,0.01)" : "rgba(0,255,65,0.04)",
+                background: course.status === "LOCKED" ? "rgba(0,255,65,0.01)" : "rgba(0,255,65,0.04)",
                 border: "1px solid rgba(0, 255, 65, 0.1)",
-                opacity: mod.status === "LOCKED" ? 0.42 : 1,
+                opacity: course.status === "LOCKED" ? 0.42 : 1,
               }}
             >
               <span className="font-heading text-xs w-8 shrink-0" style={{ color: "rgba(0, 255, 65, 0.35)" }}>
-                {mod.id}
+                {course.id}
               </span>
 
-              <span
-                className="font-heading text-xs flex-1 tracking-wider"
-                style={{
-                  color:
-                    mod.status === "ACTIVE" ? "#00ff41" :
-                    mod.status === "COMPLETE" ? "rgba(200, 255, 212, 0.65)" :
-                    "rgba(200, 255, 212, 0.25)",
-                  letterSpacing: "0.08em",
-                }}
-              >
-                {mod.title}
-              </span>
+              <div className="flex flex-col flex-1 min-w-0">
+                <span
+                  className="font-heading text-xs tracking-wider"
+                  style={{
+                    color:
+                      course.status === "ACTIVE" ? "#7bbfff" :
+                      course.status === "COMPLETE" ? "rgba(180, 215, 255, 0.75)" :
+                      "rgba(180, 215, 255, 0.25)",
+                    letterSpacing: "0.08em",
+                  }}
+                >
+                  {course.title}
+                </span>
+                <span className="text-xs mt-0.5" style={{ color: "rgba(0, 255, 65, 0.3)", fontSize: "0.58rem", letterSpacing: "0.1em" }}>
+                  {course.lessons} LESSONS
+                </span>
+              </div>
 
               {/* Progress bar */}
               <div className="hidden sm:flex items-center gap-3 w-44">
@@ -318,14 +323,14 @@ export default function Home() {
                   <div
                     className="h-full bar-fill"
                     style={{
-                      width: `${mod.progress}%`,
-                      background: mod.progress === 100 ? "#00ff41" : "rgba(0,255,65,0.45)",
+                      width: `${course.progress}%`,
+                      background: course.progress === 100 ? "#00ff41" : "rgba(0,255,65,0.45)",
                       animationDelay: `${0.3 + i * 0.1}s`,
                     }}
                   />
                 </div>
                 <span className="text-xs w-7 text-right" style={{ color: "rgba(0,255,65,0.35)" }}>
-                  {mod.progress}%
+                  {course.progress}%
                 </span>
               </div>
 
@@ -333,14 +338,14 @@ export default function Home() {
                 className="text-xs tracking-widest shrink-0"
                 style={{
                   color:
-                    mod.status === "ACTIVE" ? "#ffb300" :
-                    mod.status === "COMPLETE" ? "#00ff41" :
-                    "rgba(200, 255, 212, 0.18)",
+                    course.status === "ACTIVE" ? "#ffb300" :
+                    course.status === "COMPLETE" ? "#00ff41" :
+                    "rgba(180, 215, 255, 0.18)",
                   fontSize: "0.58rem",
                   letterSpacing: "0.15em",
                 }}
               >
-                [{mod.status}]
+                [{course.status}]
               </span>
             </div>
           ))}
@@ -358,7 +363,7 @@ export default function Home() {
           </p>
           <h2
             className="font-heading text-2xl md:text-4xl"
-            style={{ color: "#c8ffd4", letterSpacing: "-0.01em" }}
+            style={{ color: "#c8e8ff", letterSpacing: "-0.01em" }}
           >
             HOW IT WORKS
           </h2>
@@ -368,8 +373,8 @@ export default function Home() {
           {[
             {
               step: "01",
-              title: "CHOOSE A MODULE",
-              body: "Pick a topic from the curriculum. Each module builds on the last — start at atomic structure or jump to what you need.",
+              title: "CHOOSE A COURSE",
+              body: "Pick a topic from the curriculum. Each course builds on the last — start at atomic structure or jump to what you need.",
             },
             {
               step: "02",
@@ -399,7 +404,7 @@ export default function Home() {
               >
                 {step.title}
               </h3>
-              <p className="text-sm leading-relaxed" style={{ color: "rgba(200, 255, 212, 0.48)" }}>
+              <p className="text-sm leading-relaxed" style={{ color: "rgba(180, 215, 255, 0.55)" }}>
                 {step.body}
               </p>
             </div>
@@ -428,16 +433,16 @@ export default function Home() {
 
         <h2
           className="font-heading mb-6 leading-tight relative"
-          style={{ fontSize: "clamp(2rem, 5vw, 4.5rem)", color: "#c8ffd4", letterSpacing: "-0.02em" }}
+          style={{ fontSize: "clamp(2rem, 5vw, 4.5rem)", color: "#4499ff", letterSpacing: "-0.02em" }}
         >
           INITIALIZE YOUR
           <br />
-          <span className="glow" style={{ color: "#00ff41" }}>
+          <span className="glow-blue" style={{ color: "#4499ff" }}>
             FREE ACCOUNT
           </span>
         </h2>
 
-        <p className="text-sm mb-12 max-w-md mx-auto relative" style={{ color: "rgba(200, 255, 212, 0.48)" }}>
+        <p className="text-sm mb-12 max-w-md mx-auto relative" style={{ color: "rgba(200, 255, 212, 0.55)" }}>
           Join students exploring chemistry through the molecular lens. No
           credit card. No barriers. Just chemistry.
         </p>
@@ -445,12 +450,12 @@ export default function Home() {
         <Link
           href="/signup"
           className="font-heading text-sm px-10 py-4 inline-block transition-all duration-200 animate-pulse-glow relative"
-          style={{ background: "#00ff41", color: "#010d0a", letterSpacing: "0.2em" }}
+          style={{ background: "#4499ff", color: "#010d0a", letterSpacing: "0.2em" }}
         >
           INITIALIZE FREE ACCOUNT →
         </Link>
 
-        <p className="mt-6 text-xs relative" style={{ color: "rgba(200, 255, 212, 0.22)" }}>
+        <p className="mt-6 text-xs relative" style={{ color: "rgba(180, 215, 255, 0.25)" }}>
           No credit card required &nbsp;·&nbsp; Free forever plan
         </p>
       </section>
@@ -458,7 +463,7 @@ export default function Home() {
       {/* ── FOOTER ──────────────────────────────────────── */}
       <footer
         className="px-6 md:px-16 lg:px-24 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs"
-        style={{ borderTop: "1px solid rgba(0, 255, 65, 0.08)", color: "rgba(200, 255, 212, 0.22)" }}
+        style={{ borderTop: "1px solid rgba(0, 255, 65, 0.08)", color: "rgba(180, 215, 255, 0.25)" }}
       >
         <div className="flex items-center gap-2">
           <span style={{ color: "#00ff41" }}>⬡</span>

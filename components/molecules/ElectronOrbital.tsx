@@ -18,7 +18,7 @@ function Electron({
   phase: number;
   color: string;
 }) {
-  const ref = useRef<THREE.Mesh>(null);
+  const ref = useRef<THREE.Group>(null);
 
   useFrame(({ clock }) => {
     if (!ref.current) return;
@@ -29,16 +29,45 @@ function Electron({
 
   return (
     <Trail width={0.45} length={10} color={color} attenuation={(t) => t * t * t}>
-      <mesh ref={ref}>
-        <sphereGeometry args={[0.055, 12, 12]} />
-        <meshStandardMaterial
-          color={color}
-          emissive={color}
-          emissiveIntensity={8}
-          roughness={0}
-          metalness={0}
-        />
-      </mesh>
+      <group ref={ref}>
+        {/* Core electron */}
+        <mesh>
+          <sphereGeometry args={[0.055, 12, 12]} />
+          <meshStandardMaterial
+            color={color}
+            emissive={color}
+            emissiveIntensity={10}
+            roughness={0}
+            metalness={0}
+          />
+        </mesh>
+        {/* Inner glow */}
+        <mesh>
+          <sphereGeometry args={[0.13, 12, 12]} />
+          <meshStandardMaterial
+            color={color}
+            emissive={color}
+            emissiveIntensity={3}
+            transparent
+            opacity={0.22}
+            roughness={1}
+            depthWrite={false}
+          />
+        </mesh>
+        {/* Outer glow */}
+        <mesh>
+          <sphereGeometry args={[0.24, 12, 12]} />
+          <meshStandardMaterial
+            color={color}
+            emissive={color}
+            emissiveIntensity={1.5}
+            transparent
+            opacity={0.07}
+            roughness={1}
+            depthWrite={false}
+          />
+        </mesh>
+      </group>
     </Trail>
   );
 }
@@ -69,17 +98,6 @@ function OrbitalShell({
 
   return (
     <group rotation={rotation}>
-      <mesh>
-        <torusGeometry args={[radius, 0.013, 6, 100]} />
-        <meshStandardMaterial
-          color={color}
-          emissive={color}
-          emissiveIntensity={0.5}
-          transparent
-          opacity={0.28}
-          roughness={1}
-        />
-      </mesh>
       {phases.map((phase, i) => (
         <Electron key={i} radius={radius} speed={speed} phase={phase} color={color} />
       ))}
@@ -90,8 +108,19 @@ function OrbitalShell({
 // ─── Translucent shell spheres ──────────────────────────────────────────────
 
 function ShellSphere({ radius, color }: { radius: number; color: string }) {
+  const ref = useRef<THREE.Mesh>(null);
+
+  useFrame(({ clock }) => {
+    if (!ref.current) return;
+    const t = clock.elapsedTime;
+    const s = 1 + Math.sin(t * 1.4) * 0.025;
+    ref.current.scale.setScalar(s);
+    (ref.current.material as THREE.MeshStandardMaterial).opacity =
+      0.045 + Math.sin(t * 1.4) * 0.025;
+  });
+
   return (
-    <mesh renderOrder={-1}>
+    <mesh ref={ref} renderOrder={-1}>
       <sphereGeometry args={[radius, 48, 48]} />
       <meshStandardMaterial
         color={color}
@@ -110,29 +139,25 @@ function ShellSphere({ radius, color }: { radius: number; color: string }) {
 
 // ─── Nucleus ────────────────────────────────────────────────────────────────
 //
-// Carbon-12 alpha-cluster model: 3 alpha particles (each = 2p + 2n)
-// arranged in an equilateral triangle. Within each alpha, protons and
-// neutrons occupy alternating tetrahedral corners — guaranteeing every
-// proton is surrounded by neutrons in 3D.
+// Oxygen-16 alpha-cluster model: 4 alpha particles (each = 2p + 2n)
+// arranged at the corners of a regular tetrahedron — the accepted
+// geometric model for O-16. Each alpha's 4 nucleons occupy their own
+// tetrahedral sub-lattice so protons are surrounded by neutrons in 3D.
+// Total: 4 alphas × 4 nucleons = 16 nucleons (8p + 8n).
 //
-// Alpha cluster centres (equilateral triangle, separation d = 0.2):
-//   α1:  [+0.20,  0.00, 0]
-//   α2:  [-0.10, +0.17, 0]
-//   α3:  [-0.10, -0.17, 0]
-//
-// Tetrahedral offsets (radius 0.052, inscribed tetrahedron in sphere):
-//   o0: [+0.052, +0.052, +0.052]  → proton
-//   o1: [+0.052, -0.052, -0.052]  → neutron
-//   o2: [-0.052, +0.052, -0.052]  → proton
-//   o3: [-0.052, -0.052, +0.052]  → neutron
+// Alpha cluster centres (regular tetrahedron, D = 0.081):
+//   α1:  [+D, +D, +D]
+//   α2:  [+D, -D, -D]
+//   α3:  [-D, +D, -D]
+//   α4:  [-D, -D, +D]
 
-const D  = 0.11;                         // alpha-cluster separation
-const SQ3 = Math.sqrt(3) / 2;            // ≈ 0.866
+const D = 0.081;                         // alpha-cluster separation (1/√3 * 0.14)
 
 const ALPHA_CENTRES: [number, number, number][] = [
-  [ D,        0,   0],
-  [-D / 2,  D * SQ3, 0],
-  [-D / 2, -D * SQ3, 0],
+  [ D,  D,  D],
+  [ D, -D, -D],
+  [-D,  D, -D],
+  [-D, -D,  D],
 ];
 
 const TETRA_OFFSETS: { d: [number, number, number]; type: "proton" | "neutron" }[] = [
@@ -168,9 +193,9 @@ function Nucleon({
     if (!ref.current) return;
     const t = clock.elapsedTime;
     ref.current.position.set(
-      basePos[0] + Math.sin(t * 3.1 + phase)       * 0.011,
-      basePos[1] + Math.sin(t * 2.7 + phase + 1.1) * 0.011,
-      basePos[2] + Math.cos(t * 2.4 + phase + 2.2) * 0.011
+      basePos[0] + Math.sin(t * 7.1 + phase)       * 0.045,
+      basePos[1] + Math.sin(t * 6.3 + phase + 1.1) * 0.045,
+      basePos[2] + Math.cos(t * 5.7 + phase + 2.2) * 0.045
     );
   });
 
@@ -190,19 +215,12 @@ function Nucleon({
 
 function Nucleus() {
   const clusterRef = useRef<THREE.Group>(null);
-  const haloRef    = useRef<THREE.Mesh>(null);
 
   useFrame(({ clock }) => {
     const t = clock.elapsedTime;
     if (clusterRef.current) {
       clusterRef.current.rotation.x = t * 0.2;
       clusterRef.current.rotation.y = t * 0.3;
-    }
-    if (haloRef.current) {
-      const s = 1 + Math.sin(t * 1.6) * 0.08;
-      haloRef.current.scale.setScalar(s);
-      (haloRef.current.material as THREE.MeshStandardMaterial).opacity =
-        0.08 + Math.sin(t * 1.6) * 0.03;
     }
   });
 
@@ -218,19 +236,6 @@ function Nucleus() {
           />
         ))}
       </group>
-      <mesh ref={haloRef}>
-        <sphereGeometry args={[0.52, 32, 32]} />
-        <meshStandardMaterial
-          color="#ff6600"
-          emissive="#ff3300"
-          emissiveIntensity={0.8}
-          transparent
-          opacity={0.08}
-          roughness={1}
-          side={THREE.BackSide}
-          depthWrite={false}
-        />
-      </mesh>
     </group>
   );
 }
@@ -247,22 +252,18 @@ function AtomScene() {
   });
 
   return (
+    <group rotation={[Math.PI / 4, Math.PI / 4, Math.PI / 4]}>
     <group ref={groupRef}>
       <Nucleus />
 
-      {/* K-shell sphere (n = 1) */}
-      <ShellSphere radius={1.1} color="#00ff41" />
-
-      {/* L-shell sphere (n = 2) */}
-      <ShellSphere radius={1.9} color="#00e5ff" />
-
       {/* Inner orbital rings */}
-      <OrbitalShell radius={1.1} rotation={[0, 0, 0]}                      electronCount={2} speed={8}   color="#00ff41" />
-      <OrbitalShell radius={1.1} rotation={[Math.PI / 2, 0, Math.PI / 5]}  electronCount={2} speed={6.5} color="#00ff41" />
+      <OrbitalShell radius={1.1} rotation={[0, 0, 0]}                      electronCount={2} speed={8}   color="#a8d8ff" />
+      <OrbitalShell radius={1.1} rotation={[Math.PI / 2, 0, Math.PI / 5]}  electronCount={2} speed={6.5} color="#a8d8ff" />
 
       {/* Outer orbital rings */}
       <OrbitalShell radius={1.9} rotation={[Math.PI / 4, 0, 0]}                        electronCount={2} speed={5} color="#00e5ff" />
       <OrbitalShell radius={1.9} rotation={[-Math.PI / 3, Math.PI / 5, Math.PI / 4]}   electronCount={2} speed={4} color="#00e5ff" />
+    </group>
     </group>
   );
 }

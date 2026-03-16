@@ -17,7 +17,7 @@ model User {
   progress  LessonProgress[]
 }
 
-model Lesson {
+model Course {
   id          String   @id @default(uuid())
   slug        String   @unique
   title       String
@@ -25,6 +25,19 @@ model Lesson {
   order       Int
   createdAt   DateTime @default(now())
 
+  lessons     Lesson[]
+}
+
+model Lesson {
+  id          String   @id @default(uuid())
+  slug        String   @unique
+  title       String
+  description String?
+  order       Int
+  courseId    String
+  createdAt   DateTime @default(now())
+
+  course      Course         @relation(fields: [courseId], references: [id], onDelete: Cascade)
   progress    LessonProgress[]
 }
 
