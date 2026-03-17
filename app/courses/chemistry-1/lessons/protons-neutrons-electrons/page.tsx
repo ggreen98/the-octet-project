@@ -1,5 +1,10 @@
 import Link from "next/link";
 import { MagnetSim } from "@/components/lessons/MagnetSim";
+import { SubatomicExplorer } from "@/components/lessons/SubatomicExplorer";
+import { ElectronsHeading } from "@/components/lessons/ElectronsHeading";
+import { ProtonHeading } from "@/components/lessons/ProtonHeading";
+import { NeutronHeading } from "@/components/lessons/NeutronHeading";
+import { Term } from "@/components/ui/Term";
 
 export const metadata = {
   title: "Protons, Neutrons & Electrons — Chemistry I | The Octet Project",
@@ -65,26 +70,27 @@ export default function SubatomicParticlesLesson() {
         >
           PROTONS, NEUTRONS & ELECTRONS
         </h1>
-        <p className="text-sm leading-relaxed mb-12 max-w-2xl" style={{ color: "rgba(200, 255, 212, 0.55)" }}>
+        <p className="text-sm leading-relaxed mb-8 max-w-2xl" style={{ color: "rgba(200, 255, 212, 0.55)" }}>
           Meet the three building blocks hiding inside every atom in the universe.
         </p>
 
-        {/* ── MAGNET SIM ──────────────────────────────────── */}
-        <div className="mb-16">
-          <MagnetSim />
-        </div>
+        {/* ── SUBATOMIC PARTICLE DIAGRAM ───────────────────── */}
+        <SubatomicExplorer />
 
         {/* ── PROTONS ─────────────────────────────────────── */}
-        <div className="max-w-2xl mb-16">
-          <p className="text-xs tracking-widest mb-4" style={{ color: "rgba(0, 255, 65, 0.45)" }}>// PROTONS</p>
+        <ProtonHeading />
+
+        <div className="max-w-2xl mb-10">
           <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(200, 255, 212, 0.55)" }}>
-            As we discovered in the last lesson, protons live in the atom&apos;s centre — its nucleus.
-            They carry a positive charge, and it is this positive charge that is responsible for giving
-            every atom its identity. The number of protons in an atom determines what element it is —
-            change the number of protons and you change the element entirely.
+            As we discovered in the last lesson, <Term id="proton">protons</Term> live in the <Term id="atom">atom</Term>&apos;s centre — its <Term id="nucleus">nucleus</Term>.
+            Each proton carries a positive <Term id="charge">charge</Term> of +1 and has a mass of approximately
+            1 <Term id="atomic-mass-unit">atomic mass unit</Term> (u) — making it one of the heaviest subatomic particles.
+            It is this positive charge that gives every atom its identity: the number of protons
+            in an atom determines what <Term id="element">element</Term> it is. Change the number of protons and
+            you change the element entirely.
           </p>
           <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(200, 255, 212, 0.55)" }}>
-            But what exactly is a positive charge?
+            But what exactly is a positive <Term id="charge">charge</Term>?
           </p>
           <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(200, 255, 212, 0.55)" }}>
             Let&apos;s do an experiment. Grab two magnets off your fridge and push them together —
@@ -92,11 +98,72 @@ export default function SubatomicParticlesLesson() {
             force, or resist your attempts as if an invisible hand is pushing back against you.
           </p>
           <p className="text-sm leading-relaxed" style={{ color: "rgba(200, 255, 212, 0.55)" }}>
-            These pushing and pulling forces are a result of charge. Charge is one of the most
+            These pushing and pulling forces are a result of <Term id="charge">charge</Term>. Charge is one of the most
             fundamental properties in nature — it describes whether something attracts or repels
-            other things around it. Opposite charges attract, like charges repel. Protons carry a
-            positive charge, and as we&apos;ll soon see, that has enormous consequences for how atoms
-            behave.
+            other things around it. Opposite charges attract, like charges repel. <Term id="proton">Protons</Term> carry a
+            positive charge, and as we&apos;ll soon see, that has enormous consequences for how <Term id="atom">atoms</Term> behave.
+          </p>
+        </div>
+
+        {/* ── MAGNET SIM ──────────────────────────────────── */}
+        <div className="mb-16">
+          <MagnetSim />
+        </div>
+
+        {/* ── NEUTRONS ─────────────────────────────────────── */}
+        <NeutronHeading />
+
+        <div className="max-w-2xl mb-10">
+          <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(200, 255, 212, 0.55)" }}>
+            Alongside <Term id="proton">protons</Term> in the <Term id="nucleus">nucleus</Term> sit the <Term id="neutron">neutrons</Term> —
+            particles of almost identical mass (approximately 1.008 <Term id="atomic-mass-unit">atomic mass units</Term>) but carrying
+            no <Term id="charge">charge</Term> whatsoever. A <Term id="neutron">neutron</Term> is electrically neutral,
+            which is exactly where it gets its name.
+          </p>
+          <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(200, 255, 212, 0.55)" }}>
+            This raises an obvious question: if <Term id="proton">protons</Term> all carry a positive charge and like charges repel,
+            why doesn&apos;t the <Term id="nucleus">nucleus</Term> simply fly apart? The answer lies in the <strong style={{ color: "#c8e8ff" }}>strong nuclear force</strong> —
+            one of the four fundamental forces of nature. At the incredibly short distances inside a <Term id="nucleus">nucleus</Term>
+            (on the order of femtometres — about 10<sup>−15</sup> metres), this force is far more powerful than the
+            electromagnetic repulsion between like charged <Term id="proton">protons</Term>, locking the <Term id="nucleus">nucleus</Term> together.
+            <Term id="neutron">Neutrons</Term> contribute to this binding without adding any additional repulsive charge,
+            effectively acting as a kind of nuclear glue.
+          </p>
+          <p className="text-sm leading-relaxed" style={{ color: "rgba(200, 255, 212, 0.55)" }}>
+            Because <Term id="neutron">neutrons</Term> carry no charge, changing the number of them in a <Term id="nucleus">nucleus</Term>{" "}
+            does <em>not</em> change what <Term id="element">element</Term> an atom is — that is determined solely by the
+            proton count. Atoms of the same <Term id="element">element</Term> that differ only in their number of <Term id="neutron">neutrons</Term>{" "}
+            are called <Term id="isotope">isotopes</Term>. Carbon, for example, almost always has 6 neutrons (carbon-12),
+            but a small fraction of carbon atoms carry 7 neutrons (carbon-13) or even 8 (carbon-14) — the
+            radioactive isotope used in archaeological dating.
+          </p>
+        </div>
+
+        {/* ── ELECTRONS ────────────────────────────────────── */}
+        <ElectronsHeading />
+
+        <div className="max-w-2xl mb-10">
+          <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(200, 255, 212, 0.55)" }}>
+            <Term id="electron">Electrons</Term> are the negatively charged counterpart to <Term id="proton">protons</Term>. They carry a <Term id="charge">charge</Term> of −1
+            yet have only a tiny fraction of a proton&apos;s mass — about 1/1,836th — making them by far the lightest
+            of the three <Term id="subatomic-particle">subatomic particles</Term>. In a neutral atom, the number of electrons
+            exactly matches the number of protons — one negative charge cancelling each positive charge —
+            so the overall, or <strong style={{ color: "#c8e8ff" }}>net charge</strong>, of the atom is zero. Despite their lightness, electrons are anything but insignificant.
+          </p>
+          <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(200, 255, 212, 0.55)" }}>
+            Electrons move at extraordinary speeds around the <Term id="nucleus">nucleus</Term>, occupying regions of space
+            called <Term id="orbital-shell">orbital shells</Term> rather than fixed paths — think less &quot;planet orbiting a sun&quot;
+            and more &quot;cloud of probability surrounding a core.&quot; Because electrons are negatively charged
+            and the nucleus carries a positive charge (thanks to the <Term id="proton">protons</Term> inside it),
+            the two are attracted to one another by the same electromagnetic force we just explored
+            with the magnets — holding the electrons in place around the atom.
+          </p>
+          <p className="text-sm leading-relaxed" style={{ color: "rgba(200, 255, 212, 0.55)" }}>
+            This is where things get exciting. <Term id="electron">Electrons</Term> — specifically those in the outermost
+            <Term id="orbital-shell"> orbital shell</Term> — are what <em>do</em> chemistry. When atoms come close to one another,
+            it is their outer electrons that interact, overlap, and rearrange to form chemical bonds.
+            Every reaction, every molecule, every material you have ever touched is a consequence of
+            electrons behaving this way. We will explore bonding in much greater detail in later lessons.
           </p>
         </div>
 

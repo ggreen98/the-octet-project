@@ -69,14 +69,19 @@ export default function Home() {
         </Link>
 
         <div className="hidden md:flex items-center gap-8 text-xs tracking-widest">
-          {["COURSES", "MOLECULES", "ABOUT"].map((l) => (
+          {[
+            { label: "COURSES",        href: "/courses" },
+            { label: "PERIODIC TABLE", href: "/periodic-table" },
+            { label: "DICTIONARY",     href: "/dictionary" },
+            { label: "ABOUT",          href: "/about" },
+          ].map(({ label, href }) => (
             <Link
-              key={l}
-              href={`/${l.toLowerCase()}`}
+              key={label}
+              href={href}
               className="transition-colors duration-200"
               style={{ color: "rgba(180, 215, 255, 0.45)" }}
             >
-              {l}
+              {label}
             </Link>
           ))}
         </div>

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { CarbonCanvas } from "@/components/molecules/CarbonCanvas";
 import { EthaneCanvas } from "@/components/molecules/EthaneCanvas";
+import { Term } from "@/components/ui/Term";
 
 // Each step halves the width. Starting width: 210mm (A4).
 // Carbon atom diameter: ~154 pm = 1.54e-7 mm
@@ -13,7 +14,7 @@ interface Milestone {
   step: number;
   label: string;
   size: string;
-  note: string;
+  note: React.ReactNode;
   image?: string;
   imageAlt?: string;
   imageCredit?: string;
@@ -30,9 +31,9 @@ const MILESTONES: Milestone[] = [
   { step: 18, label: "VIRUS",            size: "800 nm",    note: "Approaching virus scale. Hopefully we won't get sick! Still paper.",                                                                                                                            image: "/milestones/virus.webp",         imageAlt: "Virus particle" },
   { step: 21, label: "LARGE PROTEIN",    size: "100 nm",    note: "The scale of a large protein. These are important building blocks of cells in our bodies. Still paper.",                                                                                                              image: "/milestones/protien.webp",       imageAlt: "Protein molecule" },
   { step: 24, label: "DNA STRAND",       size: "12.5 nm",   note: "About the width of a DNA double helix — the tiny biological code that makes you you! Still paper.",                                                                                                              image: "/milestones/dna.webp",           imageAlt: "DNA double helix" },
-  { step: 27, label: "ETHANE MOLECULE",  size: "1.6 nm",    note: "We are nearing the smallest scale we can split whilst still having paper. At this scale we begin to see tiny bright spheres moving impossibly fast, seemingly tethered to one another, surrounded by mostly empty space — with the occasional dense clump of vibrating particles at their centre. Still paper.",               molecule: "ethane" },
-  { step: 30, label: "CARBON ATOM",      size: "~154 pm",   note: "We've done it. We've reached a single carbon atom — the smallest unit that is still paper. This is an atom: the smallest thing that can hold a recognisable identity. Split it further and it's no longer carbon, no longer paper — just loose parts with no chemical meaning. Atoms are the fundamental building blocks of nearly everything around us, from a sheet of paper to the very cells in our bodies, and understanding them is where chemistry begins. But what happens if we split the atom in half?" },
-  { step: 31, label: "NUCLEUS SPLIT",    size: "< ATOM",    note: "We've split the atom. What's left is no longer carbon, no longer paper — just loose parts with no chemical meaning. This is where the definition of things ends and the world of subatomic particles begins. Atoms are made of three distinct subatomic particles: protons, neutrons, and electrons. Protons and neutrons clump together to form the nucleus — the atom's dense centre — while electrons whizz around the outside in spherical clouds, as if tethered by an invisible string. It is the interactions and properties of these three building blocks that give each atom its identity." },
+  { step: 27, label: "ETHANE MOLECULE",  size: "1.6 nm",    note: <>We are nearing the smallest scale we can split whilst still having paper. At this scale we begin to see tiny bright spheres — <Term id="electron">electrons</Term> — moving impossibly fast, seemingly tethered to one another, surrounded by mostly empty space — with the occasional dense clump of vibrating particles at their centre — the <Term id="nucleus">nucleus</Term>. Still paper.</>, molecule: "ethane" },
+  { step: 30, label: "CARBON ATOM",      size: "~154 pm",   note: <>We&apos;ve done it. We&apos;ve reached a single <Term id="atom">carbon atom</Term> — the smallest unit that is still paper. This is an <Term id="atom">atom</Term>: the smallest thing that can hold a recognisable identity. Split it further and it&apos;s no longer carbon, no longer paper — just loose parts with no chemical meaning. <Term id="atom">Atoms</Term> are the fundamental building blocks of nearly everything around us, from a sheet of paper to the very cells in our bodies, and understanding them is where chemistry begins. But what happens if we split the <Term id="atom">atom</Term> in half?</> },
+  { step: 31, label: "NUCLEUS SPLIT",    size: "< ATOM",    note: <>We&apos;ve split the <Term id="atom">atom</Term>. What&apos;s left is no longer carbon, no longer paper — just loose parts with no chemical meaning. This is where the definition of things ends and the world of <Term id="subatomic-particle">subatomic particles</Term> begins. <Term id="atom">Atoms</Term> are made of three distinct <Term id="subatomic-particle">subatomic particles</Term>: <Term id="proton">protons</Term>, <Term id="neutron">neutrons</Term>, and <Term id="electron">electrons</Term>. <Term id="proton">Protons</Term> and <Term id="neutron">neutrons</Term> clump together to form the <Term id="nucleus">nucleus</Term> — the atom&apos;s dense centre — while <Term id="electron">electrons</Term> whizz around the outside in spherical clouds, as if tethered by an invisible string. It is the interactions and properties of these three building blocks that give each <Term id="atom">atom</Term> its properties.</> },
 ];
 
 function getMilestone(step: number): Milestone | null {

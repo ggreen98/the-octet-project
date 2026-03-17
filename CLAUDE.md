@@ -57,6 +57,13 @@ public/            # Static assets
 - Molecule components live in `components/molecules/`.
 - Keep 3D components lazy-loaded to avoid SSR issues (`dynamic(() => import(...), { ssr: false })`).
 
+### Lesson Content & Key Terms
+- Whenever adding or editing lesson text, wrap important chemistry terms in the `<Term>` component from `@/components/ui/Term`.
+- `<Term id="term-id">word</Term>` renders the word in blue with a dotted underline and links to `/dictionary#term-id`.
+- The dictionary lives at `app/dictionary/page.tsx`. Add any new terms to the `TERMS` array there before referencing them in lessons.
+- Key terms to always mark up: atom, nucleus, proton, neutron, electron, element, charge, subatomic particle, orbital shell, atomic number, isotope, periodic table, atomic mass unit, femtometre — and any other term a student would need to look up.
+- Milestone notes in `PaperHalving.tsx` use `React.ReactNode` (not plain strings) so JSX terms can be embedded — use `<>...</>` fragment syntax for those.
+
 ### Error Handling & Logging
 - Use Sentry for error tracking. Wrap the app in the Sentry provider.
 - Log meaningful errors — avoid empty catch blocks.
