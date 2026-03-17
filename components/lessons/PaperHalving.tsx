@@ -13,20 +13,23 @@ interface Milestone {
   label: string;
   size: string;
   note: string;
+  image?: string;
+  imageAlt?: string;
+  imageCredit?: string;
 }
 
 const MILESTONES: Milestone[] = [
-  { step: 0,  label: "SHEET OF PAPER",   size: "210 mm",    note: "A standard A4 sheet. Rip it in half — you still have paper." },
-  { step: 3,  label: "THUMBNAIL",        size: "26 mm",     note: "About the width of your thumbnail. Still paper." },
-  { step: 6,  label: "SESAME SEED",      size: "3.3 mm",    note: "Roughly the size of a sesame seed. Still paper." },
-  { step: 9,  label: "HUMAN HAIR",       size: "0.41 mm",   note: "Thinner than a human hair. Invisible to the naked eye — but still paper." },
-  { step: 12, label: "RED BLOOD CELL",   size: "51 μm",     note: "Only visible under a microscope. Still paper." },
-  { step: 15, label: "BACTERIUM",        size: "6.4 μm",    note: "Smaller than most bacteria. Still paper." },
-  { step: 18, label: "VIRUS",            size: "800 nm",    note: "Approaching virus scale. Still paper." },
-  { step: 21, label: "LARGE PROTEIN",    size: "100 nm",    note: "The scale of a large protein molecule. Still paper." },
-  { step: 24, label: "DNA STRAND",       size: "12.5 nm",   note: "About the width of a DNA double helix. Still paper." },
+  { step: 0,  label: "SHEET OF PAPER",   size: "210 mm",    note: "A standard A4 sheet. Rip it in half — you still have paper.",                                                                                                    image: "/milestones/paper.jpg",      imageAlt: "Sheet of paper",              imageCredit: "Wikimedia Commons" },
+  { step: 3,  label: "THUMBNAIL",        size: "26 mm",     note: "About the width of your thumbnail. Still paper.",                                                                                                                   image: "/milestones/thumbnail.jpg",  imageAlt: "Human thumbnail",             imageCredit: "Wikimedia Commons" },
+  { step: 6,  label: "SESAME SEED",      size: "3.3 mm",    note: "Roughly the size of a sesame seed. Still paper.",                                                                                                                   image: "/milestones/sesame.jpg",     imageAlt: "Sesame seeds",                imageCredit: "Wikimedia Commons" },
+  { step: 9,  label: "HUMAN HAIR",       size: "0.41 mm",   note: "Thinner than a human hair. Invisible to the naked eye — but still paper.",                                                                                         image: "/milestones/hair.jpg",       imageAlt: "Human hair at 400x",          imageCredit: "Wikimedia Commons" },
+  { step: 12, label: "RED BLOOD CELL",   size: "51 μm",     note: "Only visible under a microscope. Still paper.",                                                                                                                    image: "/milestones/rbc.jpg",        imageAlt: "Red blood cells",             imageCredit: "NHLBI / NIH" },
+  { step: 15, label: "BACTERIUM",        size: "6.4 μm",    note: "Smaller than most bacteria. Still paper.",                                                                                                                         image: "/milestones/ecoli.jpg",      imageAlt: "E. coli bacteria (SEM)",      imageCredit: "USDA ARS / Public domain" },
+  { step: 18, label: "VIRUS",            size: "800 nm",    note: "Approaching virus scale. Still paper.",                                                                                                                            image: "/milestones/virus.jpg",      imageAlt: "H1N1 influenza virus (TEM)",  imageCredit: "CDC / Public domain" },
+  { step: 21, label: "LARGE PROTEIN",    size: "100 nm",    note: "The scale of a large protein molecule. Still paper.",                                                                                                              image: "/milestones/hemoglobin.png", imageAlt: "Hemoglobin protein structure", imageCredit: "Richard Wheeler / CC BY-SA" },
+  { step: 24, label: "DNA STRAND",       size: "12.5 nm",   note: "About the width of a DNA double helix. Still paper.",                                                                                                              image: "/milestones/dna.svg",        imageAlt: "DNA double helix",            imageCredit: "Wikimedia Commons / Public domain" },
   { step: 27, label: "SMALL MOLECULE",   size: "1.6 nm",    note: "Just a few atoms wide now. Almost there." },
-  { step: 30, label: "CARBON ATOM",      size: "~154 pm",   note: "You've reached a single carbon atom — the smallest unit that is still paper. Split it one more time and it's no longer carbon." },
+  { step: 30, label: "CARBON ATOM",      size: "~154 pm",   note: "You've reached a single carbon atom — the smallest unit that is still paper. Split it one more time and it's no longer carbon.",                                  image: "/milestones/atom.jpg",       imageAlt: "Atoms imaged by STM",         imageCredit: "Wikimedia Commons / CC BY-SA" },
   { step: 31, label: "NUCLEUS SPLIT",    size: "< ATOM",    note: "You've split the carbon atom. What's left — protons, neutrons, electrons — is no longer carbon. It's no longer paper. This is where the definition of the element ends." },
 ];
 
@@ -201,6 +204,34 @@ export function PaperHalving() {
             >
               {milestone.label}
             </h3>
+
+            {/* Reference image */}
+            {milestone.image && (
+              <div className="mb-5">
+                <div
+                  className="overflow-hidden"
+                  style={{
+                    width: "100%",
+                    maxWidth: "320px",
+                    aspectRatio: "16/9",
+                    border: "1px solid rgba(0, 255, 65, 0.15)",
+                    background: "rgba(0,0,0,0.4)",
+                  }}
+                >
+                  <img
+                    src={milestone.image}
+                    alt={milestone.imageAlt}
+                    style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.88 }}
+                  />
+                </div>
+                {milestone.imageCredit && (
+                  <p style={{ color: "rgba(0, 255, 65, 0.25)", fontSize: "0.55rem", letterSpacing: "0.08em", marginTop: "4px" }}>
+                    {milestone.imageCredit}
+                  </p>
+                )}
+              </div>
+            )}
+
             <p className="text-sm leading-relaxed mb-6" style={{ color: "rgba(200, 255, 212, 0.55)" }}>
               {milestone.note}
             </p>
