@@ -77,8 +77,20 @@ export default function SubatomicParticlesLesson() {
             every atom its identity. The number of protons in an atom determines what element it is —
             change the number of protons and you change the element entirely.
           </p>
-          <p className="text-sm leading-relaxed" style={{ color: "rgba(200, 255, 212, 0.55)" }}>
+          <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(200, 255, 212, 0.55)" }}>
             But what exactly is a positive charge?
+          </p>
+          <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(200, 255, 212, 0.55)" }}>
+            Let&apos;s do an experiment. Grab two magnets off your fridge and push them together —
+            one of two things will happen. They will either snap together as if pulled by an invisible
+            force, or resist your attempts as if an invisible hand is pushing back against you.
+          </p>
+          <p className="text-sm leading-relaxed" style={{ color: "rgba(200, 255, 212, 0.55)" }}>
+            These pushing and pulling forces are a result of charge. Charge is one of the most
+            fundamental properties in nature — it describes whether something attracts or repels
+            other things around it. Opposite charges attract, like charges repel. Protons carry a
+            positive charge, and as we&apos;ll soon see, that has enormous consequences for how atoms
+            behave.
           </p>
         </div>
 
