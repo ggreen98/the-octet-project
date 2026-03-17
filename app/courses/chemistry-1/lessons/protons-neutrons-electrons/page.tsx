@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MagnetSim } from "@/components/lessons/MagnetSim";
 
 export const metadata = {
   title: "Protons, Neutrons & Electrons — Chemistry I | The Octet Project",
@@ -67,6 +68,11 @@ export default function SubatomicParticlesLesson() {
         <p className="text-sm leading-relaxed mb-12 max-w-2xl" style={{ color: "rgba(200, 255, 212, 0.55)" }}>
           Meet the three building blocks hiding inside every atom in the universe.
         </p>
+
+        {/* ── MAGNET SIM ──────────────────────────────────── */}
+        <div className="mb-16">
+          <MagnetSim />
+        </div>
 
         {/* ── PROTONS ─────────────────────────────────────── */}
         <div className="max-w-2xl mb-16">
