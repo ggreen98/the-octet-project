@@ -60,12 +60,13 @@ export default function AtomsLesson() {
 
         {/* Title */}
         <h1
-          className="font-heading leading-none mb-3"
+          className="font-heading leading-none mb-4"
           style={{ fontSize: "clamp(2.2rem, 6vw, 4rem)", letterSpacing: "-0.02em", color: "#c8e8ff" }}
         >
-          ATOMS
+          WHAT IS AN ATOM?
         </h1>
-        <p className="text-sm mb-12" style={{ color: "rgba(200, 255, 212, 0.5)" }}>
+        <p className="text-sm leading-relaxed mb-12 max-w-2xl" style={{ color: "rgba(200, 255, 212, 0.55)" }}>
+          To answer that question we must first engage in a thought experiment.
           How many times can you rip a piece of paper in half and still have paper?
         </p>
 
