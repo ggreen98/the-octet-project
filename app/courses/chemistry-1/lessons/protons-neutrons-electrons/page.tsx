@@ -68,7 +68,19 @@ export default function SubatomicParticlesLesson() {
           Meet the three building blocks hiding inside every atom in the universe.
         </p>
 
-        {/* Lesson content goes here */}
+        {/* ── PROTONS ─────────────────────────────────────── */}
+        <div className="max-w-2xl mb-16">
+          <p className="text-xs tracking-widest mb-4" style={{ color: "rgba(0, 255, 65, 0.45)" }}>// PROTONS</p>
+          <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(200, 255, 212, 0.55)" }}>
+            As we discovered in the last lesson, protons live in the atom&apos;s centre — its nucleus.
+            They carry a positive charge, and it is this positive charge that is responsible for giving
+            every atom its identity. The number of protons in an atom determines what element it is —
+            change the number of protons and you change the element entirely.
+          </p>
+          <p className="text-sm leading-relaxed" style={{ color: "rgba(200, 255, 212, 0.55)" }}>
+            But what exactly is a positive charge?
+          </p>
+        </div>
 
         {/* Navigation */}
         <div className="flex justify-between items-center mt-16 pt-8" style={{ borderTop: "1px solid rgba(0, 255, 65, 0.08)" }}>
