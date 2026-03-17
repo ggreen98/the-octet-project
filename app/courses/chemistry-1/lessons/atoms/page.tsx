@@ -66,7 +66,8 @@ export default function AtomsLesson() {
           ATOMS
         </h1>
         <p className="text-sm leading-relaxed mb-12 max-w-2xl" style={{ color: "rgba(200, 255, 212, 0.55)" }}>
-          What are things made out of?
+          What are things made out of? To answer that question we must first engage in a thought experiment.
+          How many times can you rip a piece of paper in half and still have paper?
         </p>
 
         {/* Visualization */}
