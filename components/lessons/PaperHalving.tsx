@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { OrbitalCanvas } from "@/components/molecules/OrbitalCanvas";
+import { CarbonCanvas } from "@/components/molecules/CarbonCanvas";
 import { EthaneCanvas } from "@/components/molecules/EthaneCanvas";
 
 // Each step halves the width. Starting width: 210mm (A4).
@@ -133,7 +133,7 @@ export function PaperHalving() {
           ) : isAtom ? (
             /* Carbon atom model */
             <div className="w-full h-full relative">
-              <OrbitalCanvas />
+              <CarbonCanvas />
               <div className="absolute bottom-3 left-0 right-0 text-center">
                 <span className="font-heading text-xs" style={{ color: "rgba(255, 179, 0, 0.7)", letterSpacing: "0.1em" }}>
                   C — CARBON ATOM
