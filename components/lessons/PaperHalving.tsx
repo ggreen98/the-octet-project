@@ -82,6 +82,23 @@ export function PaperHalving() {
       {/* ── VISUAL ──────────────────────────────────────── */}
       <div className="flex flex-col items-center gap-6 lg:w-[380px] shrink-0">
 
+        {/* Counter bar — sits above stage, never covered */}
+        <div
+          className="w-full flex items-center justify-between px-3 py-1.5"
+          style={{
+            border: "1px solid rgba(0, 255, 65, 0.1)",
+            borderBottom: "none",
+            background: "rgba(0, 255, 65, 0.02)",
+          }}
+        >
+          <span className="text-xs tracking-widest" style={{ color: "rgba(0, 255, 65, 0.4)", fontSize: "0.6rem" }}>
+            HALVINGS: {step} / 30
+          </span>
+          <span className="text-xs tracking-widest" style={{ color: "rgba(180, 215, 255, 0.35)", fontSize: "0.6rem" }}>
+            {step === 0 ? "1×" : `${Math.pow(2, step).toLocaleString()}×`} ZOOM
+          </span>
+        </div>
+
         {/* Stage */}
         <div
           className="w-full flex items-center justify-center relative"
@@ -91,15 +108,6 @@ export function PaperHalving() {
             background: "rgba(0, 255, 65, 0.015)",
           }}
         >
-          {/* Step counter */}
-          <div className="absolute top-3 left-4 text-xs tracking-widest" style={{ color: "rgba(0, 255, 65, 0.3)", fontSize: "0.6rem" }}>
-            HALVINGS: {step} / 30
-          </div>
-
-          {/* Zoom level */}
-          <div className="absolute top-3 right-4 text-xs tracking-widest" style={{ color: "rgba(180, 215, 255, 0.3)", fontSize: "0.6rem" }}>
-            {step === 0 ? "1×" : `${Math.pow(2, step).toLocaleString()}×`} ZOOM
-          </div>
 
           {isSplit ? (
             /* Nucleus split state */
@@ -217,13 +225,15 @@ export function PaperHalving() {
                     maxWidth: "320px",
                     aspectRatio: "16/9",
                     border: "1px solid rgba(0, 255, 65, 0.15)",
+                    borderRadius: "8px",
                     background: "rgba(0,0,0,0.4)",
+                    boxShadow: "0 4px 24px rgba(0,0,0,0.5), 0 0 12px rgba(0,255,65,0.06)",
                   }}
                 >
                   <img
                     src={milestone.image}
                     alt={milestone.imageAlt}
-                    style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.88 }}
+                    style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.88, borderRadius: "8px" }}
                   />
                 </div>
               </div>
@@ -238,7 +248,10 @@ export function PaperHalving() {
                   maxWidth: "320px",
                   aspectRatio: "16/9",
                   border: "1px solid rgba(68, 153, 255, 0.2)",
+                  borderRadius: "8px",
                   background: "rgba(0,0,0,0.4)",
+                  boxShadow: "0 4px 24px rgba(0,0,0,0.5), 0 0 12px rgba(68,153,255,0.08)",
+                  overflow: "hidden",
                 }}
               >
                 <EthaneCanvas />
