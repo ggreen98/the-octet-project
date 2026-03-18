@@ -63,7 +63,7 @@ export default function WhoWeArePage() {
         {/* Mission */}
         <h1
           className="font-heading leading-none mb-8"
-          style={{ fontSize: "clamp(2.2rem, 6vw, 4rem)", letterSpacing: "-0.02em", color: "var(--oc-text)" }}
+          style={{ fontSize: "clamp(1.8rem, 5vw, 3rem)", letterSpacing: "-0.02em", color: "var(--oc-text)" }}
         >
           MISSION STATEMENT
         </h1>

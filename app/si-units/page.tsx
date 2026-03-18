@@ -173,7 +173,8 @@ export default function SIUnitsPage() {
             ["COURSES",        "/courses"],
             ["PERIODIC TABLE", "/periodic-table"],
             ["DICTIONARY",     "/dictionary"],
-            ["UNITS",       "/si-units"],
+            ["UNITS",          "/si-units"],
+            ["WHO WE ARE",     "/who-we-are"],
           ].map(([label, href]) => (
             <Link
               key={label}
