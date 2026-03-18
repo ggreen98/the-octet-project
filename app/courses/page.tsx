@@ -29,7 +29,7 @@ export default function CoursesPage() {
         </Link>
 
         <div className="hidden md:flex items-center gap-8 tracking-widest" style={{ fontSize: "1rem" }}>
-          {[["COURSES", "/courses"], ["PERIODIC TABLE", "/periodic-table"], ["DICTIONARY", "/dictionary"], ["UNITS", "/si-units"]].map(([label, href]) => (
+          {[["COURSES", "/courses"], ["PERIODIC TABLE", "/periodic-table"], ["DICTIONARY", "/dictionary"], ["UNITS", "/si-units"], ["WHO WE ARE", "/who-we-are"]].map(([label, href]) => (
             <Link
               key={label}
               href={href}
