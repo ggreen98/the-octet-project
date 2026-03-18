@@ -146,7 +146,7 @@ export default function WhoWeArePage() {
           </p>
           <p className="text-base leading-relaxed mb-6" style={{ color: "var(--oc-text-muted)" }}>
             Large language models require enormous amounts of energy to train, which has genuine
-            environmental consequences — raising energy prices for communities and in some cases
+            environmental consequences, raising energy prices for communities and in some cases
             running on dirty power sources that harm air quality and health. An estimated third of
             all new energy generation is expected to be used by large data centres, in part for
             training AI. Beyond the environmental cost, these models were trained on vast amounts
