@@ -114,14 +114,14 @@ export function SubatomicExplorer() {
                 >
                   {p.symbol}
                 </div>
-                <p className="font-heading text-xs tracking-widest" style={{ color: isLight ? LIGHT_TEXT[p.id].text : p.textColor, letterSpacing: "0.15em" }}>
+                <p className="font-heading text-sm tracking-widest" style={{ color: isLight ? LIGHT_TEXT[p.id].text : p.textColor, letterSpacing: "0.15em" }}>
                   {p.label}
                 </p>
-                <div className="flex flex-col items-center gap-1">
-                  <p className="text-xs" style={{ color: "var(--oc-text-muted)" }}>charge: <span style={{ color: isLight ? LIGHT_TEXT[p.id].value : p.valueColor }}>{p.charge}</span></p>
-                  <p className="text-xs" style={{ color: "var(--oc-text-muted)" }}>location: <span style={{ color: isLight ? LIGHT_TEXT[p.id].value : p.valueColor }}>{p.location}</span></p>
-                  <p className="text-xs" style={{ color: "var(--oc-text-muted)" }}>size: <span style={{ color: isLight ? LIGHT_TEXT[p.id].value : p.valueColor }}>{p.size}</span></p>
-                  <p className="text-xs" style={{ color: "var(--oc-text-muted)" }}>mass: <span style={{ color: isLight ? LIGHT_TEXT[p.id].value : p.valueColor }}>{p.mass}</span></p>
+                <div className="flex flex-col items-center gap-1.5">
+                  <p className="text-sm" style={{ color: "var(--oc-text-muted)" }}>charge: <span style={{ color: isLight ? LIGHT_TEXT[p.id].value : p.valueColor }}>{p.charge}</span></p>
+                  <p className="text-sm" style={{ color: "var(--oc-text-muted)" }}>location: <span style={{ color: isLight ? LIGHT_TEXT[p.id].value : p.valueColor }}>{p.location}</span></p>
+                  <p className="text-sm" style={{ color: "var(--oc-text-muted)" }}>size: <span style={{ color: isLight ? LIGHT_TEXT[p.id].value : p.valueColor }}>{p.size}</span></p>
+                  <p className="text-sm" style={{ color: "var(--oc-text-muted)" }}>mass: <span style={{ color: isLight ? LIGHT_TEXT[p.id].value : p.valueColor }}>{p.mass}</span></p>
                 </div>
               </div>
             );
