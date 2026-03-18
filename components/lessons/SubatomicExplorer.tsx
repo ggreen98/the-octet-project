@@ -81,7 +81,7 @@ export function SubatomicExplorer() {
   const isLight = theme === "light";
 
   return (
-    <div className="flex flex-col lg:flex-row gap-6 mb-12" style={{ maxWidth: "860px" }}>
+    <div className="flex flex-col lg:flex-row gap-8 mb-12" style={{ maxWidth: "1100px" }}>
 
       {/* Cards + hint stacked together */}
       <div className="flex flex-col flex-1 gap-3">
@@ -91,7 +91,7 @@ export function SubatomicExplorer() {
             return (
               <div
                 key={p.id}
-                className="flex-1 flex flex-col items-center gap-3 py-6 px-4 cursor-default"
+                className="flex-1 flex flex-col items-center gap-3 py-8 px-6 cursor-default"
                 style={{
                   border: `1px solid ${active ? p.borderHover : p.border}`,
                   background: active ? p.bgHover : p.bg,
@@ -141,8 +141,8 @@ export function SubatomicExplorer() {
       <div
         className="shrink-0"
         style={{
-          width: "280px",
-          height: "280px",
+          width: "340px",
+          height: "340px",
           border: "1px solid var(--oc-green-border-faint)",
           borderRadius: "4px",
           background: "transparent",
