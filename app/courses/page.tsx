@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 export const metadata = {
-  title: "Courses — The Octet Project",
+  title: "Courses — Allylic",
   description: "Browse all chemistry courses. From atomic structure to organic reactions.",
 };
 
@@ -93,7 +93,7 @@ export default function CoursesPage() {
         <Link href="/" className="flex items-center gap-2">
           <span className="text-xl font-heading" style={{ color: "var(--oc-green)" }}>⬡</span>
           <span className="font-heading text-sm hidden sm:block" style={{ color: "var(--oc-text)", letterSpacing: "0.2em" }}>
-            THE OCTET PROJECT
+            ALLYLIC
           </span>
         </Link>
 

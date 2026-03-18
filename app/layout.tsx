@@ -16,7 +16,7 @@ const shareTechMono = Share_Tech_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "The Octet Project — Chemistry Decoded",
+  title: "Allylic — Chemistry Decoded",
   description:
     "Learn chemistry through interactive 3D molecular visualization and guided lessons.",
 };

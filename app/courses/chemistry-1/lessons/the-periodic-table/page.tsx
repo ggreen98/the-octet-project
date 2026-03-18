@@ -5,7 +5,7 @@ import { PeriodicTableExplorer } from "@/components/lessons/PeriodicTableExplore
 import { LiCellAnnotated } from "@/components/lessons/LiCellAnnotated";
 
 export const metadata = {
-  title: "Elements & The Periodic Table — Chemistry I | The Octet Project",
+  title: "Elements & The Periodic Table — Chemistry I | Allylic",
   description: "Discover how the periodic table organises every element in the universe by the number of protons in their nucleus.",
 };
 
@@ -27,7 +27,7 @@ export default function PeriodicTableLesson() {
         <Link href="/" className="flex items-center gap-2">
           <span className="text-xl font-heading" style={{ color: "var(--oc-green)" }}>⬡</span>
           <span className="font-heading text-sm hidden sm:block" style={{ color: "var(--oc-text)", letterSpacing: "0.2em" }}>
-            THE OCTET PROJECT
+            ALLYLIC
           </span>
         </Link>
 

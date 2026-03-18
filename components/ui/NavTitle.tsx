@@ -90,7 +90,7 @@ export function NavTitle() {
           color: "#ffb830",
         }}
       >
-        THE OCTET PROJECT
+        ALLYLIC
       </span>
     </>
   );

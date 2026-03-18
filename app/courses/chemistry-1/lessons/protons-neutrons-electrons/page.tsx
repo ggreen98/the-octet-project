@@ -8,7 +8,7 @@ import { NeutronHeading } from "@/components/lessons/NeutronHeading";
 import { Term } from "@/components/ui/Term";
 
 export const metadata = {
-  title: "Protons, Neutrons & Electrons — Chemistry I | The Octet Project",
+  title: "Protons, Neutrons & Electrons — Chemistry I | Allylic",
   description: "Meet the three subatomic particles that make up every atom in the universe.",
 };
 
@@ -30,7 +30,7 @@ export default function SubatomicParticlesLesson() {
         <Link href="/" className="flex items-center gap-2">
           <span className="text-xl font-heading" style={{ color: "var(--oc-green)" }}>⬡</span>
           <span className="font-heading text-sm hidden sm:block" style={{ color: "var(--oc-text)", letterSpacing: "0.2em" }}>
-            THE OCTET PROJECT
+            ALLYLIC
           </span>
         </Link>
 

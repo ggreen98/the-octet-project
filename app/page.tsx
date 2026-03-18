@@ -394,7 +394,7 @@ export default function Home() {
         <div className="flex items-center gap-2">
           <span style={{ color: "var(--oc-green)" }}>⬡</span>
           <span className="font-heading tracking-widest" style={{ letterSpacing: "0.15em" }}>
-            THE OCTET PROJECT
+            ALLYLIC
           </span>
         </div>
         <div className="flex items-center gap-3" style={{ color: "var(--oc-text-hint)" }}>
@@ -404,7 +404,7 @@ export default function Home() {
           <span style={{ color: "var(--oc-text-faint)" }}>·</span>
           <span>3D</span>
         </div>
-        <div>© {new Date().getFullYear()} THE OCTET PROJECT</div>
+        <div>© {new Date().getFullYear()} ALLYLIC</div>
       </footer>
 
       </div>{/* end page content wrapper */}

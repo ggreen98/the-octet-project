@@ -3,8 +3,8 @@ import { DictionaryClient } from "@/components/dictionary/DictionaryClient";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 export const metadata = {
-  title: "Dictionary — The Octet Project",
-  description: "Definitions of key chemistry terms used across The Octet Project lessons.",
+  title: "Dictionary — Allylic",
+  description: "Definitions of key chemistry terms used across Allylic lessons.",
 };
 
 export const TERMS = [
@@ -140,7 +140,7 @@ export default function DictionaryPage() {
         <Link href="/" className="flex items-center gap-2">
           <span className="text-xl font-heading" style={{ color: "var(--oc-green)" }}>⬡</span>
           <span className="font-heading text-sm hidden sm:block" style={{ color: "var(--oc-text)", letterSpacing: "0.2em" }}>
-            THE OCTET PROJECT
+            ALLYLIC
           </span>
         </Link>
 
@@ -178,7 +178,7 @@ export default function DictionaryPage() {
           DICTIONARY
         </h1>
         <p className="text-sm leading-relaxed mb-10 max-w-2xl" style={{ color: "var(--oc-text-muted)" }}>
-          Definitions of key terms used across The Octet Project lessons. Click any term in a lesson to jump straight here.
+          Definitions of key terms used across Allylic lessons. Click any term in a lesson to jump straight here.
         </p>
 
         <DictionaryClient terms={TERMS} />

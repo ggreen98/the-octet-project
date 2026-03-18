@@ -1,4 +1,4 @@
-# The Octet Project — Claude Instructions
+# Allylic — Claude Instructions
 
 ## Project Overview
 A chemistry education web app (and future mobile app) featuring interactive 3D molecule visualization. Built to be clean, accessible, and scalable.

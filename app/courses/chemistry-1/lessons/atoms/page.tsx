@@ -3,7 +3,7 @@ import { PaperHalving } from "@/components/lessons/PaperHalving";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 export const metadata = {
-  title: "Atoms — Chemistry I | The Octet Project",
+  title: "Atoms — Chemistry I | Allylic",
   description: "How small is an atom? Rip a piece of paper in half — over and over — to find out.",
 };
 
@@ -25,7 +25,7 @@ export default function AtomsLesson() {
         <Link href="/" className="flex items-center gap-2">
           <span className="text-xl font-heading" style={{ color: "var(--oc-green)" }}>⬡</span>
           <span className="font-heading text-sm hidden sm:block" style={{ color: "var(--oc-text)", letterSpacing: "0.2em" }}>
-            THE OCTET PROJECT
+            ALLYLIC
           </span>
         </Link>
 

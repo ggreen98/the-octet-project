@@ -1,4 +1,4 @@
-# The Octet Project — Developer Reference
+# Allylic — Developer Reference
 
 This document explains every folder, file, and dependency in the project so any developer (or future you) can understand the codebase from scratch.
 
@@ -21,7 +21,7 @@ This document explains every folder, file, and dependency in the project so any 
 ## Project Structure
 
 ```
-the-octet-project/
+allylic/
 ├── app/                    # All pages and layouts (Next.js App Router)
 ├── components/
 │   ├── ui/                 # shadcn/ui base components (buttons, inputs, etc.)

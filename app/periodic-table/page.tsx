@@ -3,7 +3,7 @@ import { PeriodicTableExplorer } from "@/components/lessons/PeriodicTableExplore
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 export const metadata = {
-  title: "Periodic Table — The Octet Project",
+  title: "Periodic Table — Allylic",
   description: "Interactive periodic table of all 118 elements. Hover any element to view its 3D atomic model, electron configuration, and key properties.",
 };
 
@@ -25,7 +25,7 @@ export default function PeriodicTablePage() {
         <Link href="/" className="flex items-center gap-2">
           <span className="text-xl font-heading" style={{ color: "var(--oc-green)" }}>⬡</span>
           <span className="font-heading text-sm hidden sm:block" style={{ color: "var(--oc-text)", letterSpacing: "0.2em" }}>
-            THE OCTET PROJECT
+            ALLYLIC
           </span>
         </Link>
 

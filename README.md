@@ -1,4 +1,4 @@
-# The Octet Project
+# Allylic
 
 An interactive chemistry education platform with 3D molecule visualization — built for the web, designed to become a mobile app.
 
@@ -36,8 +36,8 @@ An interactive chemistry education platform with 3D molecule visualization — b
 
 ```bash
 # Clone the repo
-git clone https://github.com/ggreen98/the-octet-project.git
-cd the-octet-project
+git clone https://github.com/ggreen98/allylic.git
+cd allylic
 
 # Install dependencies
 bun install
