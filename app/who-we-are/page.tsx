@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { HexDotGrid } from "@/components/ui/HexDotGrid";
 
 export const metadata = {
   title: "Who We Are — Allylic",
@@ -9,9 +10,13 @@ export const metadata = {
 export default function WhoWeArePage() {
   return (
     <main
-      className="scanlines font-terminal min-h-screen"
+      className="scanlines font-terminal min-h-screen overflow-x-hidden"
       style={{ backgroundColor: "var(--oc-bg)", color: "var(--oc-text)" }}
     >
+      <HexDotGrid />
+      <div className="boot-scan" />
+
+      <div className="relative" style={{ zIndex: 2 }}>
       {/* ── NAV ─────────────────────────────────────────── */}
       <nav
         className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 h-16"
@@ -170,6 +175,8 @@ export default function WhoWeArePage() {
         </div>
 
       </div>
+
+      </div>{/* end page content wrapper */}
     </main>
   );
 }
