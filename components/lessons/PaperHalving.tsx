@@ -92,10 +92,10 @@ export function PaperHalving() {
             background: "var(--oc-green-bg-surface)",
           }}
         >
-          <span className="text-xs tracking-widest" style={{ color: "var(--oc-green-dim)" }}>
+          <span className="text-sm tracking-widest" style={{ color: "var(--oc-green-dim)" }}>
             HALVINGS: {step} / 30
           </span>
-          <span className="text-xs tracking-widest" style={{ color: "var(--oc-text-dim)" }}>
+          <span className="text-sm tracking-widest" style={{ color: "var(--oc-text-dim)" }}>
             {step === 0 ? "1×" : `${Math.pow(2, step).toLocaleString()}×`} ZOOM
           </span>
         </div>
@@ -164,7 +164,7 @@ export function PaperHalving() {
 
         {/* Size readout */}
         <div className="w-full flex items-center justify-between px-1">
-          <span className="text-xs tracking-widest" style={{ color: "var(--oc-green-dim)" }}>ACTUAL SIZE</span>
+          <span className="text-sm tracking-widest" style={{ color: "var(--oc-green-dim)" }}>ACTUAL SIZE</span>
           <span className="font-heading text-sm" style={{ color: "var(--oc-blue)" }}>
             {isSplit ? "SUBATOMIC" : getActualSize(step)}
           </span>
@@ -294,7 +294,7 @@ export function PaperHalving() {
               {MILESTONES.slice(0, -1).map((m) => (
                 <div
                   key={m.step}
-                  className="flex items-center justify-between text-xs"
+                  className="flex items-center justify-between text-sm"
                   style={{ opacity: step >= m.step ? 1 : 0.2, transition: "opacity 0.3s" }}
                 >
                   <div className="flex items-center gap-2">
@@ -302,11 +302,11 @@ export function PaperHalving() {
                       className="inline-block w-1.5 h-1.5 rounded-full"
                       style={{ background: step >= m.step ? "var(--oc-green)" : "var(--oc-green-subtle)" }}
                     />
-                    <span className="text-xs" style={{ color: step === m.step ? "var(--oc-text)" : "var(--oc-text-dim)", letterSpacing: "0.08em" }}>
+                    <span className="text-sm" style={{ color: step === m.step ? "var(--oc-text)" : "var(--oc-text-dim)", letterSpacing: "0.08em" }}>
                       {m.label}
                     </span>
                   </div>
-                  <span className="text-xs" style={{ color: "var(--oc-text-dim)" }}>{m.size}</span>
+                  <span className="text-sm" style={{ color: "var(--oc-text-dim)" }}>{m.size}</span>
                 </div>
               ))}
             </div>
