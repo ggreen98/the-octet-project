@@ -67,12 +67,12 @@
   /* Dark mode (default) */
   --oc-bg: #010d0a;
   --oc-nav-bg: rgba(1, 13, 10, 0.88);
-  --oc-text: #c8e8ff;
-  --oc-text-sub: rgba(180, 215, 255, 0.6);
-  --oc-text-muted: rgba(200, 255, 212, 0.5);
-  --oc-text-dim: rgba(180, 215, 255, 0.35);
-  --oc-text-faint: rgba(180, 215, 255, 0.25);
-  --oc-text-hint: rgba(180, 215, 255, 0.18);
+  --oc-text: #e8f4ff;
+  --oc-text-sub: rgba(200, 228, 255, 0.82);
+  --oc-text-muted: rgba(200, 228, 255, 0.75);
+  --oc-text-dim: rgba(180, 215, 255, 0.55);
+  --oc-text-faint: rgba(180, 215, 255, 0.38);
+  --oc-text-hint: rgba(180, 215, 255, 0.25);
   --oc-green: #72b872;
   --oc-green-dim: rgba(114, 184, 114, 0.45);
   --oc-green-subtle: rgba(114, 184, 114, 0.2);
@@ -91,12 +91,12 @@
 [data-theme="light"] {
   --oc-bg: #f0ede6;
   --oc-nav-bg: rgba(240, 237, 230, 0.92);
-  --oc-text: #1a1f3c;
-  --oc-text-sub: rgba(26, 31, 60, 0.65);
-  --oc-text-muted: rgba(26, 31, 60, 0.55);
-  --oc-text-dim: rgba(26, 31, 60, 0.45);
-  --oc-text-faint: rgba(26, 31, 60, 0.3);
-  --oc-text-hint: rgba(26, 31, 60, 0.2);
+  --oc-text: #0e1228;
+  --oc-text-sub: rgba(14, 18, 40, 0.85);
+  --oc-text-muted: rgba(14, 18, 40, 0.78);
+  --oc-text-dim: rgba(14, 18, 40, 0.62);
+  --oc-text-faint: rgba(14, 18, 40, 0.45);
+  --oc-text-hint: rgba(14, 18, 40, 0.28);
   --oc-green: #2a6a2a;
   --oc-green-dim: rgba(42, 106, 42, 0.55);
   --oc-green-subtle: rgba(42, 106, 42, 0.25);
@@ -178,6 +178,7 @@
     background-color: var(--oc-bg);
     color: var(--oc-text);
     font-family: var(--font-share-mono), "Share Tech Mono", monospace;
+    font-size: 17px;
     overflow-x: hidden;
   }
 }
