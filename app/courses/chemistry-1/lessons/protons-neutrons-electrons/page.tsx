@@ -156,12 +156,21 @@ export default function SubatomicParticlesLesson() {
             the two are attracted to one another by the same electromagnetic force we just explored
             with the magnets — holding the electrons in place around the atom.
           </p>
-          <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
+          <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
             This is where things get exciting. <Term id="electron">Electrons</Term> — specifically those in the outermost
             <Term id="orbital-shell"> orbital shell</Term> — are what <em>do</em> chemistry. When atoms come close to one another,
             it is their outer electrons that interact, overlap, and rearrange to form chemical bonds.
             Every reaction, every molecule, every material you have ever touched is a consequence of
             electrons behaving this way. We will explore bonding in much greater detail in later lessons.
+          </p>
+          <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
+            One more concept worth introducing here: when an atom <em>gains</em> or <em>loses</em> electrons,
+            its net charge is no longer zero. An atom that has lost one or more electrons has more protons than
+            electrons and becomes positively charged. An atom that has gained electrons has more electrons than
+            protons and becomes negatively charged. These charged atoms are called <strong style={{ color: "var(--oc-text)" }}>ions</strong>.
+            Ions are everywhere in chemistry — table salt, for example, is made of sodium ions (Na⁺, one electron lost)
+            and chloride ions (Cl⁻, one electron gained) held together by the attraction between their opposite charges.
+            We will return to ions in much greater detail in later lessons.
           </p>
         </div>
 

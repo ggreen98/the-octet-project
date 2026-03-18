@@ -281,7 +281,7 @@ export default function PeriodicTableLesson() {
             arbitrary — rows of varying length, a detached block floating beneath the main grid, columns
             that seem to start and stop at random. In reality every position is deeply intentional.
           </p>
-          <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
+          <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
             Each vertical column is called a <strong style={{ color: "var(--oc-text)" }}>group</strong>, and the{" "}
             <Term id="element">elements</Term> within a group share remarkably similar chemical behaviour.
             They react with other substances in the same kinds of ways, form the same types of bonds, and
@@ -291,8 +291,78 @@ export default function PeriodicTableLesson() {
             of outer electrons, and it is those outer electrons that determine almost everything about how
             an atom behaves chemically. The horizontal rows, called <strong style={{ color: "var(--oc-text)" }}>periods</strong>,
             represent the filling of successive electron shells as the <Term id="atomic-number">atomic number</Term>{" "}
-            increases. We will explore groups, periods, and electron configuration in much greater depth in
-            future lessons.
+            increases.
+          </p>
+          <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
+            A handful of groups are important enough to have their own names that you will encounter
+            constantly in chemistry. Here are the key ones:
+          </p>
+
+          {/* Named groups table */}
+          <div
+            className="mb-4 font-terminal"
+            style={{
+              fontSize: "14px",
+              border: "1px solid var(--oc-green-border-dim)",
+              background: "var(--oc-green-bg-surface)",
+              borderRadius: "4px",
+              overflow: "hidden",
+            }}
+          >
+            {/* Header */}
+            <div
+              className="font-heading grid"
+              style={{
+                gridTemplateColumns: "60px 1fr 1fr",
+                padding: "0.5rem 1.25rem",
+                borderBottom: "1px solid var(--oc-green-border-dim)",
+                color: "var(--oc-text-dim)",
+                fontSize: "0.65rem",
+                letterSpacing: "0.12em",
+              }}
+            >
+              <span>GROUP</span>
+              <span>NAME</span>
+              <span>EXAMPLES</span>
+            </div>
+            {[
+              { group: "1",   name: "Alkali Metals",    examples: "Lithium (Li), Sodium (Na), Potassium (K)",  note: "Highly reactive metals — they explode in water." },
+              { group: "2",   name: "Alkaline Earth Metals", examples: "Magnesium (Mg), Calcium (Ca)",         note: "Reactive metals, but less so than Group 1." },
+              { group: "17",  name: "Halogens",          examples: "Fluorine (F), Chlorine (Cl), Iodine (I)", note: "Highly reactive nonmetals — one electron away from a full shell." },
+              { group: "18",  name: "Noble Gases",       examples: "Helium (He), Neon (Ne), Argon (Ar)",      note: "Completely unreactive — their outermost shell is already full." },
+            ].map(({ group, name, examples, note }, i, arr) => (
+              <div
+                key={group}
+                style={{
+                  borderBottom: i < arr.length - 1 ? "1px solid var(--oc-green-border-faint)" : "none",
+                  padding: "0.75rem 1.25rem",
+                }}
+              >
+                <div
+                  className="grid mb-1"
+                  style={{ gridTemplateColumns: "60px 1fr 1fr", alignItems: "baseline", gap: "0 1rem" }}
+                >
+                  <span style={{ color: "var(--oc-green)", fontFamily: "var(--font-heading)" }}>{group}</span>
+                  <span style={{ color: "var(--oc-text)" }}>{name}</span>
+                  <span style={{ color: "var(--oc-text-muted)" }}>{examples}</span>
+                </div>
+                <div
+                  className="grid"
+                  style={{ gridTemplateColumns: "60px 1fr", gap: "0 1rem" }}
+                >
+                  <span />
+                  <span style={{ color: "var(--oc-text-dim)", fontSize: "12px" }}>{note}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
+            Notice that noble gases sit at the far right of every period — they are the endpoint of each
+            row, with completely filled outer shells and no tendency to react. This pattern of shell-filling
+            is what gives the periodic table its shape, and understanding it is the key to predicting how
+            any element will behave. We will explore groups, periods, and electron configuration in much
+            greater depth in future lessons.
           </p>
         </div>
 
