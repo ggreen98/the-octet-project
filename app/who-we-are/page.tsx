@@ -68,9 +68,34 @@ export default function WhoWeArePage() {
           OUR MISSION
         </h1>
         <div className="mb-16" style={{ borderLeft: "2px solid var(--oc-green-border-dim)", paddingLeft: "1.5rem" }}>
-          <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
-            [Your mission statement goes here. Write it in your own words — what Allylic is,
-            why you built it, and what you hope it does for the people who use it.]
+          <p className="text-base leading-relaxed mb-6" style={{ color: "var(--oc-text-muted)" }}>
+            Hi there, thanks for checking out Allylic!
+          </p>
+          <p className="text-base leading-relaxed mb-6" style={{ color: "var(--oc-text-muted)" }}>
+            This project is being built by me, a solo developer with an undergraduate background in
+            chemistry and a master&apos;s degree in data science. I hold a deep-seated passion for learning,
+            education, technology, and yes, chemistry of course! To many, chemistry is an intimidating
+            subject filled with logical traps and challenging three-dimensional thinking. I believe it
+            can be something else entirely: an intuitive source of wonder, modern-day potions, for the
+            logical and creative thinker alike.
+          </p>
+          <p className="text-base leading-relaxed mb-6" style={{ color: "var(--oc-text-muted)" }}>
+            My goal is to share that curiosity by building a modern, hands-on way to learn chemistry
+            that goes beyond memorization and helps students develop a true chemical intuition.
+            Accessibility is important to me as I believe anyone and everyone should have the opportunity
+            to learn chemistry. As such, at least for the moment, everything is free and I aim to keep
+            it this way as long as I can!
+          </p>
+          <p className="text-base leading-relaxed mb-6" style={{ color: "var(--oc-text-muted)" }}>
+            This is a part-time passion project, so updates come when they come. Any and all feedback
+            is welcome and genuinely appreciated, feel free to reach out at{" "}
+            <a
+              href="mailto:allylic.chem@gmail.com"
+              style={{ color: "var(--oc-blue)", borderBottom: "1px dotted rgba(68,153,255,0.5)", textDecoration: "none" }}
+            >
+              allylic.chem@gmail.com
+            </a>
+            . Cheers!
           </p>
         </div>
 
@@ -82,10 +107,66 @@ export default function WhoWeArePage() {
           OUR ETHICS
         </h2>
         <div style={{ borderLeft: "2px solid var(--oc-green-border-dim)", paddingLeft: "1.5rem" }}>
-          <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
-            [Your ethics statement goes here. What principles guide how Allylic is built,
-            how student data is treated, what you will and won&apos;t do as this grows.]
+
+          {/* Accessibility */}
+          <h3
+            className="font-heading mb-4"
+            style={{ fontSize: "1rem", letterSpacing: "0.1em", color: "var(--oc-text)" }}
+          >
+            ACCESSIBILITY
+          </h3>
+          <p className="text-base leading-relaxed mb-6" style={{ color: "var(--oc-text-muted)" }}>
+            Knowledge belongs to everyone, and I don&apos;t want to hide access behind a paywall. Your
+            ability and aptitude for learning should not be limited by what you can afford, knowledge
+            is better when it&apos;s shared.
           </p>
+          <p className="text-base leading-relaxed mb-12" style={{ color: "var(--oc-text-muted)" }}>
+            That said, I am a solo developer funding this project with my time, money, blood, sweat,
+            and tears. If the cost of keeping the servers running grows beyond what I can sustain on
+            my own, I may eventually need to pass some of that cost on to users. What I can commit
+            to is this: I will always find a way to make Allylic free for those who cannot afford it,
+            regardless of what happens.
+          </p>
+
+          {/* AI Transparency */}
+          <h3
+            className="font-heading mb-4"
+            style={{ fontSize: "1rem", letterSpacing: "0.1em", color: "var(--oc-text)" }}
+          >
+            AI TRANSPARENCY
+          </h3>
+          <p className="text-base leading-relaxed mb-6" style={{ color: "var(--oc-text-muted)" }}>
+            AI tools, specifically Claude and Gemini, were used in the making of this website. As a
+            solo developer who works a day job, these tools made building Allylic possible in the
+            first place. I want to be upfront about that.
+          </p>
+          <p className="text-base leading-relaxed mb-6" style={{ color: "var(--oc-text-muted)" }}>
+            Using AI, while practical, comes with real ethical trade-offs that I think are worth
+            naming honestly.
+          </p>
+          <p className="text-base leading-relaxed mb-6" style={{ color: "var(--oc-text-muted)" }}>
+            Large language models require enormous amounts of energy to train, which has genuine
+            environmental consequences — raising energy prices for communities and in some cases
+            running on dirty power sources that harm air quality and health. An estimated third of
+            all new energy generation is expected to be used by large data centres, in part for
+            training AI. Beyond the environmental cost, these models were trained on vast amounts
+            of public data: photos posted to Instagram, answers written on Stack Overflow, posts
+            on Reddit, and countless other places where people shared their work and ideas openly.
+            When most people posted that content, they almost certainly did not expect it to become
+            training data for a machine that might one day replace them. I know I didn&apos;t. Many
+            would not have consented had they been asked. As a result, knowledge and creative work
+            that belonged to all of us has been quietly repackaged, decontextualised, and made private.
+          </p>
+          <p className="text-base leading-relaxed mb-6" style={{ color: "var(--oc-text-muted)" }}>
+            I chose to use these tools to build something I otherwise could not have built alone. I
+            want to be transparent about that choice. If Allylic ever becomes a business, I intend
+            to pay people to replace the parts that AI built where possible. And if knowing that AI
+            was involved in this project is a dealbreaker for you, I completely understand.
+          </p>
+          <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
+            Thank you for taking the time to read this ethics statement, you baller you!
+          </p>
+
         </div>
 
       </div>
