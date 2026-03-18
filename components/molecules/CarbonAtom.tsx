@@ -4,22 +4,25 @@ import { useRef, useMemo, createContext, useContext } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Trail } from "@react-three/drei";
 import * as THREE from "three";
+import { useTheme } from "@/contexts/ThemeContext";
 
 // ─── Highlight context ────────────────────────────────────────────────────────
 
 type Highlighted = "proton" | "neutron" | "electron" | null;
 const HighlightContext = createContext<Highlighted>(null);
 
-// ─── Colors ───────────────────────────────────────────────────────────────────
+// ─── Electron color context ───────────────────────────────────────────────────
 
-const PROTON_IDLE      = new THREE.Color("#ff4500");
-const PROTON_HI        = new THREE.Color("#ef5e38");
-const NEUTRON_IDLE     = new THREE.Color("#7a9ab0");
-const NEUTRON_HI       = new THREE.Color("#d8d8d8");
-const ELECTRON_IDLE    = "#a8d8ff";
-const ELECTRON_HI      = "#2a66a8";
-const ELECTRON_OUTER_IDLE = "#00e5ff";
-const ELECTRON_OUTER_HI   = "#2a66a8";
+interface ElectronColors { idle: string; outer: string; neutronIdle: string }
+const ElectronColorContext = createContext<ElectronColors>({ idle: "#a8d8ff", outer: "#00e5ff", neutronIdle: "#7a9ab0" });
+
+// ─── Static colors ────────────────────────────────────────────────────────────
+
+const PROTON_IDLE  = new THREE.Color("#ff4500");
+const PROTON_HI    = new THREE.Color("#ef5e38");
+const NEUTRON_IDLE = new THREE.Color("#7a9ab0");
+const NEUTRON_HI   = new THREE.Color("#d8d8d8");
+const ELECTRON_HI  = "#2a66a8";
 
 // ─── Electron ────────────────────────────────────────────────────────────────
 
@@ -27,6 +30,7 @@ function Electron({ radius, speed, phase, color, outerColor }: {
   radius: number; speed: number; phase: number; color: string; outerColor: string;
 }) {
   const highlighted = useContext(HighlightContext);
+  const electronColors = useContext(ElectronColorContext);
   const ref = useRef<THREE.Group>(null);
   const mat0 = useRef<THREE.MeshStandardMaterial>(null);
   const mat1 = useRef<THREE.MeshStandardMaterial>(null);
@@ -42,8 +46,8 @@ function Electron({ radius, speed, phase, color, outerColor }: {
 
     const isHi = highlighted === "electron";
 
-    const hiColor = outerColor ? ELECTRON_OUTER_HI : ELECTRON_HI;
-    const idleColor = outerColor ? ELECTRON_OUTER_IDLE : ELECTRON_IDLE;
+    const hiColor   = ELECTRON_HI;
+    const idleColor = outerColor ? electronColors.outer : electronColors.idle;
     targetColor.current.set(isHi ? hiColor : idleColor);
 
     for (const mat of [mat0, mat1, mat2]) {
@@ -132,9 +136,11 @@ const NUCLEONS: { pos: [number, number, number]; type: "proton" | "neutron" }[] 
 function Nucleon({ basePos, phase, type }: {
   basePos: [number, number, number]; phase: number; type: "proton" | "neutron";
 }) {
-  const highlighted = useContext(HighlightContext);
+  const highlighted    = useContext(HighlightContext);
+  const electronColors = useContext(ElectronColorContext);
+  const neutronIdleColor = new THREE.Color(electronColors.neutronIdle);
   const ref = useRef<THREE.Mesh>(null);
-  const lerpColor = useRef(new THREE.Color(type === "proton" ? PROTON_IDLE : NEUTRON_IDLE));
+  const lerpColor = useRef(new THREE.Color(type === "proton" ? PROTON_IDLE : neutronIdleColor));
 
   useFrame(({ clock }) => {
     if (!ref.current) return;
@@ -157,7 +163,7 @@ function Nucleon({ basePos, phase, type }: {
 
     const targetColor = isHi
       ? (type === "proton" ? PROTON_HI : NEUTRON_HI)
-      : (type === "proton" ? PROTON_IDLE : NEUTRON_IDLE);
+      : (type === "proton" ? PROTON_IDLE : neutronIdleColor);
 
     lerpColor.current.lerp(targetColor, 0.08);
     mat.color.copy(lerpColor.current);
@@ -165,12 +171,13 @@ function Nucleon({ basePos, phase, type }: {
     mat.emissiveIntensity = baseFlicker * brightMult;
   });
 
+  const initColor = type === "proton" ? "#ff4500" : electronColors.neutronIdle;
   return (
     <mesh ref={ref}>
       <sphereGeometry args={[0.1, 16, 16]} />
       <meshStandardMaterial
-        color={type === "proton" ? "#ff4500" : "#7a9ab0"}
-        emissive={type === "proton" ? "#ff4500" : "#7a9ab0"}
+        color={initColor}
+        emissive={initColor}
         emissiveIntensity={1.8}
         roughness={0.3}
         metalness={0.4}
@@ -210,7 +217,7 @@ function Nucleus() {
 
 // ─── Scene ────────────────────────────────────────────────────────────────────
 
-function CarbonScene() {
+function CarbonScene({ elIdle, elOuter }: { elIdle: string; elOuter: string }) {
   const groupRef = useRef<THREE.Group>(null);
   useFrame(({ clock }) => {
     if (groupRef.current) groupRef.current.rotation.y = clock.elapsedTime * 0.09;
@@ -220,10 +227,10 @@ function CarbonScene() {
       <group ref={groupRef}>
         <Nucleus />
         {/* K-shell: 2 electrons — slowed */}
-        <OrbitalShell radius={1.1} rotation={[0, 0, 0]} electronCount={2} speed={2.5} color={ELECTRON_IDLE} />
+        <OrbitalShell radius={1.1} rotation={[0, 0, 0]} electronCount={2} speed={2.5} color={elIdle} />
         {/* L-shell: 4 electrons across 2 rings — slowed */}
-        <OrbitalShell radius={1.9} rotation={[Math.PI / 4, 0, 0]}                       electronCount={2} speed={1.6} color={ELECTRON_OUTER_IDLE} outerColor={ELECTRON_OUTER_IDLE} />
-        <OrbitalShell radius={1.9} rotation={[-Math.PI / 3, Math.PI / 5, Math.PI / 4]}  electronCount={2} speed={1.2} color={ELECTRON_OUTER_IDLE} outerColor={ELECTRON_OUTER_IDLE} />
+        <OrbitalShell radius={1.9} rotation={[Math.PI / 4, 0, 0]}                       electronCount={2} speed={1.6} color={elOuter} outerColor={elOuter} />
+        <OrbitalShell radius={1.9} rotation={[-Math.PI / 3, Math.PI / 5, Math.PI / 4]}  electronCount={2} speed={1.2} color={elOuter} outerColor={elOuter} />
       </group>
     </group>
   );
@@ -232,20 +239,27 @@ function CarbonScene() {
 // ─── Export ───────────────────────────────────────────────────────────────────
 
 export function CarbonAtom({ highlighted = null }: { highlighted?: Highlighted }) {
+  const { theme } = useTheme();
+  const elIdle      = theme === "light" ? "#1a50c8" : "#a8d8ff";
+  const elOuter     = theme === "light" ? "#0070c0" : "#00e5ff";
+  const neutronIdle = theme === "light" ? "#909090" : "#7a9ab0";
+
   return (
     <HighlightContext.Provider value={highlighted}>
-      <Canvas
-        camera={{ position: [0, 0, 6.5], fov: 48 }}
-        style={{ background: "transparent" }}
-        gl={{ antialias: true, alpha: true }}
-      >
-        <ambientLight intensity={0.06} />
-        <pointLight position={[0, 0, 0]}    intensity={4}   color="#ff6622" decay={2} />
-        <pointLight position={[4, 4, 4]}    intensity={0.6} color="#00ff41" decay={2} />
-        <pointLight position={[-4, -2, -3]} intensity={0.3} color="#0055ff" decay={2} />
-        <CarbonScene />
-        <OrbitControls enableZoom={false} enablePan={false} rotateSpeed={0.5} />
-      </Canvas>
+      <ElectronColorContext.Provider value={{ idle: elIdle, outer: elOuter, neutronIdle }}>
+        <Canvas
+          camera={{ position: [0, 0, 6.5], fov: 48 }}
+          style={{ background: "transparent" }}
+          gl={{ antialias: true, alpha: true }}
+        >
+          <ambientLight intensity={0.06} />
+          <pointLight position={[0, 0, 0]}    intensity={4}   color="#ff6622" decay={2} />
+          <pointLight position={[4, 4, 4]}    intensity={0.6} color="#72b872" decay={2} />
+          <pointLight position={[-4, -2, -3]} intensity={0.3} color="#0055ff" decay={2} />
+          <CarbonScene elIdle={elIdle} elOuter={elOuter} />
+          <OrbitControls enableZoom={false} enablePan={false} rotateSpeed={0.5} />
+        </Canvas>
+      </ElectronColorContext.Provider>
     </HighlightContext.Provider>
   );
 }

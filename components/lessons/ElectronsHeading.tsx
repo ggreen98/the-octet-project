@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
+import { useTheme } from "@/contexts/ThemeContext";
 
 // Each orbit is a circle tilted in 3D, projected onto the screen.
 // `inc`  = inclination (0 = face-on circle, π/2 = edge-on line)
@@ -26,8 +27,14 @@ function project(angle: number, R: number, inc: number, rot: number) {
 export function ElectronsHeading() {
   const backRef  = useRef<HTMLCanvasElement>(null);
   const frontRef = useRef<HTMLCanvasElement>(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
+    const isLight    = theme === "light";
+    const trailRgb   = isLight ? "26, 80, 200"         : "168, 216, 255";
+    const glowColor  = isLight ? "rgba(20, 70, 190,"   : "rgba(100, 180, 255,";
+    const coreColor  = isLight ? "#1a50c8"             : "#e8f4ff";
+    const coreDim    = isLight ? "rgba(26, 80, 200, 0.5)" : "rgba(168, 216, 255, 0.5)";
     const back  = backRef.current;
     const front = frontRef.current;
     if (!back || !front) return;
@@ -66,7 +73,7 @@ export function ElectronsHeading() {
         bCtx!.rotate(o.rot);
         bCtx!.beginPath();
         bCtx!.ellipse(0, 0, o.R, o.R * Math.abs(Math.cos(o.inc)), 0, 0, Math.PI * 2);
-        bCtx!.strokeStyle = "rgba(0,255,65,0.07)";
+        bCtx!.strokeStyle = "rgba(114,184,114,0.07)";
         bCtx!.lineWidth = 0.6;
         bCtx!.stroke();
         bCtx!.restore();
@@ -90,15 +97,15 @@ export function ElectronsHeading() {
           const r     = 0.6 + prog * 1.8;
           bCtx!.beginPath();
           bCtx!.arc(p.x, p.y, r, 0, Math.PI * 2);
-          bCtx!.fillStyle = `rgba(168,216,255,${alpha})`;
+          bCtx!.fillStyle = `rgba(${trailRgb},${alpha})`;
           bCtx!.fill();
         });
 
         // Draw glow + core on the correct layer
         const ctx = isFront ? fCtx! : bCtx!;
         const glow = ctx.createRadialGradient(sx, sy, 0, sx, sy, 10);
-        glow.addColorStop(0, `rgba(100,180,255,${isFront ? 0.85 : 0.4})`);
-        glow.addColorStop(1, "rgba(100,180,255,0)");
+        glow.addColorStop(0, `${glowColor}${isFront ? 0.85 : 0.4})`);
+        glow.addColorStop(1, `${glowColor}0)`);
         ctx.beginPath();
         ctx.arc(sx, sy, 10, 0, Math.PI * 2);
         ctx.fillStyle = glow;
@@ -106,7 +113,7 @@ export function ElectronsHeading() {
 
         ctx.beginPath();
         ctx.arc(sx, sy, isFront ? 3 : 2, 0, Math.PI * 2);
-        ctx.fillStyle = isFront ? "#e8f4ff" : "rgba(168,216,255,0.5)";
+        ctx.fillStyle = isFront ? coreColor : coreDim;
         ctx.fill();
       });
 
@@ -115,7 +122,7 @@ export function ElectronsHeading() {
 
     draw();
     return () => cancelAnimationFrame(animId);
-  }, []);
+  }, [theme]);
 
   const canvasStyle: React.CSSProperties = {
     position: "absolute",
@@ -138,12 +145,12 @@ export function ElectronsHeading() {
         className="absolute inset-0 flex flex-col justify-center"
         style={{ zIndex: 1, pointerEvents: "none" }}
       >
-        <p className="text-xs tracking-widest mb-1" style={{ color: "rgba(0,255,65,0.45)" }}>
+        <p className="text-xs tracking-widest mb-1" style={{ color: "var(--oc-green-dim)" }}>
           // ELECTRONS
         </p>
         <h2
           className="font-heading"
-          style={{ fontSize: "clamp(1.4rem, 4vw, 2.2rem)", color: "#4499ff", letterSpacing: "0.05em" }}
+          style={{ fontSize: "clamp(1.4rem, 4vw, 2.2rem)", color: "var(--oc-blue)", letterSpacing: "0.05em" }}
         >
           THE ELECTRON
         </h2>

@@ -96,7 +96,7 @@ export function ProtonHeading() {
         className="absolute inset-0 flex flex-col justify-center"
         style={{ zIndex: 1, pointerEvents: "none", paddingLeft: "22%" }}
       >
-        <p className="text-xs tracking-widest mb-1" style={{ color: "rgba(0,255,65,0.45)" }}>
+        <p className="text-xs tracking-widest mb-1" style={{ color: "var(--oc-green-dim)" }}>
           // PROTONS
         </p>
         <h2

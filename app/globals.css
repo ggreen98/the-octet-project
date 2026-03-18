@@ -47,19 +47,89 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 
   /* Phosphor CRT Palette */
-  --color-phosphor: #00ff41;
-  --color-phosphor-dim: rgba(0, 255, 65, 0.45);
+  --color-phosphor: #72b872;
+  --color-phosphor-dim: rgba(114, 184, 114, 0.45);
   --color-amber: #ffb300;
   --color-cyan-glow: #00e5ff;
   --color-screen: #010d0a;
-  --color-screen-surface: rgba(0, 255, 65, 0.04);
-  --color-screen-border: rgba(0, 255, 65, 0.18);
+  --color-screen-surface: rgba(114, 184, 114, 0.04);
+  --color-screen-border: rgba(114, 184, 114, 0.18);
   --color-text-primary: #c8ffd4;
   --color-text-dim: rgba(200, 255, 212, 0.5);
 
   /* Fonts */
   --font-heading: var(--font-orbitron), sans-serif;
   --font-terminal: var(--font-share-mono), monospace;
+}
+
+/* ─── Octet Theme Variables ─────────────────────────────── */
+:root {
+  /* Dark mode (default) */
+  --oc-bg: #010d0a;
+  --oc-nav-bg: rgba(1, 13, 10, 0.88);
+  --oc-text: #c8e8ff;
+  --oc-text-sub: rgba(180, 215, 255, 0.6);
+  --oc-text-muted: rgba(200, 255, 212, 0.5);
+  --oc-text-dim: rgba(180, 215, 255, 0.35);
+  --oc-text-faint: rgba(180, 215, 255, 0.25);
+  --oc-text-hint: rgba(180, 215, 255, 0.18);
+  --oc-green: #72b872;
+  --oc-green-dim: rgba(114, 184, 114, 0.45);
+  --oc-green-subtle: rgba(114, 184, 114, 0.2);
+  --oc-green-border: rgba(114, 184, 114, 0.15);
+  --oc-green-border-dim: rgba(114, 184, 114, 0.1);
+  --oc-green-border-faint: rgba(114, 184, 114, 0.08);
+  --oc-green-bg: rgba(114, 184, 114, 0.04);
+  --oc-green-bg-surface: rgba(114, 184, 114, 0.03);
+  --oc-green-badge: rgba(114, 184, 114, 0.08);
+  --oc-blue: #4499ff;
+  --oc-blue-muted: #7bbfff;
+  --oc-amber: #ffb300;
+  --oc-btn-text: #010d0a;
+}
+
+[data-theme="light"] {
+  --oc-bg: #f0ede6;
+  --oc-nav-bg: rgba(240, 237, 230, 0.92);
+  --oc-text: #1a1f3c;
+  --oc-text-sub: rgba(26, 31, 60, 0.65);
+  --oc-text-muted: rgba(26, 31, 60, 0.55);
+  --oc-text-dim: rgba(26, 31, 60, 0.45);
+  --oc-text-faint: rgba(26, 31, 60, 0.3);
+  --oc-text-hint: rgba(26, 31, 60, 0.2);
+  --oc-green: #2a6a2a;
+  --oc-green-dim: rgba(42, 106, 42, 0.55);
+  --oc-green-subtle: rgba(42, 106, 42, 0.25);
+  --oc-green-border: rgba(42, 106, 42, 0.2);
+  --oc-green-border-dim: rgba(42, 106, 42, 0.15);
+  --oc-green-border-faint: rgba(42, 106, 42, 0.1);
+  --oc-green-bg: rgba(42, 106, 42, 0.05);
+  --oc-green-bg-surface: rgba(42, 106, 42, 0.04);
+  --oc-green-badge: rgba(42, 106, 42, 0.08);
+  --oc-blue: #1a5fc8;
+  --oc-blue-muted: #2a6fd8;
+  --oc-amber: #a06400;
+  --oc-nav-bg-home: rgba(240, 237, 230, 0.07);
+  --oc-btn-text: #ffffff;
+}
+
+/* Light mode: tone down CRT effects */
+[data-theme="light"] .scanlines::before {
+  display: none;
+}
+[data-theme="light"] .glow,
+[data-theme="light"] .glow-blue,
+[data-theme="light"] .glow-amber,
+[data-theme="light"] .glow-subtle {
+  text-shadow: none;
+}
+[data-theme="light"] .crt-card {
+  background: rgba(42, 106, 42, 0.03);
+  border-color: rgba(42, 106, 42, 0.18);
+}
+[data-theme="light"] .crt-card::before,
+[data-theme="light"] .crt-card::after {
+  border-color: #2a6a2a;
 }
 
 /* shadcn base vars */
@@ -105,8 +175,8 @@
   }
 
   body {
-    background-color: #010d0a;
-    color: #c8ffd4;
+    background-color: var(--oc-bg);
+    color: var(--oc-text);
     font-family: var(--font-share-mono), "Share Tech Mono", monospace;
     overflow-x: hidden;
   }
@@ -131,16 +201,16 @@
 /* ─── Grid Background ───────────────────────────────────── */
 .grid-bg {
   background-image: linear-gradient(
-      rgba(0, 255, 65, 0.025) 1px,
+      rgba(114, 184, 114, 0.025) 1px,
       transparent 1px
     ),
-    linear-gradient(90deg, rgba(0, 255, 65, 0.025) 1px, transparent 1px);
+    linear-gradient(90deg, rgba(114, 184, 114, 0.025) 1px, transparent 1px);
   background-size: 44px 44px;
 }
 
 /* ─── Phosphor Glow ─────────────────────────────────────── */
 .glow {
-  text-shadow: 0 0 6px #00ff41, 0 0 14px #00ff41, 0 0 28px rgba(0, 255, 65, 0.5);
+  text-shadow: 0 0 6px #72b872, 0 0 14px #72b872, 0 0 28px rgba(114, 184, 114, 0.5);
 }
 
 .glow-amber {
@@ -148,7 +218,7 @@
 }
 
 .glow-subtle {
-  text-shadow: 0 0 10px rgba(0, 255, 65, 0.4);
+  text-shadow: 0 0 10px rgba(114, 184, 114, 0.4);
 }
 
 .glow-blue {
@@ -158,8 +228,8 @@
 /* ─── CRT Corner Brackets ───────────────────────────────── */
 .crt-card {
   position: relative;
-  background: rgba(0, 255, 65, 0.03);
-  border: 1px solid rgba(0, 255, 65, 0.15);
+  background: rgba(114, 184, 114, 0.03);
+  border: 1px solid rgba(114, 184, 114, 0.15);
 }
 
 .crt-card::before,
@@ -168,7 +238,7 @@
   position: absolute;
   width: 14px;
   height: 14px;
-  border-color: #00ff41;
+  border-color: #72b872;
   border-style: solid;
   opacity: 0.7;
 }
@@ -246,10 +316,10 @@
 @keyframes pulse-glow {
   0%,
   100% {
-    box-shadow: 0 0 6px rgba(0, 255, 65, 0.3), 0 0 20px rgba(0, 255, 65, 0.1);
+    box-shadow: 0 0 6px rgba(114, 184, 114, 0.3), 0 0 20px rgba(114, 184, 114, 0.1);
   }
   50% {
-    box-shadow: 0 0 12px rgba(0, 255, 65, 0.5), 0 0 40px rgba(0, 255, 65, 0.2);
+    box-shadow: 0 0 12px rgba(114, 184, 114, 0.5), 0 0 40px rgba(114, 184, 114, 0.2);
   }
 }
 
@@ -299,6 +369,15 @@
   animation: pulse-glow 3s ease-in-out infinite;
 }
 
+@keyframes pulse-glow-amber {
+  0%, 100% { box-shadow: 0 0 8px rgba(255, 160, 20, 0.7), 0 0 24px rgba(255, 100, 0, 0.4), 0 0 48px rgba(255, 80, 0, 0.15); }
+  50%       { box-shadow: 0 0 16px rgba(255, 180, 30, 1.0), 0 0 40px rgba(255, 120, 0, 0.65), 0 0 70px rgba(255, 80, 0, 0.3); }
+}
+
+.animate-pulse-glow-amber {
+  animation: pulse-glow-amber 3s ease-in-out infinite;
+}
+
 /* Boot scan line */
 .boot-scan {
   position: fixed;
@@ -308,7 +387,7 @@
   background: linear-gradient(
     to bottom,
     transparent 0%,
-    rgba(0, 255, 65, 0.06) 50%,
+    rgba(68, 153, 255, 0.08) 50%,
     transparent 100%
   );
   background-size: 100% 80px;
@@ -320,7 +399,7 @@
   overflow: hidden;
   white-space: nowrap;
   animation: type-in 1.4s steps(36, end) 0.5s both;
-  border-right: 2px solid #00ff41;
+  border-right: 2px solid #72b872;
   animation-name: type-in, blink;
   animation-duration: 1.4s, 0.8s;
   animation-timing-function: steps(36, end), step-end;
@@ -333,6 +412,57 @@
 .bar-fill {
   animation: slide-right 1.2s ease both;
 }
+
+/* ─── Amber flicker variants ────────────────────────────── */
+@keyframes amber-flicker-1 {
+  0%,  18%  { opacity: 1;    }
+  19%       { opacity: 0.55; }
+  20%       { opacity: 1;    }
+  21%       { opacity: 0.7;  }
+  22%,  58% { opacity: 1;    }
+  59%       { opacity: 0.4;  }
+  60%       { opacity: 1;    }
+  61%       { opacity: 0.85; }
+  62%, 100% { opacity: 1;    }
+}
+
+@keyframes amber-flicker-2 {
+  0%,  34%  { opacity: 1;    }
+  35%       { opacity: 0.6;  }
+  36%       { opacity: 0.9;  }
+  37%       { opacity: 0.45; }
+  38%,  71% { opacity: 1;    }
+  72%       { opacity: 0.7;  }
+  73%       { opacity: 1;    }
+  74%       { opacity: 0.5;  }
+  75%, 100% { opacity: 1;    }
+}
+
+.flicker-amber-1 { animation: amber-flicker-1 7s ease-in-out infinite; }
+.flicker-amber-2 { animation: amber-flicker-2 9s ease-in-out infinite; }
+
+/* ─── Nav title spark glow ──────────────────────────────── */
+@keyframes spark-glow {
+  /* Long resting glow */
+  0%,  52% { color: #ffb830; text-shadow: 0 0 6px rgba(255,160,20,0.55), 0 0 14px rgba(255,120,0,0.28); }
+  /* Spark 1 */
+  54%       { color: #fff5c0; text-shadow: 0 0 2px #fff, 0 0 10px #ffe066, 0 0 28px #ff8800, 0 0 55px rgba(255,100,0,0.6); }
+  55%       { color: #ffb830; text-shadow: 0 0 6px rgba(255,160,20,0.55), 0 0 14px rgba(255,120,0,0.28); }
+  /* Quiet */
+  56%, 74%  { color: #ffb830; text-shadow: 0 0 6px rgba(255,160,20,0.55), 0 0 14px rgba(255,120,0,0.28); }
+  /* Spark 2 — double flash */
+  75%       { color: #fff8d0; text-shadow: 0 0 2px #fff, 0 0 12px #ffd040, 0 0 32px #ff7000, 0 0 60px rgba(255,80,0,0.5); }
+  76%       { color: #ffb830; text-shadow: 0 0 6px rgba(255,160,20,0.55), 0 0 14px rgba(255,120,0,0.28); }
+  77%       { color: #ffe090; text-shadow: 0 0 4px #ffdd60, 0 0 18px #ff9000, 0 0 38px rgba(255,100,0,0.4); }
+  78%       { color: #ffb830; text-shadow: 0 0 6px rgba(255,160,20,0.55), 0 0 14px rgba(255,120,0,0.28); }
+  /* Quiet to end */
+  79%, 100% { color: #ffb830; text-shadow: 0 0 6px rgba(255,160,20,0.55), 0 0 14px rgba(255,120,0,0.28); }
+}
+
+.nav-title-spark {
+  animation: spark-glow 6s ease-in-out infinite;
+}
+
 
 /* Font helpers */
 .font-heading {

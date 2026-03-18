@@ -31,16 +31,16 @@ export function DictionaryClient({ terms }: { terms: Term[] }) {
           onChange={(e) => setSearch(e.target.value)}
           className="w-full font-terminal text-sm px-4 py-3 outline-none"
           style={{
-            background: "rgba(0,255,65,0.03)",
-            border: "1px solid rgba(0,255,65,0.15)",
+            background: "var(--oc-green-bg-surface)",
+            border: "1px solid var(--oc-green-border)",
             borderRadius: "4px",
-            color: "#c8e8ff",
-            caretColor: "#00ff41",
+            color: "var(--oc-text)",
+            caretColor: "var(--oc-green)",
           }}
         />
         <span
           className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-heading"
-          style={{ color: "rgba(0,255,65,0.3)", letterSpacing: "0.1em" }}
+          style={{ color: "var(--oc-green-dim)", letterSpacing: "0.1em" }}
         >
           {filtered.length} RESULT{filtered.length !== 1 ? "S" : ""}
         </span>
@@ -54,9 +54,9 @@ export function DictionaryClient({ terms }: { terms: Term[] }) {
             onClick={() => setActiveCategory(cat)}
             className="font-heading text-xs px-3 py-1 transition-all duration-150"
             style={{
-              border: `1px solid ${activeCategory === cat ? "rgba(68,153,255,0.6)" : "rgba(0,255,65,0.15)"}`,
+              border: `1px solid ${activeCategory === cat ? "rgba(68,153,255,0.6)" : "var(--oc-green-border)"}`,
               background: activeCategory === cat ? "rgba(68,153,255,0.1)" : "transparent",
-              color: activeCategory === cat ? "#4499ff" : "rgba(0,255,65,0.45)",
+              color: activeCategory === cat ? "var(--oc-blue)" : "var(--oc-green-dim)",
               borderRadius: "4px",
               letterSpacing: "0.1em",
               cursor: "pointer",
@@ -68,9 +68,9 @@ export function DictionaryClient({ terms }: { terms: Term[] }) {
       </div>
 
       {/* Terms */}
-      <div className="flex flex-col gap-px" style={{ borderTop: "1px solid rgba(0,255,65,0.08)" }}>
+      <div className="flex flex-col gap-px" style={{ borderTop: "1px solid var(--oc-green-border-faint)" }}>
         {filtered.length === 0 && (
-          <p className="py-12 text-center text-sm" style={{ color: "rgba(200,255,212,0.3)" }}>
+          <p className="py-12 text-center text-sm" style={{ color: "var(--oc-text-faint)" }}>
             No terms found.
           </p>
         )}
@@ -79,21 +79,21 @@ export function DictionaryClient({ terms }: { terms: Term[] }) {
             key={t.id}
             id={t.id}
             className="py-6"
-            style={{ borderBottom: "1px solid rgba(0,255,65,0.08)" }}
+            style={{ borderBottom: "1px solid var(--oc-green-border-faint)" }}
           >
             <div className="flex items-baseline gap-4 mb-3 flex-wrap">
               <h2
                 className="font-heading"
-                style={{ fontSize: "1.1rem", color: "#c8e8ff", letterSpacing: "0.05em" }}
+                style={{ fontSize: "1.1rem", color: "var(--oc-text)", letterSpacing: "0.05em" }}
               >
                 {t.term}
               </h2>
               <span
                 className="font-heading text-xs px-2 py-0.5"
                 style={{
-                  background: "rgba(68,153,255,0.08)",
-                  color: "rgba(68,153,255,0.6)",
-                  border: "1px solid rgba(68,153,255,0.15)",
+                  background: "var(--oc-green-badge)",
+                  color: "var(--oc-blue-muted)",
+                  border: "1px solid rgba(68,153,255,0.2)",
                   borderRadius: "2px",
                   letterSpacing: "0.1em",
                 }}
@@ -101,12 +101,12 @@ export function DictionaryClient({ terms }: { terms: Term[] }) {
                 {t.category.toUpperCase()}
               </span>
             </div>
-            <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(200,255,212,0.55)", maxWidth: "680px" }}>
+            <p className="text-sm leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)", maxWidth: "680px" }}>
               {t.definition}
             </p>
             {t.related.length > 0 && (
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-xs" style={{ color: "rgba(0,255,65,0.35)", letterSpacing: "0.08em" }}>
+                <span className="text-xs" style={{ color: "var(--oc-text-dim)", letterSpacing: "0.08em" }}>
                   SEE ALSO:
                 </span>
                 {t.related.map((r) => {
@@ -117,9 +117,9 @@ export function DictionaryClient({ terms }: { terms: Term[] }) {
                       key={r}
                       href={`#${r}`}
                       className="text-xs font-heading transition-colors duration-150"
-                      style={{ color: "rgba(68,153,255,0.6)", letterSpacing: "0.08em", textDecoration: "none" }}
-                      onMouseEnter={(e) => (e.currentTarget.style.color = "#4499ff")}
-                      onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(68,153,255,0.6)")}
+                      style={{ color: "var(--oc-blue-muted)", letterSpacing: "0.08em", textDecoration: "none" }}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = "var(--oc-blue)")}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = "var(--oc-blue-muted)")}
                     >
                       {related.term}
                     </a>

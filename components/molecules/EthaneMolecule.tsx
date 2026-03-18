@@ -119,7 +119,7 @@ export function EthaneMolecule() {
     >
       <ambientLight intensity={0.2} />
       <pointLight position={[4, 4, 4]}   intensity={1.5} color="#aaccff" decay={2} />
-      <pointLight position={[-3, -2, -2]} intensity={0.8} color="#00ff41" decay={2} />
+      <pointLight position={[-3, -2, -2]} intensity={0.8} color="#72b872" decay={2} />
       <EthaneScene />
     </Canvas>
   );

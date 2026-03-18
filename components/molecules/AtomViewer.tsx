@@ -5,6 +5,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Trail } from "@react-three/drei";
 import * as THREE from "three";
 import { getElectronShells, getNeutrons, ELEMENT_BY_Z } from "@/data/elements";
+import { useTheme } from "@/contexts/ThemeContext";
 
 // ─── Fibonacci sphere — distribute n points evenly on a sphere ────────────────
 
@@ -22,10 +23,11 @@ function fibSphere(n: number, radius: number): [number, number, number][] {
 
 // ─── Nucleon ──────────────────────────────────────────────────────────────────
 
-function Nucleon({ pos, type, phase }: {
+function Nucleon({ pos, type, phase, neutronColor }: {
   pos: [number, number, number];
   type: "proton" | "neutron";
   phase: number;
+  neutronColor: string;
 }) {
   const ref = useRef<THREE.Mesh>(null);
 
@@ -41,7 +43,7 @@ function Nucleon({ pos, type, phase }: {
     mat.emissiveIntensity = 1.6 + Math.sin(t * 3.7 + phase * 2.1) * 0.3 + Math.sin(t * 11 + phase) * 0.12;
   });
 
-  const color = type === "proton" ? "#ff4500" : "#7a9ab0";
+  const color = type === "proton" ? "#ff4500" : neutronColor;
   return (
     <mesh ref={ref}>
       <sphereGeometry args={[0.1, 12, 12]} />
@@ -52,7 +54,7 @@ function Nucleon({ pos, type, phase }: {
 
 // ─── Nucleus ──────────────────────────────────────────────────────────────────
 
-function Nucleus({ protons, neutrons }: { protons: number; neutrons: number }) {
+function Nucleus({ protons, neutrons, neutronColor }: { protons: number; neutrons: number; neutronColor: string }) {
   const clusterRef = useRef<THREE.Group>(null);
   const glowRef    = useRef<THREE.Mesh>(null);
 
@@ -63,13 +65,24 @@ function Nucleus({ protons, neutrons }: { protons: number; neutrons: number }) {
 
   const nucleons = useMemo(() => {
     const positions = fibSphere(visualCap, nucleusRadius);
-    // Interleave protons and neutrons for even visual distribution
+    // Scale proton count proportionally to visualCap, then distribute evenly
+    // using Bresenham's line algorithm so protons are spread across the sphere
+    const visProtons = totalNucleons > 0 ? Math.round(protons * (visualCap / totalNucleons)) : 0;
+    const types: ("proton" | "neutron")[] = new Array(visualCap).fill("neutron");
+    let err = 0;
+    for (let i = 0; i < visualCap; i++) {
+      err += visProtons;
+      if (err >= visualCap) {
+        types[i] = "proton";
+        err -= visualCap;
+      }
+    }
     return positions.map((pos, i) => ({
       pos,
-      type: i % 2 === 0 ? "proton" : "neutron" as "proton" | "neutron",
+      type: types[i],
       phase: i * 1.3,
     }));
-  }, [visualCap, nucleusRadius]);
+  }, [visualCap, nucleusRadius, protons, neutrons, totalNucleons]);
 
   const glowRadius = nucleusRadius + 0.32;
 
@@ -96,7 +109,7 @@ function Nucleus({ protons, neutrons }: { protons: number; neutrons: number }) {
       </mesh>
       <group ref={clusterRef}>
         {nucleons.map((n, i) => (
-          <Nucleon key={i} pos={n.pos} type={n.type} phase={n.phase} />
+          <Nucleon key={i} pos={n.pos} type={n.type} phase={n.phase} neutronColor={neutronColor} />
         ))}
       </group>
     </group>
@@ -145,12 +158,10 @@ const SHELL_TILTS: [number, number, number][] = [
   [-Math.PI / 4, -Math.PI / 3,  Math.PI / 2],
 ];
 
-const SHELL_COLORS = ["#a8d8ff", "#00e5ff", "#a8d8ff", "#00e5ff"];
-
-function OrbitalShell({ shellIndex, radius, electronCount, speed }: {
-  shellIndex: number; radius: number; electronCount: number; speed: number;
+function OrbitalShell({ shellIndex, radius, electronCount, speed, shellColors }: {
+  shellIndex: number; radius: number; electronCount: number; speed: number; shellColors: string[];
 }) {
-  const color  = SHELL_COLORS[shellIndex % SHELL_COLORS.length];
+  const color = shellColors[shellIndex % shellColors.length];
   // Shorten trails for dense shells so they don't merge into a solid blob
   const trailLength = electronCount <= 4 ? 8 : electronCount <= 8 ? 6 : electronCount <= 16 ? 4 : 3;
   const phases = useMemo(
@@ -173,7 +184,7 @@ function OrbitalShell({ shellIndex, radius, electronCount, speed }: {
 const SHELL_RADII  = [0.90, 1.55, 2.20, 2.90, 3.60, 4.35, 5.10];
 const SHELL_SPEEDS = [2.4,  1.5,  1.0,  0.65, 0.42, 0.28, 0.18];
 
-function AtomScene({ z }: { z: number }) {
+function AtomScene({ z, shellColors, neutronColor }: { z: number; shellColors: string[]; neutronColor: string }) {
   const el       = ELEMENT_BY_Z.get(z);
   const neutrons = el ? getNeutrons(el) : Math.round(z * 1.2);
   const shells   = getElectronShells(z);
@@ -186,7 +197,7 @@ function AtomScene({ z }: { z: number }) {
   return (
     <group rotation={[Math.PI / 5, Math.PI / 4, 0]}>
       <group ref={groupRef}>
-        <Nucleus protons={z} neutrons={neutrons} />
+        <Nucleus protons={z} neutrons={neutrons} neutronColor={neutronColor} />
         {shells.map((count, i) => (
           <OrbitalShell
             key={i}
@@ -194,6 +205,7 @@ function AtomScene({ z }: { z: number }) {
             radius={SHELL_RADII[i]}
             electronCount={count}
             speed={SHELL_SPEEDS[i]}
+            shellColors={shellColors}
           />
         ))}
       </group>
@@ -211,8 +223,13 @@ function getCameraZ(shellCount: number): number {
 // ─── Export ───────────────────────────────────────────────────────────────────
 
 export function AtomViewer({ z }: { z: number }) {
-  const shells   = getElectronShells(z);
-  const cameraZ  = getCameraZ(shells.length);
+  const shells  = getElectronShells(z);
+  const cameraZ = getCameraZ(shells.length);
+  const { theme } = useTheme();
+  const shellColors = theme === "light"
+    ? ["#1a50c8", "#0070c0", "#1a50c8", "#0070c0"]
+    : ["#a8d8ff", "#00e5ff", "#a8d8ff", "#00e5ff"];
+  const neutronColor = theme === "light" ? "#909090" : "#7a9ab0";
 
   return (
     <Canvas
@@ -222,9 +239,9 @@ export function AtomViewer({ z }: { z: number }) {
     >
       <ambientLight intensity={0.06} />
       <pointLight position={[0, 0, 0]}    intensity={4}   color="#ff6622" decay={2} />
-      <pointLight position={[4, 4, 4]}    intensity={0.6} color="#00ff41" decay={2} />
+      <pointLight position={[4, 4, 4]}    intensity={0.6} color="#72b872" decay={2} />
       <pointLight position={[-4, -2, -3]} intensity={0.3} color="#0055ff" decay={2} />
-      <AtomScene z={z} />
+      <AtomScene z={z} shellColors={shellColors} neutronColor={neutronColor} />
       <OrbitControls enableZoom={false} enablePan={false} rotateSpeed={0.5} />
     </Canvas>
   );

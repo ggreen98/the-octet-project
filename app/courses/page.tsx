@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 export const metadata = {
   title: "Courses — The Octet Project",
@@ -63,35 +64,35 @@ const courses = [
 ];
 
 const statusColor = {
-  COMPLETE: "#00ff41",
-  ACTIVE: "#ffb300",
-  LOCKED: "rgba(180, 215, 255, 0.18)",
+  COMPLETE: "var(--oc-green)",
+  ACTIVE: "var(--oc-amber)",
+  LOCKED: "var(--oc-text-hint)",
 };
 
 const titleColor = {
-  COMPLETE: "rgba(180, 215, 255, 0.75)",
-  ACTIVE: "#7bbfff",
-  LOCKED: "rgba(180, 215, 255, 0.25)",
+  COMPLETE: "var(--oc-text-sub)",
+  ACTIVE: "var(--oc-blue-muted)",
+  LOCKED: "var(--oc-text-faint)",
 };
 
 export default function CoursesPage() {
   return (
     <main
       className="scanlines font-terminal min-h-screen overflow-x-hidden"
-      style={{ backgroundColor: "#010d0a", color: "#c8e8ff" }}
+      style={{ backgroundColor: "var(--oc-bg)", color: "var(--oc-text)" }}
     >
       {/* ── NAV ─────────────────────────────────────────── */}
       <nav
         className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 h-14"
         style={{
-          background: "rgba(1, 13, 10, 0.88)",
+          background: "var(--oc-nav-bg)",
           backdropFilter: "blur(12px)",
-          borderBottom: "1px solid rgba(0, 255, 65, 0.1)",
+          borderBottom: "1px solid var(--oc-green-border-dim)",
         }}
       >
         <Link href="/" className="flex items-center gap-2">
-          <span className="text-xl font-heading" style={{ color: "#00ff41" }}>⬡</span>
-          <span className="font-heading text-sm hidden sm:block" style={{ color: "#c8e8ff", letterSpacing: "0.2em" }}>
+          <span className="text-xl font-heading" style={{ color: "var(--oc-green)" }}>⬡</span>
+          <span className="font-heading text-sm hidden sm:block" style={{ color: "var(--oc-text)", letterSpacing: "0.2em" }}>
             THE OCTET PROJECT
           </span>
         </Link>
@@ -102,20 +103,23 @@ export default function CoursesPage() {
               key={label}
               href={href}
               className="transition-colors duration-200"
-              style={{ color: label === "COURSES" ? "#00ff41" : "rgba(180, 215, 255, 0.45)" }}
+              style={{ color: label === "COURSES" ? "var(--oc-green)" : "var(--oc-text-dim)" }}
             >
               {label}
             </Link>
           ))}
         </div>
 
-        <Link
-          href="/signup"
-          className="font-heading text-xs px-4 py-2 transition-all duration-200"
-          style={{ background: "#4499ff", color: "#010d0a", letterSpacing: "0.15em" }}
-        >
-          START FREE ▶
-        </Link>
+        <div className="flex items-center gap-3">
+          <ThemeToggle />
+          <Link
+            href="/signup"
+            className="font-heading text-xs px-4 py-2 transition-all duration-200"
+            style={{ background: "var(--oc-blue)", color: "var(--oc-btn-text)", letterSpacing: "0.15em" }}
+          >
+            START FREE ▶
+          </Link>
+        </div>
       </nav>
 
       {/* ── PAGE CONTENT ────────────────────────────────── */}
@@ -123,16 +127,16 @@ export default function CoursesPage() {
 
         {/* Header */}
         <div className="mb-14 animate-fade-up" style={{ animationFillMode: "both" }}>
-          <p className="text-xs tracking-widest mb-3" style={{ color: "rgba(0, 255, 65, 0.45)" }}>
+          <p className="text-xs tracking-widest mb-3" style={{ color: "var(--oc-green-dim)" }}>
             // AVAILABLE COURSES
           </p>
           <h1
             className="font-heading text-3xl md:text-5xl mb-4"
-            style={{ color: "#c8e8ff", letterSpacing: "-0.02em" }}
+            style={{ color: "var(--oc-text)", letterSpacing: "-0.02em" }}
           >
             THE CURRICULUM
           </h1>
-          <p className="text-sm max-w-xl" style={{ color: "rgba(200, 255, 212, 0.5)" }}>
+          <p className="text-sm max-w-xl" style={{ color: "var(--oc-text-muted)" }}>
             Each course is broken into focused lessons. Work through them in order or jump to what you need.
           </p>
         </div>
@@ -153,7 +157,7 @@ export default function CoursesPage() {
               >
                 {/* Top row */}
                 <div className="flex items-start justify-between">
-                  <span className="font-heading text-xs" style={{ color: "rgba(0, 255, 65, 0.3)" }}>
+                  <span className="font-heading text-xs" style={{ color: "var(--oc-green-dim)" }}>
                     {course.id}
                   </span>
                   <span
@@ -173,32 +177,32 @@ export default function CoursesPage() {
                 </h2>
 
                 {/* Description */}
-                <p className="text-sm leading-relaxed flex-1" style={{ color: "rgba(180, 215, 255, 0.5)" }}>
+                <p className="text-sm leading-relaxed flex-1" style={{ color: "var(--oc-text-sub)" }}>
                   {course.description}
                 </p>
 
                 {/* Footer */}
-                <div className="flex items-center justify-between pt-2" style={{ borderTop: "1px solid rgba(0, 255, 65, 0.08)" }}>
-                  <span className="text-xs" style={{ color: "rgba(0, 255, 65, 0.3)", fontSize: "0.6rem", letterSpacing: "0.1em" }}>
+                <div className="flex items-center justify-between pt-2" style={{ borderTop: "1px solid var(--oc-green-border-faint)" }}>
+                  <span className="text-xs" style={{ color: "var(--oc-green-dim)", fontSize: "0.6rem", letterSpacing: "0.1em" }}>
                     {course.lessons} LESSONS
                   </span>
 
                   {!isLocked && (
                     <div className="flex items-center gap-3">
-                      <div className="w-20 h-px" style={{ background: "rgba(0,255,65,0.12)" }}>
+                      <div className="w-20 h-px" style={{ background: "var(--oc-green-subtle)" }}>
                         <div
                           className="h-full"
-                          style={{ width: `${course.progress}%`, background: course.progress === 100 ? "#00ff41" : "rgba(0,255,65,0.45)" }}
+                          style={{ width: `${course.progress}%`, background: course.progress === 100 ? "var(--oc-green)" : "var(--oc-green-dim)" }}
                         />
                       </div>
-                      <span className="text-xs" style={{ color: "rgba(0,255,65,0.35)", fontSize: "0.6rem" }}>
+                      <span className="text-xs" style={{ color: "var(--oc-text-dim)", fontSize: "0.6rem" }}>
                         {course.progress}%
                       </span>
                     </div>
                   )}
 
                   {isLocked && (
-                    <span className="text-xs" style={{ color: "rgba(180, 215, 255, 0.18)", fontSize: "0.6rem", letterSpacing: "0.1em" }}>
+                    <span className="text-xs" style={{ color: "var(--oc-text-hint)", fontSize: "0.6rem", letterSpacing: "0.1em" }}>
                       LOCKED
                     </span>
                   )}

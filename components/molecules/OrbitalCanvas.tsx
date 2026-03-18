@@ -13,7 +13,7 @@ const ElectronOrbital = dynamic(
       <div className="w-full h-full flex items-center justify-center">
         <span
           className="font-terminal text-sm animate-blink"
-          style={{ color: "#00ff41" }}
+          style={{ color: "#72b872" }}
         >
           RENDERING...
         </span>

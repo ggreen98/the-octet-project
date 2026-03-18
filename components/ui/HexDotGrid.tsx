@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 
 const HEX_SIZE = 20;       // distance between hex centres (px)
-const DOT_RADIUS = 1.6;    // dot draw radius (px)
+const DOT_RADIUS = 4.0;    // dot draw radius (px)
 const SQRT3 = Math.sqrt(3);
 
 interface Dot {
@@ -28,11 +28,11 @@ function buildDots(w: number, h: number): Dot[] {
   const cols = Math.ceil(w / colW) + 2;
   const rows = Math.ceil(h / rowH) + 2;
   const dots: Dot[] = [];
-  for (let row = -1; row < rows; row++) {
+  for (let row = -2; row < rows; row++) {
     for (let col = -1; col < cols; col++) {
       dots.push({
         x: colW * col + (row % 2 === 0 ? 0 : colW / 2),
-        y: rowH * row,
+        y: rowH * row + DOT_RADIUS, // offset so top row's topmost vertex sits at y=0
       });
     }
   }
@@ -69,30 +69,36 @@ export function HexDotGrid() {
 
         let red: number, green: number, blue: number, alpha: number;
 
-        if (hd < 1.5) {
-          // Core hex cell — bright blue
-          const t = 1 - hd / 1.5;
-          alpha  = 0.1 + t * 0.75;
-          red    = Math.round(20  + t * 40);
-          green  = Math.round(100 + t * 100);
-          blue   = 255;
-        } else if (hd < 3.2) {
-          // Surrounding ring — fade out
-          const t = 1 - (hd - 1.5) / 1.7;
-          alpha  = 0.1 + t * 0.3;
-          red    = 0;
-          green  = Math.round(60  + t * 100);
-          blue   = Math.round(200 + t * 55);
+        if (hd < 2.2) {
+          // Core hex cell — light yellow-orange
+          const t = 1 - hd / 2.2;
+          alpha  = 0.15 + t * 0.7;
+          red    = 255;
+          green  = Math.round(160 + t * 60);
+          blue   = Math.round(t * 20);
+        } else if (hd < 5.0) {
+          // Surrounding ring — fade to amber
+          const t = 1 - (hd - 2.2) / 2.8;
+          alpha  = 0.08 + t * 0.28;
+          red    = 255;
+          green  = Math.round(100 + t * 80);
+          blue   = 0;
         } else {
-          // Resting state — very dim phosphor
-          alpha  = 0.09;
-          red    = 0;
-          green  = 180;
-          blue   = 70;
+          // Resting state — dark blue
+          alpha  = 0.12;
+          red    = 15;
+          green  = 30;
+          blue   = 90;
         }
 
         ctx.beginPath();
-        ctx.arc(dot.x, dot.y, DOT_RADIUS, 0, Math.PI * 2);
+        for (let s = 0; s < 6; s++) {
+          const a = (Math.PI / 3) * s - Math.PI / 6; // flat-top orientation
+          const vx = dot.x + DOT_RADIUS * Math.cos(a);
+          const vy = dot.y + DOT_RADIUS * Math.sin(a);
+          s === 0 ? ctx.moveTo(vx, vy) : ctx.lineTo(vx, vy);
+        }
+        ctx.closePath();
         ctx.fillStyle = `rgba(${red},${green},${blue},${alpha})`;
         ctx.fill();
       }

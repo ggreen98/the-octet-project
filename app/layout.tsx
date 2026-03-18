@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Orbitron, Share_Tech_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 import "./globals.css";
 
 const orbitron = Orbitron({
@@ -28,8 +29,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${orbitron.variable} ${shareTechMono.variable} antialiased`}>
-        {children}
-        <Analytics />
+        <ThemeProvider>
+          {children}
+          <Analytics />
+        </ThemeProvider>
       </body>
     </html>
   );

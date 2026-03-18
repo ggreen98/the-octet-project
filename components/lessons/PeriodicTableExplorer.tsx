@@ -50,11 +50,11 @@ function ElementCell({
       style={{
         position: "relative",
         width: "100%",
-        aspectRatio: "44 / 48",
-        border: `1px solid ${isHovered ? color : "rgba(0,255,65,0.1)"}`,
+        aspectRatio: "44 / 58",
+        border: `1px solid ${isHovered ? color : "rgba(114,184,114,0.1)"}`,
         background: isHovered
           ? `rgba(${hexToRgb(color)}, 0.12)`
-          : "rgba(0,255,65,0.02)",
+          : "rgba(114,184,114,0.02)",
         borderRadius: "2px",
         cursor: "pointer",
         transition: "border-color 0.15s, background 0.15s",
@@ -63,15 +63,15 @@ function ElementCell({
       }}
     >
       <CellOrbitals color={color} />
-      <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", padding: "2px" }}>
-        <span style={{ fontSize: "9px", color: "rgba(200,232,255,0.35)", lineHeight: 1, alignSelf: "flex-end", paddingRight: "2px" }}>
+      <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-between", height: "100%", padding: "2px 2px 3px" }}>
+        <span style={{ fontSize: "11px", color: "var(--oc-text-dim)", lineHeight: 1, alignSelf: "flex-end", paddingRight: "2px" }}>
           {el.z}
         </span>
-        <span style={{ fontSize: "15px", fontFamily: "var(--font-heading, monospace)", color, lineHeight: 1, fontWeight: 600 }}>
+        <span style={{ fontSize: "18px", fontFamily: "var(--font-heading, monospace)", color, lineHeight: 1, fontWeight: 600 }}>
           {el.symbol}
         </span>
-        <span style={{ fontSize: "8px", color: "rgba(200,232,255,0.4)", lineHeight: 1.2, textAlign: "center", overflow: "hidden", maxWidth: "100%" }}>
-          {el.name.length > 6 ? el.name.slice(0, 5) + "…" : el.name}
+        <span style={{ fontSize: "6.5px", color: "var(--oc-text-dim)", lineHeight: 1, letterSpacing: "0.01em", opacity: 0.8 }}>
+          {el.mass.toFixed(el.mass < 10 ? 3 : el.mass < 100 ? 3 : 2)}
         </span>
       </div>
     </div>
@@ -91,7 +91,7 @@ function DetailPanel({ el }: { el: Element }) {
         width: "280px",
         flexShrink: 0,
         border: `1px solid ${color}30`,
-        background: "rgba(1,13,10,0.95)",
+        background: "var(--oc-bg)",
         borderRadius: "4px",
         overflow: "hidden",
         display: "flex",
@@ -109,7 +109,7 @@ function DetailPanel({ el }: { el: Element }) {
           <span style={{ fontSize: "2.5rem", fontFamily: "var(--font-heading)", color, lineHeight: 1 }}>
             {el.symbol}
           </span>
-          <span style={{ fontSize: "1rem", color: "#c8e8ff", fontFamily: "var(--font-heading)", letterSpacing: "0.05em" }}>
+          <span style={{ fontSize: "1rem", color: "var(--oc-text)", fontFamily: "var(--font-heading)", letterSpacing: "0.05em" }}>
             {el.name.toUpperCase()}
           </span>
         </div>
@@ -124,10 +124,10 @@ function DetailPanel({ el }: { el: Element }) {
             ["SHELLS",    shells.length],
           ].map(([label, value]) => (
             <div key={label as string}>
-              <div style={{ fontSize: "9px", color: "rgba(0,255,65,0.45)", letterSpacing: "0.12em", marginBottom: "2px" }}>
+              <div style={{ fontSize: "9px", color: "var(--oc-green-dim)", letterSpacing: "0.12em", marginBottom: "2px" }}>
                 {label}
               </div>
-              <div style={{ fontSize: "13px", color: "#c8e8ff", fontFamily: "var(--font-heading)" }}>
+              <div style={{ fontSize: "13px", color: "var(--oc-text)", fontFamily: "var(--font-heading)" }}>
                 {value}
               </div>
             </div>
@@ -135,7 +135,7 @@ function DetailPanel({ el }: { el: Element }) {
         </div>
 
         <div style={{ marginTop: "12px" }}>
-          <div style={{ fontSize: "9px", color: "rgba(0,255,65,0.45)", letterSpacing: "0.12em", marginBottom: "4px" }}>
+          <div style={{ fontSize: "9px", color: "var(--oc-green-dim)", letterSpacing: "0.12em", marginBottom: "4px" }}>
             ELECTRON CONFIG
           </div>
           <div style={{ display: "flex", gap: "4px", flexWrap: "wrap" }}>
@@ -213,7 +213,7 @@ function PeriodicGrid({
             paddingRight: "4px",
           }}
         >
-          <span style={{ fontSize: "7px", color: "rgba(0,255,65,0.3)", letterSpacing: "0.08em" }}>
+          <span style={{ fontSize: "7px", color: "var(--oc-green-dim)", letterSpacing: "0.08em" }}>
             {label}
           </span>
         </div>
@@ -230,7 +230,7 @@ function Legend() {
       {(Object.entries(CATEGORY_COLORS) as [keyof typeof CATEGORY_COLORS, string][]).map(([cat, color]) => (
         <div key={cat} style={{ display: "flex", alignItems: "center", gap: "5px" }}>
           <div style={{ width: "10px", height: "10px", borderRadius: "1px", background: color, opacity: 0.7, flexShrink: 0 }} />
-          <span style={{ fontSize: "10px", color: "rgba(200,232,255,0.5)", letterSpacing: "0.08em" }}>
+          <span style={{ fontSize: "10px", color: "var(--oc-text-muted)", letterSpacing: "0.08em" }}>
             {CATEGORY_LABELS[cat].toUpperCase()}
           </span>
         </div>
@@ -246,7 +246,7 @@ export function PeriodicTableExplorer() {
 
   return (
     <div className="mb-12">
-      <p className="text-xs tracking-widest mb-4" style={{ color: "rgba(0,255,65,0.45)" }}>
+      <p className="text-xs tracking-widest mb-4" style={{ color: "var(--oc-green-dim)" }}>
         // INTERACTIVE — PERIODIC TABLE OF ELEMENTS
       </p>
 
@@ -272,7 +272,7 @@ export function PeriodicTableExplorer() {
                 width: "260px",
                 height: "100%",
                 minHeight: "460px",
-                border: "1px solid rgba(0,255,65,0.06)",
+                border: "1px solid var(--oc-green-border-faint)",
                 borderRadius: "4px",
                 display: "flex",
                 alignItems: "center",
@@ -282,7 +282,7 @@ export function PeriodicTableExplorer() {
               }}
             >
               <span style={{ fontSize: "1.5rem", opacity: 0.2 }}>⬡</span>
-              <span style={{ fontSize: "9px", color: "rgba(0,255,65,0.3)", letterSpacing: "0.15em", textAlign: "center" }}>
+              <span style={{ fontSize: "9px", color: "var(--oc-green-dim)", letterSpacing: "0.15em", textAlign: "center" }}>
                 HOVER AN ELEMENT<br />TO VIEW ITS ATOM
               </span>
             </div>

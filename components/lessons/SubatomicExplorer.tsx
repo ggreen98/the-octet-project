@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { CarbonCanvas } from "@/components/molecules/CarbonCanvas";
+import { useTheme } from "@/contexts/ThemeContext";
 
 type Highlighted = "proton" | "neutron" | "electron" | null;
 
@@ -68,8 +69,16 @@ const PARTICLES = [
   },
 ] as const;
 
+const LIGHT_TEXT: Record<string, { text: string; value: string }> = {
+  proton:   { text: "rgba(150, 30,  5, 0.9)",  value: "rgba(150, 30,  5, 0.8)"  },
+  neutron:  { text: "rgba( 45, 70,100, 0.9)",  value: "rgba( 45, 70,100, 0.8)"  },
+  electron: { text: "rgba( 20, 65,170, 0.9)",  value: "rgba( 20, 65,170, 0.8)"  },
+};
+
 export function SubatomicExplorer() {
   const [highlighted, setHighlighted] = useState<Highlighted>(null);
+  const { theme } = useTheme();
+  const isLight = theme === "light";
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 mb-12" style={{ maxWidth: "860px" }}>
@@ -98,21 +107,21 @@ export function SubatomicExplorer() {
                     width: "52px", height: "52px", borderRadius: "50%",
                     background: p.circleBg,
                     border: `2px solid ${active ? p.circleBorderHover : p.circleBorder}`,
-                    color: p.textColor,
+                    color: isLight ? LIGHT_TEXT[p.id].text : p.textColor,
                     boxShadow: `0 0 ${active ? "22px" : "14px"} ${active ? p.circleGlowHover : p.circleGlow}`,
                     transition: "box-shadow 0.2s ease, border-color 0.2s ease",
                   }}
                 >
                   {p.symbol}
                 </div>
-                <p className="font-heading text-xs tracking-widest" style={{ color: p.textColor, letterSpacing: "0.15em" }}>
+                <p className="font-heading text-xs tracking-widest" style={{ color: isLight ? LIGHT_TEXT[p.id].text : p.textColor, letterSpacing: "0.15em" }}>
                   {p.label}
                 </p>
                 <div className="flex flex-col items-center gap-1">
-                  <p className="text-xs" style={{ color: "rgba(200,255,212,0.4)" }}>charge: <span style={{ color: p.valueColor }}>{p.charge}</span></p>
-                  <p className="text-xs" style={{ color: "rgba(200,255,212,0.4)" }}>location: <span style={{ color: p.valueColor }}>{p.location}</span></p>
-                  <p className="text-xs" style={{ color: "rgba(200,255,212,0.4)" }}>size: <span style={{ color: p.valueColor }}>{p.size}</span></p>
-                  <p className="text-xs" style={{ color: "rgba(200,255,212,0.4)" }}>mass: <span style={{ color: p.valueColor }}>{p.mass}</span></p>
+                  <p className="text-xs" style={{ color: "var(--oc-text-muted)" }}>charge: <span style={{ color: isLight ? LIGHT_TEXT[p.id].value : p.valueColor }}>{p.charge}</span></p>
+                  <p className="text-xs" style={{ color: "var(--oc-text-muted)" }}>location: <span style={{ color: isLight ? LIGHT_TEXT[p.id].value : p.valueColor }}>{p.location}</span></p>
+                  <p className="text-xs" style={{ color: "var(--oc-text-muted)" }}>size: <span style={{ color: isLight ? LIGHT_TEXT[p.id].value : p.valueColor }}>{p.size}</span></p>
+                  <p className="text-xs" style={{ color: "var(--oc-text-muted)" }}>mass: <span style={{ color: isLight ? LIGHT_TEXT[p.id].value : p.valueColor }}>{p.mass}</span></p>
                 </div>
               </div>
             );
@@ -122,7 +131,7 @@ export function SubatomicExplorer() {
         {/* Hover hint */}
         <p
           className="font-heading text-xs tracking-widest"
-          style={{ color: "rgba(0,255,65,0.3)", letterSpacing: "0.12em", fontSize: "0.6rem" }}
+          style={{ color: "var(--oc-green-dim)", letterSpacing: "0.12em", fontSize: "0.6rem" }}
         >
           ↑ HOVER A CARD TO HIGHLIGHT IT IN THE ATOM →
         </p>
@@ -134,9 +143,9 @@ export function SubatomicExplorer() {
         style={{
           width: "280px",
           height: "280px",
-          border: "1px solid rgba(0,255,65,0.08)",
+          border: "1px solid var(--oc-green-border-faint)",
           borderRadius: "4px",
-          background: "rgba(0,255,65,0.01)",
+          background: "transparent",
           alignSelf: "center",
         }}
       >

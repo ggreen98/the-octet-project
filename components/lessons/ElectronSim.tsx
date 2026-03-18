@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
+import { useTheme } from "@/contexts/ThemeContext";
 
 const ELECTRONS = [
   { speed: 0.055, radiusX: 100, radiusY: 38, tilt: 0,              phase: 0 },
@@ -13,8 +14,14 @@ const TRAIL = 36;
 
 export function ElectronSim() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
+    const isLight = theme === "light";
+    const bgFade      = isLight ? "rgba(240, 237, 230, 0.28)" : "rgba(1, 13, 10, 0.28)";
+    const trailRgb    = isLight ? "26, 80, 200"               : "168, 216, 255";
+    const glowColor   = isLight ? "rgba(20, 70, 190,"         : "rgba(100, 180, 255,";
+    const electronCore = isLight ? "#1a50c8"                  : "#c8e8ff";
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -43,7 +50,7 @@ export function ElectronSim() {
       const cy = H / 2;
 
       // Fade previous frame — creates the trail ghosting effect
-      ctx!.fillStyle = "rgba(1, 13, 10, 0.28)";
+      ctx!.fillStyle = bgFade;
       ctx!.fillRect(0, 0, W, H);
 
       // Faint orbital path ellipses
@@ -53,7 +60,7 @@ export function ElectronSim() {
         ctx!.rotate(e.tilt);
         ctx!.beginPath();
         ctx!.ellipse(0, 0, e.radiusX, e.radiusY, 0, 0, Math.PI * 2);
-        ctx!.strokeStyle = "rgba(0, 255, 65, 0.06)";
+        ctx!.strokeStyle = "rgba(114, 184, 114, 0.06)";
         ctx!.lineWidth = 0.5;
         ctx!.stroke();
         ctx!.restore();
@@ -96,14 +103,14 @@ export function ElectronSim() {
           const radius = 0.8 + progress * 2;
           ctx!.beginPath();
           ctx!.arc(p.x, p.y, radius, 0, Math.PI * 2);
-          ctx!.fillStyle = `rgba(168, 216, 255, ${alpha})`;
+          ctx!.fillStyle = `rgba(${trailRgb}, ${alpha})`;
           ctx!.fill();
         });
 
         // Electron glow halo
         const glow = ctx!.createRadialGradient(x, y, 0, x, y, 10);
-        glow.addColorStop(0, "rgba(100, 180, 255, 0.7)");
-        glow.addColorStop(1, "rgba(100, 180, 255, 0)");
+        glow.addColorStop(0, `${glowColor} 0.7)`);
+        glow.addColorStop(1, `${glowColor} 0)`);
         ctx!.beginPath();
         ctx!.arc(x, y, 10, 0, Math.PI * 2);
         ctx!.fillStyle = glow;
@@ -112,7 +119,7 @@ export function ElectronSim() {
         // Electron core
         ctx!.beginPath();
         ctx!.arc(x, y, 2.5, 0, Math.PI * 2);
-        ctx!.fillStyle = "#c8e8ff";
+        ctx!.fillStyle = electronCore;
         ctx!.fill();
       });
 
@@ -121,17 +128,17 @@ export function ElectronSim() {
 
     draw();
     return () => cancelAnimationFrame(animId);
-  }, []);
+  }, [theme]);
 
   return (
     <div className="max-w-2xl mb-10">
-      <p className="text-xs tracking-widest mb-4" style={{ color: "rgba(0, 255, 65, 0.45)" }}>
+      <p className="text-xs tracking-widest mb-4" style={{ color: "var(--oc-green-dim)" }}>
         // INTERACTIVE — ELECTRON ORBITAL SIMULATION
       </p>
       <div
         style={{
-          border: "1px solid rgba(0, 255, 65, 0.1)",
-          background: "rgba(1, 13, 10, 1)",
+          border: "1px solid var(--oc-green-border-dim)",
+          background: "var(--oc-bg)",
           borderRadius: "4px",
           overflow: "hidden",
         }}

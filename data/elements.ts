@@ -28,7 +28,7 @@ export const CATEGORY_COLORS: Record<ElementCategory, string> = {
   "transition-metal": "#06d6a0",
   "post-transition":  "#4499ff",
   "metalloid":        "#a78bfa",
-  "nonmetal":         "#00ff41",
+  "nonmetal":         "#72b872",
   "halogen":          "#f72585",
   "noble-gas":        "#ffbe0b",
   "lanthanide":       "#c77dff",

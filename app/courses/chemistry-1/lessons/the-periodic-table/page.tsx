@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { Term } from "@/components/ui/Term";
 import { PeriodicTableExplorer } from "@/components/lessons/PeriodicTableExplorer";
+import { LiCellAnnotated } from "@/components/lessons/LiCellAnnotated";
 
 export const metadata = {
   title: "Elements & The Periodic Table — Chemistry I | The Octet Project",
@@ -11,39 +13,42 @@ export default function PeriodicTableLesson() {
   return (
     <main
       className="scanlines font-terminal min-h-screen"
-      style={{ backgroundColor: "#010d0a", color: "#c8e8ff" }}
+      style={{ backgroundColor: "var(--oc-bg)", color: "var(--oc-text)" }}
     >
       {/* ── NAV ─────────────────────────────────────────── */}
       <nav
         className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 h-14"
         style={{
-          background: "rgba(1, 13, 10, 0.88)",
+          background: "var(--oc-nav-bg)",
           backdropFilter: "blur(12px)",
-          borderBottom: "1px solid rgba(0, 255, 65, 0.1)",
+          borderBottom: "1px solid var(--oc-green-border-dim)",
         }}
       >
         <Link href="/" className="flex items-center gap-2">
-          <span className="text-xl font-heading" style={{ color: "#00ff41" }}>⬡</span>
-          <span className="font-heading text-sm hidden sm:block" style={{ color: "#c8e8ff", letterSpacing: "0.2em" }}>
+          <span className="text-xl font-heading" style={{ color: "var(--oc-green)" }}>⬡</span>
+          <span className="font-heading text-sm hidden sm:block" style={{ color: "var(--oc-text)", letterSpacing: "0.2em" }}>
             THE OCTET PROJECT
           </span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-2 text-xs tracking-widest" style={{ color: "rgba(0, 255, 65, 0.4)" }}>
+        <div className="hidden md:flex items-center gap-2 text-xs tracking-widest" style={{ color: "var(--oc-green-dim)" }}>
           <Link href="/courses" className="hover:text-green-400 transition-colors">COURSES</Link>
-          <span style={{ color: "rgba(0, 255, 65, 0.2)" }}>›</span>
+          <span style={{ color: "var(--oc-green-subtle)" }}>›</span>
           <Link href="/courses/chemistry-1" className="hover:text-green-400 transition-colors">CHEMISTRY I</Link>
-          <span style={{ color: "rgba(0, 255, 65, 0.2)" }}>›</span>
-          <span style={{ color: "#00ff41" }}>ELEMENTS & THE PERIODIC TABLE</span>
+          <span style={{ color: "var(--oc-green-subtle)" }}>›</span>
+          <span style={{ color: "var(--oc-green)" }}>ELEMENTS & THE PERIODIC TABLE</span>
         </div>
 
-        <Link
-          href="/signup"
-          className="font-heading text-xs px-4 py-2"
-          style={{ background: "#4499ff", color: "#010d0a", letterSpacing: "0.15em" }}
-        >
-          START FREE ▶
-        </Link>
+        <div className="flex items-center gap-3">
+          <ThemeToggle />
+          <Link
+            href="/signup"
+            className="font-heading text-xs px-4 py-2"
+            style={{ background: "var(--oc-blue)", color: "var(--oc-btn-text)", letterSpacing: "0.15em" }}
+          >
+            START FREE ▶
+          </Link>
+        </div>
       </nav>
 
       {/* ── CONTENT ─────────────────────────────────────── */}
@@ -51,10 +56,10 @@ export default function PeriodicTableLesson() {
 
         {/* Lesson label */}
         <div className="flex items-center gap-3 mb-6">
-          <span className="font-heading text-xs px-2 py-0.5" style={{ background: "rgba(0,255,65,0.08)", color: "#00ff41", border: "1px solid rgba(0,255,65,0.2)", letterSpacing: "0.12em" }}>
+          <span className="font-heading text-xs px-2 py-0.5" style={{ background: "var(--oc-green-badge)", color: "var(--oc-green)", border: "1px solid var(--oc-green-subtle)", letterSpacing: "0.12em" }}>
             LESSON 03
           </span>
-          <span className="text-xs tracking-widest" style={{ color: "rgba(0, 255, 65, 0.35)" }}>
+          <span className="text-xs tracking-widest" style={{ color: "var(--oc-text-dim)" }}>
             CHEMISTRY I: GENERAL CHEMISTRY
           </span>
         </div>
@@ -62,31 +67,31 @@ export default function PeriodicTableLesson() {
         {/* Title */}
         <h1
           className="font-heading leading-none mb-4"
-          style={{ fontSize: "clamp(2.2rem, 6vw, 4rem)", letterSpacing: "-0.02em", color: "#c8e8ff" }}
+          style={{ fontSize: "clamp(2.2rem, 6vw, 4rem)", letterSpacing: "-0.02em", color: "var(--oc-text)" }}
         >
           ELEMENTS & THE PERIODIC TABLE
         </h1>
-        <p className="text-sm leading-relaxed mb-12 max-w-2xl" style={{ color: "rgba(200, 255, 212, 0.55)" }}>
+        <p className="text-base leading-relaxed mb-12 max-w-2xl" style={{ color: "var(--oc-text-muted)" }}>
           Every atom in the universe belongs to one of 118 known <Term id="element">elements</Term> —
           and the <Term id="periodic-table">periodic table</Term> is the map that organises them all.
         </p>
 
         {/* ── WHAT IS AN ELEMENT ───────────────────────────── */}
         <div className="max-w-2xl mb-10">
-          <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(200, 255, 212, 0.55)" }}>
+          <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
             At this point we have mentioned the concept of an <Term id="element">element</Term> a few times — but what exactly
             is one? Think of elements like scents of flowers or flavours of ice cream: each one is
             distinct, with its own unique characteristics and chemically different behaviour.
             No two elements are the same, and you cannot reduce one into another by ordinary means.
           </p>
-          <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(200, 255, 212, 0.55)" }}>
+          <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
             As we touched on in the last lesson, an <Term id="element">element</Term> is defined entirely by the number of{" "}
             <Term id="proton">protons</Term> in an atom&apos;s <Term id="nucleus">nucleus</Term> — a value known as its{" "}
             <Term id="atomic-number">atomic number</Term>. Change the proton count and you change the element. Every single atom
             in the universe with one proton is hydrogen. Every atom with two protons is helium. It is
             that simple, and that absolute.
           </p>
-          <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(200, 255, 212, 0.55)" }}>
+          <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
             The first few elements follow in order:
           </p>
 
@@ -94,8 +99,8 @@ export default function PeriodicTableLesson() {
           <div
             className="mb-4 font-terminal text-xs"
             style={{
-              border: "1px solid rgba(0,255,65,0.1)",
-              background: "rgba(0,255,65,0.03)",
+              border: "1px solid var(--oc-green-border-dim)",
+              background: "var(--oc-green-bg-surface)",
               borderRadius: "4px",
               padding: "1rem 1.25rem",
               display: "grid",
@@ -116,18 +121,18 @@ export default function PeriodicTableLesson() {
               { z: 10, symbol: "Ne", name: "Neon"       },
             ].map(({ z, symbol, name }) => (
               <div key={z} className="flex items-baseline gap-2">
-                <span style={{ color: "rgba(0,255,65,0.35)", minWidth: "1.5rem", textAlign: "right" }}>{z}</span>
-                <span style={{ color: "#00ff41", minWidth: "2rem" }}>{symbol}</span>
-                <span style={{ color: "rgba(200,255,212,0.55)" }}>{name}</span>
+                <span style={{ color: "var(--oc-text-dim)", minWidth: "1.5rem", textAlign: "right" }}>{z}</span>
+                <span style={{ color: "var(--oc-green)", minWidth: "2rem" }}>{symbol}</span>
+                <span style={{ color: "var(--oc-text-muted)" }}>{name}</span>
               </div>
             ))}
             <div className="flex items-baseline gap-2">
-              <span style={{ color: "rgba(0,255,65,0.35)", minWidth: "1.5rem", textAlign: "right" }}>…</span>
-              <span style={{ color: "rgba(200,255,212,0.3)" }}>and so on, up to element 118</span>
+              <span style={{ color: "var(--oc-text-dim)", minWidth: "1.5rem", textAlign: "right" }}>…</span>
+              <span style={{ color: "var(--oc-text-faint)" }}>and so on, up to element 118</span>
             </div>
           </div>
 
-          <p className="text-sm leading-relaxed" style={{ color: "rgba(200, 255, 212, 0.55)" }}>
+          <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
             This numbered sequence — one <Term id="element">element</Term> per proton count, no gaps, no duplicates —
             is the backbone of the <Term id="periodic-table">periodic table</Term>. There are 118 known elements in total,
             ranging from hydrogen, the lightest and most abundant in the universe, all the way to oganesson,
@@ -138,19 +143,178 @@ export default function PeriodicTableLesson() {
         {/* ── INTERACTIVE PERIODIC TABLE ───────────────────── */}
         <PeriodicTableExplorer />
 
+        {/* ── HOW TO READ A CELL ───────────────────────────── */}
+        <div className="max-w-2xl mb-10 mt-10">
+          <h2
+            className="font-heading mb-4"
+            style={{ fontSize: "clamp(1.2rem, 3vw, 1.6rem)", letterSpacing: "0.05em", color: "var(--oc-text)" }}
+          >
+            HOW TO READ A CELL
+          </h2>
+          <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
+            Each cell in the <Term id="periodic-table">periodic table</Term> packs three key pieces of information.
+            The number in the top corner is the <Term id="atomic-number">atomic number</Term> — the count of{" "}
+            <Term id="proton">protons</Term> in that element&apos;s <Term id="nucleus">nucleus</Term>, and the
+            value that uniquely identifies it. The large symbol in the centre is the element&apos;s chemical
+            abbreviation, used universally in equations, labels, and lab notation. Finally, the number at the
+            bottom is the <Term id="atomic-mass-unit">atomic mass</Term> — the average mass of one atom of that
+            element measured in atomic mass units (u), accounting for the natural mix of its <Term id="isotope">isotopes</Term>.
+          </p>
+          {/* ── ANNOTATED CELL DIAGRAM ───────────────────────── */}
+          <div className="mb-8 mt-2">
+            <p className="text-xs tracking-widest mb-6" style={{ color: "var(--oc-green-dim)" }}>
+              // INTERACTIVE — ANATOMY OF A PERIODIC TABLE CELL
+            </p>
+            <LiCellAnnotated />
+          </div>
+
+          {/* ── WEIGHTED AVERAGE EXPLANATION ─────────────────── */}
+          <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
+            That atomic mass is not arbitrary — it is the <strong style={{ color: "var(--oc-text)" }}>weighted average</strong> of
+            all naturally occurring <Term id="isotope">isotopes</Term> of that element, weighted by how abundant
+            each isotope is in nature. Because different samples of an element always contain isotopes in the
+            same natural ratio, the weighted average is consistent everywhere on Earth — and is the number
+            printed on every periodic table.
+          </p>
+          <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
+            Lithium is a clean example. It has two stable isotopes: lithium-6 (3 neutrons) and lithium-7
+            (4 neutrons). In any natural sample, about 7.6% of lithium atoms are Li-6 and 92.4% are Li-7.
+            To find the weighted average you multiply each isotope&apos;s exact mass by its fractional
+            abundance, then add the results:
+          </p>
+
+          {/* Weighted average calculation */}
+          <div
+            className="mb-6 font-terminal"
+            style={{
+              fontSize: "14px",
+              border: "1px solid var(--oc-green-border-dim)",
+              background: "var(--oc-green-bg-surface)",
+              borderRadius: "4px",
+              padding: "1rem 1.25rem",
+            }}
+          >
+            {/* Formula rows */}
+            {[
+              { isotope: "Li-6", mass: "6.0151 u", op: "×", abundance: "0.076", eq: "=", result: "0.4572 u", dim: false },
+              { isotope: "Li-7", mass: "7.0160 u", op: "×", abundance: "0.924", eq: "=", result: "6.4828 u", dim: false },
+            ].map(({ isotope, mass, op, abundance, eq, result }) => (
+              <div key={isotope} className="flex items-baseline gap-3 mb-1" style={{ flexWrap: "wrap" }}>
+                <span style={{ color: "var(--oc-green)", minWidth: "2.8rem" }}>{isotope}</span>
+                <span style={{ color: "var(--oc-text-muted)", minWidth: "5rem" }}>{mass}</span>
+                <span style={{ color: "var(--oc-text-dim)" }}>{op}</span>
+                <span style={{ color: "var(--oc-text-muted)", minWidth: "3.5rem" }}>{abundance}</span>
+                <span style={{ color: "var(--oc-text-dim)" }}>{eq}</span>
+                <span style={{ color: "var(--oc-text)" }}>{result}</span>
+              </div>
+            ))}
+
+            {/* Divider */}
+            <div style={{ borderTop: "1px solid var(--oc-green-border-faint)", margin: "8px 0" }} />
+
+            {/* Sum */}
+            <div className="flex items-baseline gap-3" style={{ flexWrap: "wrap" }}>
+              <span style={{ color: "var(--oc-text-dim)", minWidth: "2.8rem" }}>SUM</span>
+              <span style={{ color: "var(--oc-text-dim)", minWidth: "5rem" }}></span>
+              <span style={{ color: "var(--oc-text-dim)" }}> </span>
+              <span style={{ color: "var(--oc-text-dim)", minWidth: "3.5rem" }}></span>
+              <span style={{ color: "var(--oc-text-dim)" }}>=</span>
+              <span style={{ color: "#c8853a", fontWeight: 600 }}>6.9400 u  ≈  6.941 u</span>
+            </div>
+          </div>
+
+          <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
+            The result matches what is printed on the periodic table. Notice that 6.941 is close to 7
+            rather than 6 because the heavier Li-7 isotope makes up the vast majority of natural lithium.
+            This is why atomic masses are almost never whole numbers — they are averages, not counts.
+          </p>
+
+          <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
+            A word of warning: the abbreviations do not always match the English name of the{" "}
+            <Term id="element">element</Term>. Many symbols come from older Latin or Greek names that were
+            established before modern naming conventions existed. A few notable examples:
+          </p>
+
+          {/* Symbol mismatch examples */}
+          <div
+            className="mb-4 font-terminal"
+            style={{
+              fontSize: "14px",
+              border: "1px solid var(--oc-green-border-dim)",
+              background: "var(--oc-green-bg-surface)",
+              borderRadius: "4px",
+              padding: "1rem 1.25rem",
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
+              gap: "0.5rem 1.5rem",
+            }}
+          >
+            {[
+              { symbol: "Pb", name: "Lead",      latin: "Plumbum"   },
+              { symbol: "Au", name: "Gold",       latin: "Aurum"     },
+              { symbol: "Fe", name: "Iron",       latin: "Ferrum"    },
+              { symbol: "Na", name: "Sodium",     latin: "Natrium"   },
+              { symbol: "K",  name: "Potassium",  latin: "Kalium"    },
+              { symbol: "Ag", name: "Silver",     latin: "Argentum"  },
+              { symbol: "Hg", name: "Mercury",    latin: "Hydrargyrum" },
+              { symbol: "Cu", name: "Copper",     latin: "Cuprum"    },
+            ].map(({ symbol, name, latin }) => (
+              <div key={symbol} className="flex items-baseline gap-2">
+                <span style={{ color: "var(--oc-green)", minWidth: "2.2rem" }}>{symbol}</span>
+                <span style={{ color: "var(--oc-text-muted)", minWidth: "5rem" }}>{name}</span>
+                <span style={{ color: "var(--oc-text-dim)" }}>← {latin}</span>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
+            These mismatches are a quirk of scientific history — names were often standardised in Latin
+            across Europe before English became dominant in science. Once you know the common ones, they
+            become second nature. For now, hover over any cell above to explore the full details of each element.
+          </p>
+        </div>
+
+        {/* ── ORGANISATION OF THE TABLE ────────────────────── */}
+        <div className="max-w-2xl mb-10">
+          <h2
+            className="font-heading mb-4"
+            style={{ fontSize: "clamp(1.2rem, 3vw, 1.6rem)", letterSpacing: "0.05em", color: "var(--oc-text)" }}
+          >
+            HOW THE TABLE IS ORGANISED
+          </h2>
+          <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
+            At first glance the layout of the <Term id="periodic-table">periodic table</Term> can look
+            arbitrary — rows of varying length, a detached block floating beneath the main grid, columns
+            that seem to start and stop at random. In reality every position is deeply intentional.
+          </p>
+          <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
+            Each vertical column is called a <strong style={{ color: "var(--oc-text)" }}>group</strong>, and the{" "}
+            <Term id="element">elements</Term> within a group share remarkably similar chemical behaviour.
+            They react with other substances in the same kinds of ways, form the same types of bonds, and
+            often even look alike as pure materials. This is no coincidence — it is a direct consequence of
+            how many <Term id="electron">electrons</Term> sit in each element&apos;s outermost{" "}
+            <Term id="orbital-shell">orbital shell</Term>. Elements in the same group have the same number
+            of outer electrons, and it is those outer electrons that determine almost everything about how
+            an atom behaves chemically. The horizontal rows, called <strong style={{ color: "var(--oc-text)" }}>periods</strong>,
+            represent the filling of successive electron shells as the <Term id="atomic-number">atomic number</Term>{" "}
+            increases. We will explore groups, periods, and electron configuration in much greater depth in
+            future lessons.
+          </p>
+        </div>
+
         {/* Navigation */}
-        <div className="flex justify-between items-center mt-16 pt-8" style={{ borderTop: "1px solid rgba(0, 255, 65, 0.08)" }}>
+        <div className="flex justify-between items-center mt-16 pt-8" style={{ borderTop: "1px solid var(--oc-green-border-faint)" }}>
           <Link
             href="/courses/chemistry-1/lessons/protons-neutrons-electrons"
             className="font-heading text-xs px-6 py-3 transition-all duration-200"
-            style={{ border: "1px solid rgba(68,153,255,0.3)", color: "#4499ff", letterSpacing: "0.15em" }}
+            style={{ border: "1px solid rgba(68,153,255,0.3)", color: "var(--oc-blue)", letterSpacing: "0.15em" }}
           >
             ← PREV: PROTONS, NEUTRONS & ELECTRONS
           </Link>
           <Link
             href="/courses/chemistry-1"
             className="font-heading text-xs px-6 py-3 transition-all duration-200"
-            style={{ background: "#4499ff", color: "#010d0a", letterSpacing: "0.15em" }}
+            style={{ background: "var(--oc-blue)", color: "var(--oc-btn-text)", letterSpacing: "0.15em" }}
           >
             BACK TO COURSE →
           </Link>

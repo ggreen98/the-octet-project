@@ -78,7 +78,7 @@ export function MagnetSim() {
 
   return (
     <div className="max-w-2xl">
-      <p className="text-xs tracking-widest mb-6" style={{ color: "rgba(0, 255, 65, 0.45)" }}>
+      <p className="text-xs tracking-widest mb-6" style={{ color: "var(--oc-green-dim)" }}>
         // INTERACTIVE — CHARGE SIMULATION
       </p>
 
@@ -99,8 +99,8 @@ export function MagnetSim() {
         className="relative flex items-center justify-center"
         style={{
           height: "200px",
-          border: "1px solid rgba(0, 255, 65, 0.1)",
-          background: "rgba(0, 255, 65, 0.015)",
+          border: "1px solid var(--oc-green-border-dim)",
+          background: "var(--oc-green-bg-surface)",
           borderRadius: "4px",
           overflow: "hidden",
         }}
@@ -182,7 +182,6 @@ export function MagnetSim() {
           style={{
             color: "rgba(255,80,30,0.7)",
             letterSpacing: "0.08em",
-            fontSize: "0.6rem",
             textAlign: "center",
             width: `${GAP_WIDTH}px`,
             flexShrink: 0,
@@ -256,7 +255,7 @@ export function MagnetSim() {
         className="font-heading text-xs px-6 py-3 transition-all duration-200"
         style={{
           border: "1px solid rgba(68,153,255,0.35)",
-          color: "#4499ff",
+          color: "var(--oc-blue)",
           background: "transparent",
           letterSpacing: "0.15em",
           cursor: animating ? "not-allowed" : "pointer",
