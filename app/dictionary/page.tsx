@@ -113,6 +113,14 @@ export const TERMS = [
     related: ["neutron", "proton", "element", "atom"],
   },
   {
+    id: "energy-level",
+    term: "Energy Level",
+    category: "Structure",
+    definition:
+      "A discrete, fixed amount of energy that an electron in an atom can have. Electrons cannot exist between energy levels — they must jump from one to another, absorbing or releasing energy in the process. Energy levels correspond to electron shells: the K shell is the lowest energy level, the L shell is higher, and so on. When an electron absorbs energy it jumps to a higher level (excited state); when it falls back it releases energy, often as visible light.",
+    related: ["electron", "orbital-shell", "atom"],
+  },
+  {
     id: "periodic-table",
     term: "Periodic Table",
     category: "Structure",

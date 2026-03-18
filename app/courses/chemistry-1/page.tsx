@@ -25,6 +25,12 @@ const lessons = [
     description: "Discover how 118 elements are organised by atomic number, and how to read every cell in the table.",
     href: "/courses/chemistry-1/lessons/the-periodic-table",
   },
+  {
+    id: "2.1",
+    title: "ELECTRON SHELLS",
+    description: "Electrons don't orbit randomly — they occupy specific energy levels called shells. Learn the rules that govern where electrons live.",
+    href: "/courses/chemistry-1/lessons/electron-shells",
+  },
 ];
 
 export default function Chemistry1Page() {
