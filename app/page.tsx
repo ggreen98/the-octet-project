@@ -40,7 +40,7 @@ export default function Home() {
             { label: "PERIODIC TABLE", href: "/periodic-table" },
             { label: "DICTIONARY",     href: "/dictionary" },
             { label: "UNITS",      href: "/si-units" },
-            { label: "WHO WE ARE", href: "/who-we-are" },
+            { label: "ABOUT", href: "/who-we-are" },
           ].map(({ label, href }) => (
             <Link
               key={label}

@@ -67,6 +67,7 @@
   /* Dark mode (default) */
   --oc-bg: #010d0a;
   --oc-nav-bg: rgba(1, 13, 10, 0.88);
+  --oc-glass-bg: rgba(1, 13, 10, 0.2);
   --oc-text: #e8f4ff;
   --oc-text-sub: rgba(200, 228, 255, 0.82);
   --oc-text-muted: rgba(200, 228, 255, 0.75);
@@ -91,6 +92,7 @@
 [data-theme="light"] {
   --oc-bg: #f0ede6;
   --oc-nav-bg: rgba(240, 237, 230, 0.92);
+  --oc-glass-bg: rgba(255, 253, 248, 0.2);
   --oc-text: #0e1228;
   --oc-text-sub: rgba(14, 18, 40, 0.85);
   --oc-text-muted: rgba(14, 18, 40, 0.78);

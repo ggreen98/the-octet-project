@@ -145,7 +145,7 @@ export default function DictionaryPage() {
         </Link>
 
         <div className="hidden md:flex items-center gap-8 tracking-widest" style={{ fontSize: "1rem" }}>
-          {[["COURSES", "/courses"], ["PERIODIC TABLE", "/periodic-table"], ["DICTIONARY", "/dictionary"], ["UNITS", "/si-units"], ["WHO WE ARE", "/who-we-are"]].map(([label, href]) => (
+          {[["COURSES", "/courses"], ["PERIODIC TABLE", "/periodic-table"], ["DICTIONARY", "/dictionary"], ["UNITS", "/si-units"], ["ABOUT", "/who-we-are"]].map(([label, href]) => (
             <Link key={label} href={href} className="transition-colors duration-200 hover:text-white"
               style={{ color: label === "DICTIONARY" ? "var(--oc-green)" : "var(--oc-text-dim)" }}>
               {label}

@@ -39,13 +39,13 @@ export default function WhoWeArePage() {
             ["PERIODIC TABLE", "/periodic-table"],
             ["DICTIONARY",     "/dictionary"],
             ["UNITS",          "/si-units"],
-            ["WHO WE ARE",     "/who-we-are"],
+            ["ABOUT",     "/who-we-are"],
           ].map(([label, href]) => (
             <Link
               key={label}
               href={href}
               className="transition-colors duration-200 hover:text-white"
-              style={{ color: label === "WHO WE ARE" ? "var(--oc-green)" : "var(--oc-text-dim)" }}
+              style={{ color: label === "ABOUT" ? "var(--oc-green)" : "var(--oc-text-dim)" }}
             >
               {label}
             </Link>
@@ -59,6 +59,16 @@ export default function WhoWeArePage() {
 
       {/* ── CONTENT ─────────────────────────────────────── */}
       <div className="pt-16 px-6 md:px-12 lg:px-20 py-20 max-w-2xl mx-auto">
+        <div
+          className="px-8 py-10 md:px-12"
+          style={{
+            background: "var(--oc-glass-bg)",
+            backdropFilter: "blur(2px)",
+            WebkitBackdropFilter: "blur(2px)",
+            border: "1px solid var(--oc-green-border-faint)",
+            borderRadius: "6px",
+          }}
+        >
 
         {/* Eyebrow */}
         <p className="text-xs tracking-widest mb-8" style={{ color: "var(--oc-green-dim)" }}>
@@ -174,6 +184,7 @@ export default function WhoWeArePage() {
 
         </div>
 
+        </div>{/* end glass card */}
       </div>
 
       </div>{/* end page content wrapper */}

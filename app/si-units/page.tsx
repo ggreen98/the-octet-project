@@ -174,7 +174,7 @@ export default function SIUnitsPage() {
             ["PERIODIC TABLE", "/periodic-table"],
             ["DICTIONARY",     "/dictionary"],
             ["UNITS",          "/si-units"],
-            ["WHO WE ARE",     "/who-we-are"],
+            ["ABOUT",     "/who-we-are"],
           ].map(([label, href]) => (
             <Link
               key={label}
