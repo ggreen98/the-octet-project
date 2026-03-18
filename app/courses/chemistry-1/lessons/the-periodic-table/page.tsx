@@ -366,8 +366,30 @@ export default function PeriodicTableLesson() {
           </p>
         </div>
 
+        {/* Quiz CTA */}
+        <div
+          className="mt-16 p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+          style={{ border: "1px solid var(--oc-green-border-dim)", background: "var(--oc-green-bg-surface)", borderRadius: "4px" }}
+        >
+          <div>
+            <p className="font-heading text-xs mb-1" style={{ color: "var(--oc-green)", letterSpacing: "0.12em" }}>
+              READY TO TEST YOUR KNOWLEDGE?
+            </p>
+            <p className="text-sm" style={{ color: "var(--oc-text-muted)" }}>
+              Take the Chemistry I quiz — 15 questions covering everything in lessons 1.1 through 1.3.
+            </p>
+          </div>
+          <Link
+            href="/courses/chemistry-1/quiz"
+            className="font-heading text-xs px-6 py-3 shrink-0 transition-all duration-200"
+            style={{ background: "var(--oc-blue)", color: "var(--oc-btn-text)", letterSpacing: "0.15em" }}
+          >
+            TAKE THE QUIZ →
+          </Link>
+        </div>
+
         {/* Navigation */}
-        <div className="flex justify-between items-center mt-16 pt-8" style={{ borderTop: "1px solid var(--oc-green-border-faint)" }}>
+        <div className="flex justify-between items-center mt-8 pt-8" style={{ borderTop: "1px solid var(--oc-green-border-faint)" }}>
           <Link
             href="/courses/chemistry-1/lessons/protons-neutrons-electrons"
             className="font-heading text-xs px-6 py-3 transition-all duration-200"
@@ -378,7 +400,7 @@ export default function PeriodicTableLesson() {
           <Link
             href="/courses/chemistry-1"
             className="font-heading text-xs px-6 py-3 transition-all duration-200"
-            style={{ background: "var(--oc-blue)", color: "var(--oc-btn-text)", letterSpacing: "0.15em" }}
+            style={{ background: "transparent", border: "1px solid rgba(68,153,255,0.3)", color: "var(--oc-blue)", letterSpacing: "0.15em" }}
           >
             BACK TO COURSE →
           </Link>

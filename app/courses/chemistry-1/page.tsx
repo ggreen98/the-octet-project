@@ -111,6 +111,31 @@ export default function Chemistry1Page() {
           ))}
         </div>
 
+        {/* Quiz link */}
+        <div className="mt-10 pt-8" style={{ borderTop: "1px solid var(--oc-green-border-faint)" }}>
+          <Link href="/courses/chemistry-1/quiz" className="block group">
+            <div
+              className="flex gap-6 p-5 transition-all duration-200 hover:bg-[rgba(68,153,255,0.04)]"
+              style={{ border: "1px solid rgba(68,153,255,0.2)", background: "rgba(68,153,255,0.02)" }}
+            >
+              <span className="font-heading text-sm shrink-0 mt-0.5" style={{ color: "var(--oc-blue)" }}>
+                ✎
+              </span>
+              <div className="flex-1 min-w-0">
+                <h2 className="font-heading text-xs mb-2" style={{ color: "var(--oc-text)", letterSpacing: "0.08em" }}>
+                  CHEMISTRY I QUIZ
+                </h2>
+                <p className="text-sm leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
+                  15 questions covering atoms, subatomic particles, and the periodic table.
+                </p>
+              </div>
+              <span className="font-heading text-xs self-center shrink-0" style={{ color: "var(--oc-blue)" }}>
+                →
+              </span>
+            </div>
+          </Link>
+        </div>
+
       </div>
     </main>
   );
