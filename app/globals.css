@@ -178,7 +178,7 @@
     background-color: var(--oc-bg);
     color: var(--oc-text);
     font-family: var(--font-share-mono), "Share Tech Mono", monospace;
-    font-size: 17px;
+    font-size: 18px;
     overflow-x: hidden;
   }
 }
