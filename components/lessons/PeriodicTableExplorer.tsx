@@ -64,13 +64,13 @@ function ElementCell({
     >
       <CellOrbitals color={color} />
       <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-between", height: "100%", padding: "2px 2px 3px" }}>
-        <span style={{ fontSize: "11px", color: "var(--oc-text-dim)", lineHeight: 1, alignSelf: "flex-end", paddingRight: "2px" }}>
+        <span style={{ fontSize: "13px", color: "var(--oc-text-dim)", lineHeight: 1, alignSelf: "flex-end", paddingRight: "2px" }}>
           {el.z}
         </span>
-        <span style={{ fontSize: "18px", fontFamily: "var(--font-heading, monospace)", color, lineHeight: 1, fontWeight: 600 }}>
+        <span style={{ fontSize: "21px", fontFamily: "var(--font-heading, monospace)", color, lineHeight: 1, fontWeight: 600 }}>
           {el.symbol}
         </span>
-        <span style={{ fontSize: "6.5px", color: "var(--oc-text-dim)", lineHeight: 1, letterSpacing: "0.01em", opacity: 0.8 }}>
+        <span style={{ fontSize: "8.5px", color: "var(--oc-text-dim)", lineHeight: 1, letterSpacing: "0.01em", opacity: 0.8 }}>
           {el.mass.toFixed(el.mass < 10 ? 3 : el.mass < 100 ? 3 : 2)}
         </span>
       </div>
@@ -124,10 +124,10 @@ function DetailPanel({ el }: { el: Element }) {
             ["SHELLS",    shells.length],
           ].map(([label, value]) => (
             <div key={label as string}>
-              <div style={{ fontSize: "9px", color: "var(--oc-green-dim)", letterSpacing: "0.12em", marginBottom: "2px" }}>
+              <div style={{ fontSize: "11px", color: "var(--oc-green-dim)", letterSpacing: "0.12em", marginBottom: "2px" }}>
                 {label}
               </div>
-              <div style={{ fontSize: "13px", color: "var(--oc-text)", fontFamily: "var(--font-heading)" }}>
+              <div style={{ fontSize: "15px", color: "var(--oc-text)", fontFamily: "var(--font-heading)" }}>
                 {value}
               </div>
             </div>
@@ -135,19 +135,19 @@ function DetailPanel({ el }: { el: Element }) {
         </div>
 
         <div style={{ marginTop: "12px" }}>
-          <div style={{ fontSize: "9px", color: "var(--oc-green-dim)", letterSpacing: "0.12em", marginBottom: "4px" }}>
+          <div style={{ fontSize: "11px", color: "var(--oc-green-dim)", letterSpacing: "0.12em", marginBottom: "4px" }}>
             ELECTRON CONFIG
           </div>
           <div style={{ display: "flex", gap: "4px", flexWrap: "wrap" }}>
             {shells.map((count, i) => (
-              <span key={i} style={{ fontSize: "11px", padding: "2px 6px", background: `rgba(${hexToRgb(color)}, 0.12)`, border: `1px solid ${color}30`, color, borderRadius: "2px", fontFamily: "var(--font-heading)" }}>
+              <span key={i} style={{ fontSize: "13px", padding: "2px 6px", background: `rgba(${hexToRgb(color)}, 0.12)`, border: `1px solid ${color}30`, color, borderRadius: "2px", fontFamily: "var(--font-heading)" }}>
                 {["K","L","M","N","O","P","Q"][i]}:{count}
               </span>
             ))}
           </div>
         </div>
 
-        <div style={{ marginTop: "10px", display: "inline-block", fontSize: "10px", padding: "3px 8px", background: `rgba(${hexToRgb(color)}, 0.1)`, border: `1px solid ${color}30`, color, borderRadius: "2px", letterSpacing: "0.1em" }}>
+        <div style={{ marginTop: "10px", display: "inline-block", fontSize: "12px", padding: "3px 8px", background: `rgba(${hexToRgb(color)}, 0.1)`, border: `1px solid ${color}30`, color, borderRadius: "2px", letterSpacing: "0.1em" }}>
           {CATEGORY_LABELS[el.category].toUpperCase()}
         </div>
       </div>
@@ -230,7 +230,7 @@ function Legend() {
       {(Object.entries(CATEGORY_COLORS) as [keyof typeof CATEGORY_COLORS, string][]).map(([cat, color]) => (
         <div key={cat} style={{ display: "flex", alignItems: "center", gap: "5px" }}>
           <div style={{ width: "10px", height: "10px", borderRadius: "1px", background: color, opacity: 0.7, flexShrink: 0 }} />
-          <span style={{ fontSize: "10px", color: "var(--oc-text-muted)", letterSpacing: "0.08em" }}>
+          <span style={{ fontSize: "12px", color: "var(--oc-text-muted)", letterSpacing: "0.08em" }}>
             {CATEGORY_LABELS[cat].toUpperCase()}
           </span>
         </div>
