@@ -65,7 +65,7 @@ export default function WhoWeArePage() {
           className="font-heading leading-none mb-8"
           style={{ fontSize: "clamp(2.2rem, 6vw, 4rem)", letterSpacing: "-0.02em", color: "var(--oc-text)" }}
         >
-          OUR MISSION
+          MISSION STATEMENT
         </h1>
         <div className="mb-16" style={{ borderLeft: "2px solid var(--oc-green-border-dim)", paddingLeft: "1.5rem" }}>
           <p className="text-base leading-relaxed mb-6" style={{ color: "var(--oc-text-muted)" }}>
@@ -104,7 +104,7 @@ export default function WhoWeArePage() {
           className="font-heading leading-none mb-8"
           style={{ fontSize: "clamp(1.8rem, 5vw, 3rem)", letterSpacing: "-0.02em", color: "var(--oc-text)" }}
         >
-          OUR ETHICS
+          ETHICS STATEMENT
         </h2>
         <div style={{ borderLeft: "2px solid var(--oc-green-border-dim)", paddingLeft: "1.5rem" }}>
 
