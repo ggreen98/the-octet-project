@@ -6,6 +6,7 @@ import { ElectronsHeading } from "@/components/lessons/ElectronsHeading";
 import { ProtonHeading } from "@/components/lessons/ProtonHeading";
 import { NeutronHeading } from "@/components/lessons/NeutronHeading";
 import { Term } from "@/components/ui/Term";
+import { Unit } from "@/components/ui/Unit";
 
 export const metadata = {
   title: "Protons, Neutrons & Electrons — Chemistry I | Allylic",
@@ -20,7 +21,7 @@ export default function SubatomicParticlesLesson() {
     >
       {/* ── NAV ─────────────────────────────────────────── */}
       <nav
-        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 h-14"
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 h-16"
         style={{
           background: "var(--oc-nav-bg)",
           backdropFilter: "blur(12px)",
@@ -34,7 +35,7 @@ export default function SubatomicParticlesLesson() {
           </span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-2 text-xs tracking-widest" style={{ color: "var(--oc-green-dim)" }}>
+        <div className="hidden md:flex items-center gap-2 tracking-widest" style={{ fontSize: "0.85rem", color: "var(--oc-green-dim)" }}>
           <Link href="/courses" className="hover:text-green-400 transition-colors">COURSES</Link>
           <span style={{ color: "var(--oc-green-subtle)" }}>›</span>
           <Link href="/courses/chemistry-1" className="hover:text-green-400 transition-colors">CHEMISTRY I</Link>
@@ -44,23 +45,16 @@ export default function SubatomicParticlesLesson() {
 
         <div className="flex items-center gap-3">
           <ThemeToggle />
-          <Link
-            href="/signup"
-            className="font-heading text-xs px-4 py-2"
-            style={{ background: "var(--oc-blue)", color: "var(--oc-btn-text)", letterSpacing: "0.15em" }}
-          >
-            START FREE ▶
-          </Link>
         </div>
       </nav>
 
       {/* ── CONTENT ─────────────────────────────────────── */}
-      <div className="pt-14 px-6 md:px-12 lg:px-20 py-14 max-w-6xl mx-auto">
+      <div className="pt-16 px-6 md:px-12 lg:px-20 py-14 max-w-6xl mx-auto">
 
         {/* Lesson label */}
         <div className="flex items-center gap-3 mb-6">
           <span className="font-heading text-xs px-2 py-0.5" style={{ background: "var(--oc-green-badge)", color: "var(--oc-green)", border: "1px solid var(--oc-green-subtle)", letterSpacing: "0.12em" }}>
-            LESSON 02
+            LESSON 1.2
           </span>
           <span className="text-xs tracking-widest" style={{ color: "var(--oc-text-dim)" }}>
             CHEMISTRY I: GENERAL CHEMISTRY
@@ -88,7 +82,7 @@ export default function SubatomicParticlesLesson() {
           <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
             As we discovered in the last lesson, <Term id="proton">protons</Term> live in the <Term id="atom">atom</Term>&apos;s centre — its <Term id="nucleus">nucleus</Term>.
             Each proton carries a positive <Term id="charge">charge</Term> of +1 and has a mass of approximately
-            1 <Term id="atomic-mass-unit">atomic mass unit</Term> (u) — making it one of the heaviest subatomic particles.
+            1 <Term id="atomic-mass-unit">atomic mass unit</Term> (<Unit id="atomic-mass-unit">u</Unit>) — making it one of the heaviest subatomic particles.
             It is this positive charge that gives every atom its identity: the number of protons
             in an atom determines what <Term id="element">element</Term> it is. Change the number of protons and
             you change the element entirely.
@@ -120,7 +114,7 @@ export default function SubatomicParticlesLesson() {
         <div className="max-w-2xl mb-10">
           <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
             Alongside <Term id="proton">protons</Term> in the <Term id="nucleus">nucleus</Term> sit the <Term id="neutron">neutrons</Term> —
-            particles of almost identical mass (approximately 1.008 <Term id="atomic-mass-unit">atomic mass units</Term>) but carrying
+            particles of almost identical mass (approximately 1.008 <Term id="atomic-mass-unit">atomic mass units</Term> [<Unit id="atomic-mass-unit">u</Unit>]) but carrying
             no <Term id="charge">charge</Term> whatsoever. A <Term id="neutron">neutron</Term> is electrically neutral,
             which is exactly where it gets its name.
           </p>
@@ -128,7 +122,7 @@ export default function SubatomicParticlesLesson() {
             This raises an obvious question: if <Term id="proton">protons</Term> all carry a positive charge and like charges repel,
             why doesn&apos;t the <Term id="nucleus">nucleus</Term> simply fly apart? The answer lies in the <strong style={{ color: "var(--oc-text)" }}>strong nuclear force</strong> —
             one of the four fundamental forces of nature. At the incredibly short distances inside a <Term id="nucleus">nucleus</Term>
-            (on the order of femtometres — about 10<sup>−15</sup> metres), this force is far more powerful than the
+            (on the order of <Unit id="femtometre">femtometres</Unit> — about 10<sup>−15</sup> <Unit id="metre">metres</Unit>), this force is far more powerful than the
             electromagnetic repulsion between like charged <Term id="proton">protons</Term>, locking the <Term id="nucleus">nucleus</Term> together.
             <Term id="neutron">Neutrons</Term> contribute to this binding without adding any additional repulsive charge,
             effectively acting as a kind of nuclear glue.

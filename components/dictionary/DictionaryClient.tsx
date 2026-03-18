@@ -11,14 +11,27 @@ export function DictionaryClient({ terms }: { terms: Term[] }) {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
 
-  const filtered = terms.filter((t) => {
-    const matchesSearch =
-      search === "" ||
-      t.term.toLowerCase().includes(search.toLowerCase()) ||
-      t.definition.toLowerCase().includes(search.toLowerCase());
-    const matchesCategory = activeCategory === "All" || t.category === activeCategory;
-    return matchesSearch && matchesCategory;
-  });
+  const q = search.toLowerCase();
+  const filtered = terms
+    .filter((t) => {
+      const matchesSearch =
+        search === "" ||
+        t.term.toLowerCase().includes(q) ||
+        t.definition.toLowerCase().includes(q);
+      const matchesCategory = activeCategory === "All" || t.category === activeCategory;
+      return matchesSearch && matchesCategory;
+    })
+    .sort((a, b) => {
+      if (search === "") return 0;
+      const score = (t: Term) => {
+        const term = t.term.toLowerCase();
+        if (term === q) return 0;
+        if (term.startsWith(q)) return 1;
+        if (term.includes(q)) return 2;
+        return 3;
+      };
+      return score(a) - score(b);
+    });
 
   return (
     <div>

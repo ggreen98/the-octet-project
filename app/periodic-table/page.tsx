@@ -15,7 +15,7 @@ export default function PeriodicTablePage() {
     >
       {/* ── NAV ─────────────────────────────────────────── */}
       <nav
-        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 h-14"
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 h-16"
         style={{
           background: "var(--oc-nav-bg)",
           backdropFilter: "blur(12px)",
@@ -29,26 +29,22 @@ export default function PeriodicTablePage() {
           </span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-2 text-xs tracking-widest" style={{ color: "var(--oc-green-dim)" }}>
-          <Link href="/courses" className="hover:text-green-400 transition-colors">COURSES</Link>
-          <span style={{ color: "var(--oc-green-subtle)" }}>›</span>
-          <span style={{ color: "var(--oc-green)" }}>PERIODIC TABLE</span>
+        <div className="hidden md:flex items-center gap-8 tracking-widest" style={{ fontSize: "1rem" }}>
+          {[["COURSES", "/courses"], ["PERIODIC TABLE", "/periodic-table"], ["DICTIONARY", "/dictionary"], ["UNITS", "/si-units"]].map(([label, href]) => (
+            <Link key={label} href={href} className="transition-colors duration-200 hover:text-white"
+              style={{ color: label === "PERIODIC TABLE" ? "var(--oc-green)" : "var(--oc-text-dim)" }}>
+              {label}
+            </Link>
+          ))}
         </div>
 
         <div className="flex items-center gap-3">
           <ThemeToggle />
-          <Link
-            href="/signup"
-            className="font-heading text-xs px-4 py-2"
-            style={{ background: "var(--oc-blue)", color: "var(--oc-btn-text)", letterSpacing: "0.15em" }}
-          >
-            START FREE ▶
-          </Link>
         </div>
       </nav>
 
       {/* ── CONTENT ─────────────────────────────────────── */}
-      <div className="pt-14 px-6 md:px-12 lg:px-20 py-14 max-w-screen-2xl mx-auto">
+      <div className="pt-16 px-6 md:px-12 lg:px-20 py-14 max-w-screen-2xl mx-auto">
 
         {/* Header */}
         <div className="mb-8">

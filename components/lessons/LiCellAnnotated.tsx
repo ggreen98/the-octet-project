@@ -134,30 +134,39 @@ export function LiCellAnnotated() {
           <div>
             <div
               style={{
-                fontSize: "10px",
-                color: "var(--oc-green-dim)",
-                letterSpacing: "0.15em",
-                marginBottom: "8px",
+                fontSize: "11px",
+                color: "#d4933e",
+                letterSpacing: "0.18em",
+                marginBottom: "10px",
                 fontFamily: "var(--font-heading, monospace)",
               }}
             >
               {INFO[hovered].label}
             </div>
-            <p style={{ fontSize: "14px", color: "var(--oc-text-muted)", lineHeight: 1.65, margin: 0 }}>
+            <p style={{ fontSize: "16px", color: "var(--oc-text)", lineHeight: 1.65, margin: 0 }}>
               {INFO[hovered].description}
             </p>
           </div>
         ) : (
-          <span
-            style={{
-              fontSize: "10px",
-              color: "var(--oc-green-dim)",
-              letterSpacing: "0.15em",
-              fontFamily: "var(--font-heading, monospace)",
-            }}
-          >
-            ← HOVER A PART OF THE CELL
-          </span>
+          <>
+            <style>{`
+              @keyframes li-hint-pulse {
+                0%, 100% { opacity: 1; text-shadow: 0 0 10px rgba(212,147,62,0.6); }
+                50%       { opacity: 0.35; text-shadow: none; }
+              }
+            `}</style>
+            <span
+              style={{
+                fontSize: "15px",
+                color: "#d4933e",
+                letterSpacing: "0.15em",
+                fontFamily: "var(--font-heading, monospace)",
+                animation: "li-hint-pulse 2s ease-in-out infinite",
+              }}
+            >
+              ← HOVER FOR EXPLAINER
+            </span>
+          </>
         )}
       </div>
 

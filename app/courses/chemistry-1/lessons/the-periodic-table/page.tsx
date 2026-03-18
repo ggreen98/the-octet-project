@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { Term } from "@/components/ui/Term";
+import { Unit } from "@/components/ui/Unit";
 import { PeriodicTableExplorer } from "@/components/lessons/PeriodicTableExplorer";
 import { LiCellAnnotated } from "@/components/lessons/LiCellAnnotated";
 
@@ -17,7 +18,7 @@ export default function PeriodicTableLesson() {
     >
       {/* ── NAV ─────────────────────────────────────────── */}
       <nav
-        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 h-14"
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 h-16"
         style={{
           background: "var(--oc-nav-bg)",
           backdropFilter: "blur(12px)",
@@ -31,7 +32,7 @@ export default function PeriodicTableLesson() {
           </span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-2 text-xs tracking-widest" style={{ color: "var(--oc-green-dim)" }}>
+        <div className="hidden md:flex items-center gap-2 tracking-widest" style={{ fontSize: "0.85rem", color: "var(--oc-green-dim)" }}>
           <Link href="/courses" className="hover:text-green-400 transition-colors">COURSES</Link>
           <span style={{ color: "var(--oc-green-subtle)" }}>›</span>
           <Link href="/courses/chemistry-1" className="hover:text-green-400 transition-colors">CHEMISTRY I</Link>
@@ -41,23 +42,16 @@ export default function PeriodicTableLesson() {
 
         <div className="flex items-center gap-3">
           <ThemeToggle />
-          <Link
-            href="/signup"
-            className="font-heading text-xs px-4 py-2"
-            style={{ background: "var(--oc-blue)", color: "var(--oc-btn-text)", letterSpacing: "0.15em" }}
-          >
-            START FREE ▶
-          </Link>
         </div>
       </nav>
 
       {/* ── CONTENT ─────────────────────────────────────── */}
-      <div className="pt-14 px-6 md:px-12 lg:px-20 py-14 max-w-6xl mx-auto">
+      <div className="pt-16 px-6 md:px-12 lg:px-20 py-14 max-w-6xl mx-auto">
 
         {/* Lesson label */}
         <div className="flex items-center gap-3 mb-6">
           <span className="font-heading text-xs px-2 py-0.5" style={{ background: "var(--oc-green-badge)", color: "var(--oc-green)", border: "1px solid var(--oc-green-subtle)", letterSpacing: "0.12em" }}>
-            LESSON 03
+            LESSON 1.3
           </span>
           <span className="text-xs tracking-widest" style={{ color: "var(--oc-text-dim)" }}>
             CHEMISTRY I: GENERAL CHEMISTRY
@@ -158,7 +152,7 @@ export default function PeriodicTableLesson() {
             value that uniquely identifies it. The large symbol in the centre is the element&apos;s chemical
             abbreviation, used universally in equations, labels, and lab notation. Finally, the number at the
             bottom is the <Term id="atomic-mass-unit">atomic mass</Term> — the average mass of one atom of that
-            element measured in atomic mass units (u), accounting for the natural mix of its <Term id="isotope">isotopes</Term>.
+            element measured in <Unit id="atomic-mass-unit">atomic mass units</Unit> (<Unit id="atomic-mass-unit">u</Unit>), accounting for the natural mix of its <Term id="isotope">isotopes</Term>.
           </p>
           {/* ── ANNOTATED CELL DIAGRAM ───────────────────────── */}
           <div className="mb-8 mt-2">
@@ -196,16 +190,16 @@ export default function PeriodicTableLesson() {
           >
             {/* Formula rows */}
             {[
-              { isotope: "Li-6", mass: "6.0151 u", op: "×", abundance: "0.076", eq: "=", result: "0.4572 u", dim: false },
-              { isotope: "Li-7", mass: "7.0160 u", op: "×", abundance: "0.924", eq: "=", result: "6.4828 u", dim: false },
+              { isotope: "Li-6", mass: "6.0151", op: "×", abundance: "0.076", eq: "=", result: "0.4572" },
+              { isotope: "Li-7", mass: "7.0160", op: "×", abundance: "0.924", eq: "=", result: "6.4828" },
             ].map(({ isotope, mass, op, abundance, eq, result }) => (
               <div key={isotope} className="flex items-baseline gap-3 mb-1" style={{ flexWrap: "wrap" }}>
                 <span style={{ color: "var(--oc-green)", minWidth: "2.8rem" }}>{isotope}</span>
-                <span style={{ color: "var(--oc-text-muted)", minWidth: "5rem" }}>{mass}</span>
+                <span style={{ color: "var(--oc-text-muted)", minWidth: "5rem" }}>{mass} <Unit id="atomic-mass-unit">u</Unit></span>
                 <span style={{ color: "var(--oc-text-dim)" }}>{op}</span>
                 <span style={{ color: "var(--oc-text-muted)", minWidth: "3.5rem" }}>{abundance}</span>
                 <span style={{ color: "var(--oc-text-dim)" }}>{eq}</span>
-                <span style={{ color: "var(--oc-text)" }}>{result}</span>
+                <span style={{ color: "var(--oc-text)" }}>{result} <Unit id="atomic-mass-unit">u</Unit></span>
               </div>
             ))}
 
@@ -219,7 +213,7 @@ export default function PeriodicTableLesson() {
               <span style={{ color: "var(--oc-text-dim)" }}> </span>
               <span style={{ color: "var(--oc-text-dim)", minWidth: "3.5rem" }}></span>
               <span style={{ color: "var(--oc-text-dim)" }}>=</span>
-              <span style={{ color: "#c8853a", fontWeight: 600 }}>6.9400 u  ≈  6.941 u</span>
+              <span style={{ color: "#c8853a", fontWeight: 600 }}>6.9400 <Unit id="atomic-mass-unit">u</Unit>  ≈  6.941 <Unit id="atomic-mass-unit">u</Unit></span>
             </div>
           </div>
 
