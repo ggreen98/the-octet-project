@@ -277,11 +277,11 @@ export default function ElectronShellsLesson() {
             ← PREV: PERIODIC TABLE
           </Link>
           <Link
-            href="/courses/chemistry-1"
+            href="/courses/chemistry-1/lessons/valence-electrons"
             className="font-heading text-xs px-5 py-3 transition-all duration-200 text-center"
-            style={{ border: "1px solid var(--oc-green-subtle)", color: "var(--oc-green)", letterSpacing: "0.12em" }}
+            style={{ background: "var(--oc-blue)", color: "var(--oc-btn-text)", letterSpacing: "0.12em" }}
           >
-            BACK TO COURSE →
+            NEXT: VALENCE ELECTRONS →
           </Link>
         </div>
 
