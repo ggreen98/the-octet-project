@@ -83,7 +83,26 @@ export default function Home() {
           >
             <span className="block animate-fade-up anim-d2" style={{ animationFillMode: "both" }}>THE</span>
             <span className="block animate-fade-up anim-d3" style={{ animationFillMode: "both" }}>CHEMICAL</span>
-            <span className="block glow-blue animate-fade-up anim-d4" style={{ color: "var(--oc-blue)", animationFillMode: "both" }}>WORLD,</span>
+            {/* Desktop: plain text */}
+            <span className="hidden lg:block glow-blue animate-fade-up anim-d4" style={{ color: "var(--oc-blue)", animationFillMode: "both" }}>WORLD,</span>
+            {/* Mobile: O replaced with inline interactive atom */}
+            <span className="lg:hidden glow-blue animate-fade-up anim-d4" style={{ color: "var(--oc-blue)", animationFillMode: "both", display: "flex", alignItems: "center" }}>
+              W
+              <span
+                className="inline-block relative overflow-hidden"
+                style={{
+                  width: "0.82em",
+                  height: "0.82em",
+                  borderRadius: "50%",
+                  flexShrink: 0,
+                  margin: "0 0.01em",
+                  verticalAlign: "middle",
+                }}
+              >
+                <OrbitalCanvas />
+              </span>
+              RLD,
+            </span>
             <span className="block animate-fade-up anim-d5" style={{ animationFillMode: "both" }}>DECODED.</span>
           </h1>
 
