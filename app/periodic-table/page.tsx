@@ -23,14 +23,14 @@ export default function PeriodicTablePage() {
         }}
       >
         <Link href="/" className="flex items-center gap-2">
-          <span className="text-xl font-heading" style={{ color: "var(--oc-green)" }}>⬡</span>
-          <span className="font-heading text-sm hidden sm:block" style={{ color: "var(--oc-text)", letterSpacing: "0.2em" }}>
+          <span className="text-2xl font-heading" style={{ color: "var(--oc-green)" }}>⬡</span>
+          <span className="font-heading hidden sm:block" style={{ color: "var(--oc-text)", letterSpacing: "0.2em" }}>
             ALLYLIC
           </span>
         </Link>
 
         <div className="hidden md:flex items-center gap-8 tracking-widest" style={{ fontSize: "1rem" }}>
-          {[["COURSES", "/courses"], ["PERIODIC TABLE", "/periodic-table"], ["DICTIONARY", "/dictionary"], ["UNITS", "/si-units"], ["ABOUT", "/who-we-are"]].map(([label, href]) => (
+          {[["COURSES", "/courses"], ["PERIODIC TABLE", "/periodic-table"], ["DICTIONARY", "/dictionary"], ["UNITS", "/si-units"], ["MINI GAMES", "/mini-games"], ["ABOUT", "/who-we-are"]].map(([label, href]) => (
             <Link key={label} href={href} className="transition-colors duration-200 hover:text-white"
               style={{ color: label === "PERIODIC TABLE" ? "var(--oc-green)" : "var(--oc-text-dim)" }}>
               {label}

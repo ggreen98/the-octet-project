@@ -118,7 +118,23 @@ export const TERMS = [
     category: "Structure",
     definition:
       "A discrete, fixed amount of energy that an electron in an atom can have. Electrons cannot exist between energy levels — they must jump from one to another, absorbing or releasing energy in the process. Energy levels correspond to electron shells: the K shell is the lowest energy level, the L shell is higher, and so on. When an electron absorbs energy it jumps to a higher level (excited state); when it falls back it releases energy, often as visible light.",
-    related: ["electron", "orbital-shell", "atom"],
+    related: ["electron", "orbital-shell", "atom", "quantization"],
+  },
+  {
+    id: "quantization",
+    term: "Quantization",
+    category: "Concept",
+    definition:
+      "The principle that certain physical quantities — such as the energy of an electron — can only take on specific, discrete values rather than any value along a continuous range. An electron's energy is quantized: it can exist at energy level 1 or energy level 2, but never at 1.5. This is why electrons jump between shells rather than drifting smoothly. Quantization is a foundational idea in quantum mechanics and explains phenomena like the distinct spectral lines elements emit when heated.",
+    related: ["energy-level", "electron", "orbital-shell"],
+  },
+  {
+    id: "valence-electron",
+    term: "Valence Electron",
+    category: "Structure",
+    definition:
+      "An electron in the outermost shell of an atom. Valence electrons are the ones that participate in chemical bonding — they are the electrons that atoms share, transfer, or interact with when they react. The number of valence electrons an atom has determines much of its chemical behaviour. Elements in the same group of the periodic table have the same number of valence electrons, which is why they behave similarly.",
+    related: ["electron", "orbital-shell", "element", "periodic-table"],
   },
   {
     id: "periodic-table",
@@ -127,6 +143,38 @@ export const TERMS = [
     definition:
       "A tabular arrangement of all known chemical elements, ordered by atomic number. Elements in the same column (group) share similar chemical properties because they have the same number of electrons in their outermost shell. The periodic table was first organised by Dmitri Mendeleev in 1869 and remains one of the most powerful tools in chemistry.",
     related: ["element", "atomic-number", "electron", "orbital-shell"],
+  },
+  {
+    id: "valence-shell",
+    term: "Valence Shell",
+    category: "Structure",
+    definition:
+      "The outermost occupied electron shell of an atom. The valence shell is where chemical bonding takes place — its electrons are the ones that interact with other atoms. For carbon (2, 4) the valence shell is the L shell; for sodium (2, 8, 1) it is the M shell. A full valence shell, as seen in noble gases, results in a highly stable, unreactive atom.",
+    related: ["electron", "orbital-shell", "valence-electron", "noble-gas", "octet-rule"],
+  },
+  {
+    id: "octet-rule",
+    term: "Octet Rule",
+    category: "Concept",
+    definition:
+      "The tendency of atoms to gain, lose, or share electrons so as to achieve 8 valence electrons in their outer shell — the same electron count as a noble gas. Atoms with a full outer shell of 8 are exceptionally stable. The octet rule explains why sodium loses 1 electron (to reach 8 in its new outer shell), why chlorine gains 1, and why carbon forms four covalent bonds. Hydrogen and helium are common exceptions, following a duplet rule: they aim for 2 electrons, filling the K shell.",
+    related: ["valence-electron", "valence-shell", "noble-gas", "electron", "element"],
+  },
+  {
+    id: "noble-gas",
+    term: "Noble Gas",
+    category: "Structure",
+    definition:
+      "Any element in Group 18 of the periodic table: helium, neon, argon, krypton, xenon, and radon. Noble gases have completely full outer electron shells — 8 valence electrons (or 2 for helium) — making them the least reactive elements known. They exist as individual atoms and rarely form compounds under normal conditions. Their electron configuration is the stable target that other atoms try to mimic through bonding.",
+    related: ["valence-electron", "valence-shell", "octet-rule", "orbital-shell", "element"],
+  },
+  {
+    id: "halogen",
+    term: "Halogen",
+    category: "Structure",
+    definition:
+      "Any element in Group 17 of the periodic table: fluorine, chlorine, bromine, iodine, and astatine. Halogens have 7 valence electrons and need just one more to complete their outer shell, making them extremely reactive non-metals. They readily gain an electron from metals to form negatively charged ions (e.g. Cl⁻) and salts (e.g. NaCl, table salt). The name halogen comes from Greek, meaning 'salt-former'.",
+    related: ["valence-electron", "element", "periodic-table", "octet-rule"],
   },
 ];
 
@@ -146,14 +194,14 @@ export default function DictionaryPage() {
         }}
       >
         <Link href="/" className="flex items-center gap-2">
-          <span className="text-xl font-heading" style={{ color: "var(--oc-green)" }}>⬡</span>
-          <span className="font-heading text-sm hidden sm:block" style={{ color: "var(--oc-text)", letterSpacing: "0.2em" }}>
+          <span className="text-2xl font-heading" style={{ color: "var(--oc-green)" }}>⬡</span>
+          <span className="font-heading hidden sm:block" style={{ color: "var(--oc-text)", letterSpacing: "0.2em" }}>
             ALLYLIC
           </span>
         </Link>
 
         <div className="hidden md:flex items-center gap-8 tracking-widest" style={{ fontSize: "1rem" }}>
-          {[["COURSES", "/courses"], ["PERIODIC TABLE", "/periodic-table"], ["DICTIONARY", "/dictionary"], ["UNITS", "/si-units"], ["ABOUT", "/who-we-are"]].map(([label, href]) => (
+          {[["COURSES", "/courses"], ["PERIODIC TABLE", "/periodic-table"], ["DICTIONARY", "/dictionary"], ["UNITS", "/si-units"], ["MINI GAMES", "/mini-games"], ["ABOUT", "/who-we-are"]].map(([label, href]) => (
             <Link key={label} href={href} className="transition-colors duration-200 hover:text-white"
               style={{ color: label === "DICTIONARY" ? "var(--oc-green)" : "var(--oc-text-dim)" }}>
               {label}

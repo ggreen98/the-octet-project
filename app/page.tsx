@@ -39,8 +39,9 @@ export default function Home() {
             { label: "COURSES",        href: "/courses" },
             { label: "PERIODIC TABLE", href: "/periodic-table" },
             { label: "DICTIONARY",     href: "/dictionary" },
-            { label: "UNITS",      href: "/si-units" },
-            { label: "ABOUT", href: "/who-we-are" },
+            { label: "UNITS",          href: "/si-units" },
+            { label: "MINI GAMES",     href: "/mini-games" },
+            { label: "ABOUT",          href: "/who-we-are" },
           ].map(({ label, href }) => (
             <Link
               key={label}

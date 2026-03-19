@@ -162,8 +162,8 @@ export default function SIUnitsPage() {
         }}
       >
         <Link href="/" className="flex items-center gap-2">
-          <span className="text-xl font-heading" style={{ color: "var(--oc-green)" }}>⬡</span>
-          <span className="font-heading text-sm hidden sm:block" style={{ color: "var(--oc-text)", letterSpacing: "0.2em" }}>
+          <span className="text-2xl font-heading" style={{ color: "var(--oc-green)" }}>⬡</span>
+          <span className="font-heading hidden sm:block" style={{ color: "var(--oc-text)", letterSpacing: "0.2em" }}>
             ALLYLIC
           </span>
         </Link>
@@ -174,7 +174,8 @@ export default function SIUnitsPage() {
             ["PERIODIC TABLE", "/periodic-table"],
             ["DICTIONARY",     "/dictionary"],
             ["UNITS",          "/si-units"],
-            ["ABOUT",     "/who-we-are"],
+            ["MINI GAMES",     "/mini-games"],
+            ["ABOUT",          "/who-we-are"],
           ].map(([label, href]) => (
             <Link
               key={label}
