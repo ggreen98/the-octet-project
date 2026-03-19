@@ -56,8 +56,8 @@ export default function Home() {
         </div>
 
         <div className="ml-auto flex items-center gap-3">
-          <MobileNav />
-          <ThemeToggle />
+          <MobileNav amber />
+          <ThemeToggle amber />
         </div>
       </nav>
 

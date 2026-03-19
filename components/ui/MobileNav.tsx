@@ -12,7 +12,7 @@ const NAV_LINKS = [
   { label: "ABOUT",          href: "/who-we-are" },
 ];
 
-export function MobileNav({ activeLabel }: { activeLabel?: string }) {
+export function MobileNav({ activeLabel, amber }: { activeLabel?: string; amber?: boolean }) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export function MobileNav({ activeLabel }: { activeLabel?: string }) {
         onClick={() => setOpen(true)}
         className="md:hidden flex flex-col justify-center gap-[5px] p-2 -mr-1"
         aria-label="Open navigation"
-        style={{ color: "var(--oc-green)" }}
+        style={{ color: amber ? "#ffb830" : "var(--oc-green)" }}
       >
         <span style={{ display: "block", width: "20px", height: "2px", background: "currentColor" }} />
         <span style={{ display: "block", width: "20px", height: "2px", background: "currentColor" }} />
