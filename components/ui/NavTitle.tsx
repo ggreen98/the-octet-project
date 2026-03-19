@@ -82,7 +82,7 @@ export function NavTitle() {
       </span>
 
       <span
-        className="font-heading hidden sm:block"
+        className="font-heading"
         style={{
           letterSpacing: "0.2em",
           fontSize: "1.05rem",

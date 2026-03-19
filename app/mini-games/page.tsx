@@ -36,7 +36,7 @@ export default function MiniGamesPage() {
       >
         <Link href="/" className="flex items-center gap-2">
           <span className="text-2xl font-heading" style={{ color: "var(--oc-green)" }}>⬡</span>
-          <span className="font-heading hidden sm:block" style={{ color: "var(--oc-text)", letterSpacing: "0.2em" }}>
+          <span className="font-heading" style={{ color: "var(--oc-text)", letterSpacing: "0.2em" }}>
             ALLYLIC
           </span>
         </Link>
