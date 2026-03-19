@@ -42,20 +42,13 @@ export function MobileNav({ activeLabel }: { activeLabel?: string }) {
 
       {/* Full-screen overlay */}
       {open && (
-        <>
-          <style>{`
-            @keyframes mob-nav-in {
-              from { opacity: 0; transform: translateY(-6px); }
-              to   { opacity: 1; transform: translateY(0); }
-            }
-          `}</style>
-          <div
-            className="fixed inset-0 z-[300] flex flex-col scanlines font-terminal"
-            style={{
-              background: "var(--oc-bg)",
-              animation: "mob-nav-in 0.14s ease-out both",
-            }}
-          >
+        <div
+          className="mob-nav-overlay fixed inset-0 z-[300] flex flex-col scanlines font-terminal"
+          style={{
+            background: "var(--oc-bg)",
+            color: "var(--oc-text)",
+          }}
+        >
             {/* Header */}
             <div
               className="flex items-center justify-between px-6 h-16 shrink-0"
