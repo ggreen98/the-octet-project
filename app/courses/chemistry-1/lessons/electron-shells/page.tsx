@@ -12,7 +12,7 @@ export const metadata = {
 export default function ElectronShellsLesson() {
   return (
     <main
-      className="scanlines font-terminal min-h-screen"
+      className="scanlines font-terminal min-h-screen overflow-x-hidden"
       style={{ backgroundColor: "var(--oc-bg)", color: "var(--oc-text)" }}
     >
       {/* ── NAV ─────────────────────────────────────────── */}
@@ -268,18 +268,18 @@ export default function ElectronShellsLesson() {
         </div>
 
         {/* ── NAVIGATION ──────────────────────────────────── */}
-        <div className="flex justify-between items-center mt-4 pt-8" style={{ borderTop: "1px solid var(--oc-green-border-faint)" }}>
+        <div className="flex flex-col sm:flex-row gap-3 mt-4 pt-8" style={{ borderTop: "1px solid var(--oc-green-border-faint)" }}>
           <Link
             href="/courses/chemistry-1/lessons/the-periodic-table"
-            className="font-heading text-xs px-6 py-3 transition-all duration-200"
-            style={{ border: "1px solid rgba(68,153,255,0.3)", color: "var(--oc-blue)", letterSpacing: "0.15em" }}
+            className="font-heading text-xs px-5 py-3 transition-all duration-200 text-center"
+            style={{ border: "1px solid rgba(68,153,255,0.3)", color: "var(--oc-blue)", letterSpacing: "0.12em" }}
           >
-            ← PREV: THE PERIODIC TABLE
+            ← PREV: PERIODIC TABLE
           </Link>
           <Link
             href="/courses/chemistry-1"
-            className="font-heading text-xs px-6 py-3 transition-all duration-200"
-            style={{ border: "1px solid var(--oc-green-subtle)", color: "var(--oc-green)", letterSpacing: "0.15em" }}
+            className="font-heading text-xs px-5 py-3 transition-all duration-200 text-center"
+            style={{ border: "1px solid var(--oc-green-subtle)", color: "var(--oc-green)", letterSpacing: "0.12em" }}
           >
             BACK TO COURSE →
           </Link>

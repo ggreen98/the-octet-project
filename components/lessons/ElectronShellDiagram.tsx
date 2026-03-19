@@ -61,6 +61,21 @@ export function ElectronShellDiagram() {
 
   return (
     <div className="mb-12">
+      <style>{`
+        .esd-panel {
+          width: 100%;
+          border-top: 1px solid var(--oc-green-border-dim);
+          border-left: none;
+        }
+        @media (min-width: 1024px) {
+          .esd-panel {
+            width: 260px;
+            flex-shrink: 0;
+            border-top: none;
+            border-left: 1px solid var(--oc-green-border-dim);
+          }
+        }
+      `}</style>
       <p
         className="font-heading text-xs tracking-widest mb-4"
         style={{ color: "var(--oc-green-dim)", letterSpacing: "0.12em", fontSize: "0.6rem" }}
@@ -187,11 +202,8 @@ export function ElectronShellDiagram() {
 
         {/* ── Info Panel ── */}
         <div
-          className="flex flex-col justify-between p-6"
+          className="esd-panel flex flex-col justify-between p-6"
           style={{
-            minWidth: "220px",
-            maxWidth: "260px",
-            borderLeft: "1px solid var(--oc-green-border-dim)",
             background: isLight ? "rgba(240,237,230,0.65)" : "rgba(1,13,10,0.7)",
           }}
         >
