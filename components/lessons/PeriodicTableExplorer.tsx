@@ -266,7 +266,27 @@ export function PeriodicTableExplorer() {
         ← SCROLL TO EXPLORE · TAP AN ELEMENT TO VIEW IT →
       </p>
 
-      {/* Table + detail panel */}
+      {/* Mobile modal — shown when an element is tapped, hidden on desktop */}
+      {tapped && (
+        <div
+          className="lg:hidden fixed inset-0 z-[200] flex items-center justify-center p-5"
+          style={{ background: "rgba(0,0,0,0.75)", backdropFilter: "blur(6px)" }}
+          onClick={() => setTapped(null)}
+        >
+          <div
+            style={{ width: "100%", maxWidth: "340px" }}
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Close hint */}
+            <p className="font-heading text-center mb-2" style={{ color: "var(--oc-text-hint)", fontSize: "0.55rem", letterSpacing: "0.15em" }}>
+              TAP OUTSIDE TO CLOSE
+            </p>
+            <DetailPanel el={tapped} />
+          </div>
+        </div>
+      )}
+
+      {/* Table + desktop detail panel */}
       <div className="flex flex-col lg:flex-row gap-4 items-start">
 
         {/* Table — horizontally scrollable on mobile, fills remaining space on desktop */}
@@ -285,18 +305,18 @@ export function PeriodicTableExplorer() {
           </p>
         </div>
 
-        {/* Detail panel — stacks below on mobile, fixed width beside on desktop */}
-        <div className="w-full lg:w-[280px] lg:flex-shrink-0">
+        {/* Desktop-only detail panel */}
+        <div className="hidden lg:block w-[280px] flex-shrink-0">
           {active ? (
             <DetailPanel el={active} />
           ) : (
             <div
-              className="hidden lg:flex"
               style={{
                 width: "280px",
                 height: "460px",
                 border: "1px solid var(--oc-green-border-faint)",
                 borderRadius: "4px",
+                display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 flexDirection: "column",
