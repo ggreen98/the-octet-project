@@ -62,9 +62,9 @@ export default function Home() {
       </nav>
 
       {/* ── HERO ────────────────────────────────────────── */}
-      <section className="min-h-screen flex flex-col lg:flex-row pt-14">
+      <section className="lg:min-h-screen flex flex-col lg:flex-row pt-14">
         {/* Left: Text */}
-        <div className="flex flex-col justify-center px-6 md:px-16 lg:px-24 py-20 lg:py-0 lg:w-[55%] z-10">
+        <div className="flex flex-col justify-center px-6 md:px-16 lg:px-24 py-10 lg:py-0 lg:w-[55%] z-10">
           {/* Eyebrow */}
           <div className="flex items-center gap-2 mb-8 animate-fade-up flicker-amber-1" style={{ animationFillMode: "both" }}>
             <span style={{ color: "var(--oc-green)", fontSize: "1rem" }}>⬡</span>
