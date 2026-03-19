@@ -129,8 +129,8 @@ export default function Home() {
 
         </div>
 
-        {/* Right: 3D Orbital */}
-        <div className="lg:w-[45%] lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] h-[55vw] min-h-[280px] relative">
+        {/* Right: 3D Orbital — desktop only */}
+        <div className="hidden lg:block lg:w-[45%] lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] relative">
           <OrbitalCanvas />
 
           {/* Caption — overlaid at bottom of canvas */}
