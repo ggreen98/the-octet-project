@@ -86,7 +86,7 @@ export default function Home() {
             {/* Desktop: plain text */}
             <span className="hidden lg:block glow-blue animate-fade-up anim-d4" style={{ color: "var(--oc-blue)", animationFillMode: "both" }}>WORLD,</span>
             {/* Mobile: O replaced with inline interactive atom */}
-            <span className="lg:hidden glow-blue animate-fade-up anim-d4" style={{ color: "var(--oc-blue)", animationFillMode: "both", display: "flex", alignItems: "center", position: "relative", zIndex: 1 }}>
+            <span className="lg:hidden flex items-center glow-blue animate-fade-up anim-d4" style={{ color: "var(--oc-blue)", animationFillMode: "both", position: "relative", zIndex: 1 }}>
               W
               {/* Placeholder takes O-width in text flow; canvas overflows from center */}
               <span style={{ display: "inline-block", position: "relative", width: "0.7em", height: "0.9em", flexShrink: 0 }}>
