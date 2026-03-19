@@ -47,6 +47,7 @@ export function MobileNav({ activeLabel }: { activeLabel?: string }) {
           style={{
             background: "var(--oc-bg)",
             color: "var(--oc-text)",
+            height: "100dvh",
           }}
         >
             {/* Header */}
@@ -72,7 +73,7 @@ export function MobileNav({ activeLabel }: { activeLabel?: string }) {
             </div>
 
             {/* Links */}
-            <nav className="flex flex-col px-6 pt-6 flex-1 overflow-y-auto">
+            <nav className="flex flex-col px-6 pt-6 flex-1 overflow-y-auto min-h-0">
               {NAV_LINKS.map(({ label, href }) => {
                 const isActive = label === activeLabel;
                 return (
