@@ -32,14 +32,16 @@ function CellOrbitals({ color }: { color: string }) {
 
 function ElementCell({
   el,
-  isHovered,
+  isActive,
   onEnter,
   onLeave,
+  onTap,
 }: {
   el: Element;
-  isHovered: boolean;
+  isActive: boolean;
   onEnter: () => void;
   onLeave: () => void;
+  onTap: () => void;
 }) {
   const color = CATEGORY_COLORS[el.category];
 
@@ -47,12 +49,13 @@ function ElementCell({
     <div
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
+      onClick={onTap}
       style={{
         position: "relative",
         width: "100%",
         aspectRatio: "44 / 58",
-        border: `1px solid ${isHovered ? color : "rgba(114,184,114,0.1)"}`,
-        background: isHovered
+        border: `1px solid ${isActive ? color : "rgba(114,184,114,0.1)"}`,
+        background: isActive
           ? `rgba(${hexToRgb(color)}, 0.12)`
           : "rgba(114,184,114,0.02)",
         borderRadius: "2px",
@@ -88,8 +91,7 @@ function DetailPanel({ el }: { el: Element }) {
   return (
     <div
       style={{
-        width: "280px",
-        flexShrink: 0,
+        width: "100%",
         border: `1px solid ${color}30`,
         background: "var(--oc-bg)",
         borderRadius: "4px",
@@ -157,32 +159,31 @@ function DetailPanel({ el }: { el: Element }) {
 
 // ─── Periodic table grid ──────────────────────────────────────────────────────
 
-// dataRow → CSS grid row (row 8 is a spacer, so f-block shifts down by 1)
 function toGridRow(dataRow: number): number {
   return dataRow <= 7 ? dataRow : dataRow + 1;
 }
 
 function PeriodicGrid({
-  hovered,
+  active,
   onEnter,
   onLeave,
+  onTap,
 }: {
-  hovered: Element | null;
+  active: Element | null;
   onEnter: (el: Element) => void;
   onLeave: () => void;
+  onTap: (el: Element) => void;
 }) {
   return (
     <div
       style={{
         display: "grid",
         gridTemplateColumns: "repeat(18, 1fr)",
-        // rows 1-7 main, row 8 spacer, rows 9-10 f-block
         gridTemplateRows: "repeat(7, auto) 10px repeat(2, auto)",
         gap: "2px",
         width: "100%",
       }}
     >
-      {/* All elements */}
       {ELEMENTS.map((el) => (
         <div
           key={el.z}
@@ -190,14 +191,14 @@ function PeriodicGrid({
         >
           <ElementCell
             el={el}
-            isHovered={hovered?.z === el.z}
+            isActive={active?.z === el.z}
             onEnter={() => onEnter(el)}
             onLeave={onLeave}
+            onTap={() => onTap(el)}
           />
         </div>
       ))}
 
-      {/* f-block row labels — sit in the first 3 columns of rows 9 & 10 */}
       {([
         { gridRow: 9, label: "57–71" },
         { gridRow: 10, label: "89–103" },
@@ -243,6 +244,14 @@ function Legend() {
 
 export function PeriodicTableExplorer() {
   const [hovered, setHovered] = useState<Element | null>(null);
+  const [tapped,  setTapped]  = useState<Element | null>(null);
+
+  // hover takes priority on desktop; tap persists for mobile
+  const active = hovered ?? tapped;
+
+  function handleTap(el: Element) {
+    setTapped(prev => prev?.z === el.z ? null : el);
+  }
 
   return (
     <div className="mb-12">
@@ -252,29 +261,42 @@ export function PeriodicTableExplorer() {
 
       <Legend />
 
-      <div style={{ display: "flex", gap: "16px", alignItems: "flex-start" }}>
-        {/* Table — fills remaining space, min-width:0 allows shrinking */}
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <PeriodicGrid
-            hovered={hovered}
-            onEnter={setHovered}
-            onLeave={() => setHovered(null)}
-          />
+      {/* Mobile scroll hint */}
+      <p className="lg:hidden text-xs mb-3 font-heading" style={{ color: "var(--oc-green-dim)", letterSpacing: "0.1em", fontSize: "0.6rem" }}>
+        ← SCROLL TO EXPLORE · TAP AN ELEMENT TO VIEW IT →
+      </p>
+
+      {/* Table + detail panel */}
+      <div className="flex flex-col lg:flex-row gap-4 items-start">
+
+        {/* Table — horizontally scrollable on mobile, fills remaining space on desktop */}
+        <div className="w-full lg:flex-1 lg:min-w-0 overflow-x-auto">
+          <div style={{ minWidth: "600px" }}>
+            <PeriodicGrid
+              active={active}
+              onEnter={el => setHovered(el)}
+              onLeave={() => setHovered(null)}
+              onTap={handleTap}
+            />
+          </div>
+          {/* Desktop hover hint */}
+          <p className="hidden lg:block text-xs mt-2 font-heading" style={{ color: "var(--oc-green-dim)", letterSpacing: "0.1em", fontSize: "0.6rem" }}>
+            ↑ HOVER AN ELEMENT TO VIEW ITS ATOM →
+          </p>
         </div>
 
-        {/* Detail panel — only visible on hover */}
-        <div style={{ width: "260px", flexShrink: 0, minHeight: "460px" }}>
-          {hovered ? (
-            <DetailPanel el={hovered} />
+        {/* Detail panel — stacks below on mobile, fixed width beside on desktop */}
+        <div className="w-full lg:w-[280px] lg:flex-shrink-0">
+          {active ? (
+            <DetailPanel el={active} />
           ) : (
             <div
+              className="hidden lg:flex"
               style={{
-                width: "260px",
-                height: "100%",
-                minHeight: "460px",
+                width: "280px",
+                height: "460px",
                 border: "1px solid var(--oc-green-border-faint)",
                 borderRadius: "4px",
-                display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 flexDirection: "column",
@@ -288,6 +310,7 @@ export function PeriodicTableExplorer() {
             </div>
           )}
         </div>
+
       </div>
     </div>
   );

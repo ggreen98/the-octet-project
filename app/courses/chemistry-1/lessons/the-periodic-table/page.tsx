@@ -14,7 +14,7 @@ export const metadata = {
 export default function PeriodicTableLesson() {
   return (
     <main
-      className="scanlines font-terminal min-h-screen"
+      className="scanlines font-terminal min-h-screen overflow-x-hidden"
       style={{ backgroundColor: "var(--oc-bg)", color: "var(--oc-text)" }}
     >
       {/* ── NAV ─────────────────────────────────────────── */}
@@ -391,18 +391,18 @@ export default function PeriodicTableLesson() {
         </div>
 
         {/* Navigation */}
-        <div className="flex justify-between items-center mt-8 pt-8" style={{ borderTop: "1px solid var(--oc-green-border-faint)" }}>
+        <div className="flex flex-col sm:flex-row gap-3 mt-8 pt-8" style={{ borderTop: "1px solid var(--oc-green-border-faint)" }}>
           <Link
             href="/courses/chemistry-1/lessons/protons-neutrons-electrons"
-            className="font-heading text-xs px-6 py-3 transition-all duration-200"
-            style={{ border: "1px solid rgba(68,153,255,0.3)", color: "var(--oc-blue)", letterSpacing: "0.15em" }}
+            className="font-heading text-xs px-5 py-3 transition-all duration-200 text-center"
+            style={{ border: "1px solid rgba(68,153,255,0.3)", color: "var(--oc-blue)", letterSpacing: "0.12em" }}
           >
-            ← PREV: PROTONS, NEUTRONS & ELECTRONS
+            ← PREV: PROTONS & NEUTRONS
           </Link>
           <Link
             href="/courses/chemistry-1"
-            className="font-heading text-xs px-6 py-3 transition-all duration-200"
-            style={{ background: "transparent", border: "1px solid rgba(68,153,255,0.3)", color: "var(--oc-blue)", letterSpacing: "0.15em" }}
+            className="font-heading text-xs px-5 py-3 transition-all duration-200 text-center"
+            style={{ background: "transparent", border: "1px solid rgba(68,153,255,0.3)", color: "var(--oc-blue)", letterSpacing: "0.12em" }}
           >
             BACK TO COURSE →
           </Link>
