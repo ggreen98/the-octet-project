@@ -130,16 +130,16 @@ export function SubatomicExplorer() {
 
         {/* Hover hint */}
         <p
-          className="font-heading text-xs tracking-widest"
+          className="hidden lg:block font-heading text-xs tracking-widest"
           style={{ color: "var(--oc-green-dim)", letterSpacing: "0.12em", fontSize: "0.6rem" }}
         >
           ↑ HOVER A CARD TO HIGHLIGHT IT IN THE ATOM →
         </p>
       </div>
 
-      {/* Carbon atom */}
+      {/* Carbon atom — hidden on mobile (hover doesn't work on touch) */}
       <div
-        className="shrink-0 w-full lg:w-[340px] aspect-square"
+        className="hidden lg:block shrink-0 w-[340px] aspect-square"
         style={{
           maxWidth: "340px",
           alignSelf: "center",
