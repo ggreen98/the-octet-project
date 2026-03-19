@@ -17,7 +17,7 @@ export const metadata = {
 export default function SubatomicParticlesLesson() {
   return (
     <main
-      className="scanlines font-terminal min-h-screen"
+      className="scanlines font-terminal min-h-screen overflow-x-hidden"
       style={{ backgroundColor: "var(--oc-bg)", color: "var(--oc-text)" }}
     >
       {/* ── NAV ─────────────────────────────────────────── */}
@@ -177,20 +177,20 @@ export default function SubatomicParticlesLesson() {
         </div>
 
         {/* Navigation */}
-        <div className="flex justify-between items-center mt-16 pt-8" style={{ borderTop: "1px solid var(--oc-green-border-faint)" }}>
+        <div className="flex flex-col sm:flex-row gap-3 mt-16 pt-8" style={{ borderTop: "1px solid var(--oc-green-border-faint)" }}>
           <Link
             href="/courses/chemistry-1/lessons/atoms"
-            className="font-heading text-xs px-6 py-3 transition-all duration-200"
-            style={{ border: "1px solid rgba(68,153,255,0.3)", color: "var(--oc-blue)", letterSpacing: "0.15em" }}
+            className="font-heading text-xs px-5 py-3 transition-all duration-200 text-center"
+            style={{ border: "1px solid rgba(68,153,255,0.3)", color: "var(--oc-blue)", letterSpacing: "0.12em" }}
           >
             ← PREV: ATOMS
           </Link>
           <Link
             href="/courses/chemistry-1/lessons/the-periodic-table"
-            className="font-heading text-xs px-6 py-3 transition-all duration-200"
-            style={{ background: "var(--oc-blue)", color: "var(--oc-btn-text)", letterSpacing: "0.15em" }}
+            className="font-heading text-xs px-5 py-3 transition-all duration-200 text-center"
+            style={{ background: "var(--oc-blue)", color: "var(--oc-btn-text)", letterSpacing: "0.12em" }}
           >
-            NEXT: THE PERIODIC TABLE →
+            NEXT: PERIODIC TABLE →
           </Link>
         </div>
       </div>

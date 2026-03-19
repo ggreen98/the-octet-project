@@ -85,7 +85,7 @@ export function SubatomicExplorer() {
 
       {/* Cards + hint stacked together */}
       <div className="flex flex-col flex-1 gap-3">
-        <div className="flex gap-4">
+        <div className="flex flex-col sm:flex-row gap-4">
           {PARTICLES.map((p) => {
             const active = highlighted === p.id;
             return (
@@ -139,14 +139,13 @@ export function SubatomicExplorer() {
 
       {/* Carbon atom */}
       <div
-        className="shrink-0"
+        className="shrink-0 w-full lg:w-[340px] aspect-square"
         style={{
-          width: "340px",
-          height: "340px",
+          maxWidth: "340px",
+          alignSelf: "center",
           border: "1px solid var(--oc-green-border-faint)",
           borderRadius: "4px",
           background: "transparent",
-          alignSelf: "center",
         }}
       >
         <CarbonCanvas highlighted={highlighted} />
