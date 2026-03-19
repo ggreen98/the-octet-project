@@ -369,12 +369,11 @@ export default function ValenceElectronsLesson() {
             UP NEXT
           </p>
           <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
-            We now know that atoms gain, lose, or share{" "}
-            <Term id="valence-electron">valence electrons</Term> to reach a stable full outer{" "}
-            <Term id="valence-shell">valence shell</Term>. In lesson 2.3 we will look at exactly what
-            happens when they do: the formation of <strong style={{ color: "var(--oc-text)" }}>chemical bonds</strong>.
-            We&apos;ll cover ionic bonds — formed by electron transfer — and covalent bonds — formed
-            by electron sharing — and see how the <Term id="octet-rule">octet rule</Term> drives both.
+            We know which electrons are on the outside — but where exactly do all the others live?
+            In lesson 2.3 we zoom in further with <strong style={{ color: "var(--oc-text)" }}>electron
+            configuration</strong>: a precise address for every electron in an atom. We&apos;ll cover
+            subshells, the Aufbau principle, how to read and write configurations, and how the s/p/d
+            blocks explain the shape of the <Term id="periodic-table">periodic table</Term>.
           </p>
         </div>
 
@@ -391,11 +390,11 @@ export default function ValenceElectronsLesson() {
             ← PREV: ELECTRON SHELLS
           </Link>
           <Link
-            href="/courses/chemistry-1"
+            href="/courses/chemistry-1/lessons/electron-configuration"
             className="font-heading text-xs px-6 py-3 transition-all duration-200"
-            style={{ border: "1px solid var(--oc-green-subtle)", color: "var(--oc-green)", letterSpacing: "0.15em" }}
+            style={{ background: "var(--oc-blue)", color: "var(--oc-btn-text)", letterSpacing: "0.15em" }}
           >
-            BACK TO COURSE →
+            NEXT: ELECTRON CONFIG →
           </Link>
         </div>
 

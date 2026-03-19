@@ -57,6 +57,12 @@ const units = [
         description: "The electrons in the outermost shell are the ones that do all the chemistry. Learn how many each element has and why it determines almost everything about how it behaves.",
         href: "/courses/chemistry-1/lessons/valence-electrons",
       },
+      {
+        id: "2.3",
+        title: "ELECTRON CONFIGURATION",
+        description: "A precise address for every electron — learn to read and write configurations, understand the s/p/d blocks, and see why the periodic table is shaped the way it is.",
+        href: "/courses/chemistry-1/lessons/electron-configuration",
+      },
     ],
   },
 ];
