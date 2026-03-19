@@ -112,7 +112,6 @@ export function MobileNav({ activeLabel }: { activeLabel?: string }) {
               </p>
             </div>
           </div>
-        </>
       )}
     </>
   );
