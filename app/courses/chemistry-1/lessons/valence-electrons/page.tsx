@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { MobileNav } from "@/components/ui/MobileNav";
 import { ValenceElectronExplorer } from "@/components/lessons/ValenceElectronExplorer";
 import { ValenceStrategyGame } from "@/components/lessons/ValenceStrategyGame";
 import { Term } from "@/components/ui/Term";
@@ -40,6 +41,7 @@ export default function ValenceElectronsLesson() {
         </div>
 
         <div className="flex items-center gap-3">
+          <MobileNav />
           <ThemeToggle />
         </div>
       </nav>

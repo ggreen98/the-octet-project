@@ -215,7 +215,8 @@ export function SIUnitsClient({
             <div
               className="grid font-heading"
               style={{
-                gridTemplateColumns: "1fr 60px 100px 1fr",
+                gridTemplateColumns: "1fr 80px 120px 1fr",
+                columnGap: "1rem",
                 padding: "0.6rem 1.25rem",
                 borderBottom: "1px solid var(--oc-green-border-dim)",
                 color: "var(--oc-text-dim)",
@@ -233,7 +234,8 @@ export function SIUnitsClient({
                 key={p.prefix}
                 className="grid"
                 style={{
-                  gridTemplateColumns: "1fr 60px 100px 1fr",
+                  gridTemplateColumns: "1fr 80px 120px 1fr",
+                  columnGap: "1rem",
                   padding: "0.55rem 1.25rem",
                   borderBottom:
                     i < prefixes.length - 1

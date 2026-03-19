@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { MobileNav } from "@/components/ui/MobileNav";
 
 export const metadata = {
   title: "Coming Soon — Allylic",
@@ -47,6 +48,7 @@ export default function SignUpPage() {
         </div>
 
         <div className="flex items-center gap-3">
+          <MobileNav />
           <ThemeToggle />
         </div>
       </nav>

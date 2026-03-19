@@ -3,6 +3,7 @@ import { OrbitalCanvas } from "@/components/molecules/OrbitalCanvas";
 import { HexDotGrid } from "@/components/ui/HexDotGrid";
 import { NavTitle } from "@/components/ui/NavTitle";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { MobileNav } from "@/components/ui/MobileNav";
 
 export default function Home() {
   return (
@@ -54,7 +55,8 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="ml-auto">
+        <div className="ml-auto flex items-center gap-3">
+          <MobileNav />
           <ThemeToggle />
         </div>
       </nav>
@@ -116,15 +118,13 @@ export default function Home() {
         </div>
 
         {/* Right: 3D Orbital */}
-        <div className="lg:w-[45%] lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] h-[55vw] min-h-[300px] relative flex flex-col">
-          <div className="flex-1 relative">
-            <OrbitalCanvas />
-          </div>
+        <div className="lg:w-[45%] lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] h-[55vw] min-h-[280px] relative">
+          <OrbitalCanvas />
 
-          {/* Caption */}
+          {/* Caption — overlaid at bottom of canvas */}
           <div
-            className="text-center tracking-widest pb-4 lg:pb-6"
-            style={{ color: "var(--oc-text-dim)", fontSize: "0.85rem", marginTop: "-6rem" }}
+            className="absolute bottom-3 left-0 right-0 text-center tracking-widest pointer-events-none"
+            style={{ color: "var(--oc-text-dim)", fontSize: "0.75rem" }}
           >
             <span className="animate-blink" style={{ color: "var(--oc-green-dim)" }}>■</span>
             {" "}DRAG TO ROTATE{" "}

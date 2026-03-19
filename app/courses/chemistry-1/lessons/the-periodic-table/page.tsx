@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { MobileNav } from "@/components/ui/MobileNav";
 import { Term } from "@/components/ui/Term";
 import { Unit } from "@/components/ui/Unit";
 import { PeriodicTableExplorer } from "@/components/lessons/PeriodicTableExplorer";
@@ -26,8 +27,8 @@ export default function PeriodicTableLesson() {
         }}
       >
         <Link href="/" className="flex items-center gap-2">
-          <span className="text-xl font-heading" style={{ color: "var(--oc-green)" }}>⬡</span>
-          <span className="font-heading text-sm hidden sm:block" style={{ color: "var(--oc-text)", letterSpacing: "0.2em" }}>
+          <span className="text-2xl font-heading" style={{ color: "var(--oc-green)" }}>⬡</span>
+          <span className="font-heading hidden sm:block" style={{ color: "var(--oc-text)", letterSpacing: "0.2em" }}>
             ALLYLIC
           </span>
         </Link>
@@ -41,6 +42,7 @@ export default function PeriodicTableLesson() {
         </div>
 
         <div className="flex items-center gap-3">
+          <MobileNav />
           <ThemeToggle />
         </div>
       </nav>

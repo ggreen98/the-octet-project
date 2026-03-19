@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { DictionaryClient } from "@/components/dictionary/DictionaryClient";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { MobileNav } from "@/components/ui/MobileNav";
 
 export const metadata = {
   title: "Dictionary — Allylic",
@@ -210,6 +211,7 @@ export default function DictionaryPage() {
         </div>
 
         <div className="flex items-center gap-3">
+          <MobileNav activeLabel="DICTIONARY" />
           <ThemeToggle />
         </div>
       </nav>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { MobileNav } from "@/components/ui/MobileNav";
 import { SIUnitsClient, type SIUnit, type SIPrefix } from "@/components/si-units/SIUnitsClient";
 
 export const metadata = {
@@ -189,6 +190,7 @@ export default function SIUnitsPage() {
         </div>
 
         <div className="flex items-center gap-3">
+          <MobileNav activeLabel="UNITS" />
           <ThemeToggle />
         </div>
       </nav>

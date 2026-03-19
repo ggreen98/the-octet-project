@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { MobileNav } from "@/components/ui/MobileNav";
 import { ElectronShellDiagram } from "@/components/lessons/ElectronShellDiagram";
 import { Term } from "@/components/ui/Term";
 
@@ -24,8 +25,8 @@ export default function ElectronShellsLesson() {
         }}
       >
         <Link href="/" className="flex items-center gap-2">
-          <span className="text-xl font-heading" style={{ color: "var(--oc-green)" }}>⬡</span>
-          <span className="font-heading text-sm hidden sm:block" style={{ color: "var(--oc-text)", letterSpacing: "0.2em" }}>
+          <span className="text-2xl font-heading" style={{ color: "var(--oc-green)" }}>⬡</span>
+          <span className="font-heading hidden sm:block" style={{ color: "var(--oc-text)", letterSpacing: "0.2em" }}>
             ALLYLIC
           </span>
         </Link>
@@ -39,6 +40,7 @@ export default function ElectronShellsLesson() {
         </div>
 
         <div className="flex items-center gap-3">
+          <MobileNav />
           <ThemeToggle />
         </div>
       </nav>
@@ -82,7 +84,9 @@ export default function ElectronShellsLesson() {
             Imagine a ladder. You can stand on rung 1, rung 2, or rung 3 — but never on rung 1.5.
             <Term id="electron">Electrons</Term> work the same way. They exist at specific, fixed{" "}
             <Term id="energy-level">energy levels</Term> around the nucleus. They cannot be
-            between levels — they must be on a rung.
+            between levels — they must be on a rung. This property, that energy comes only in
+            discrete, allowed values rather than a continuous spectrum, is called{" "}
+            <Term id="quantization">quantization</Term>.
           </p>
           <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
             These energy levels are called <Term id="orbital-shell">electron shells</Term>. They are
@@ -181,6 +185,37 @@ export default function ElectronShellsLesson() {
           </ul>
         </div>
 
+        {/* ── VALENCE ELECTRONS ───────────────────────────── */}
+        <h2
+          className="font-heading mb-6"
+          style={{ fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)", letterSpacing: "0.05em", color: "var(--oc-text)" }}
+        >
+          VALENCE ELECTRONS
+        </h2>
+        <div className="max-w-2xl mb-12">
+          <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
+            Not all <Term id="electron">electrons</Term> in an atom are equal. We call electrons in
+            the outermost shell of an atom (closest to the outside world){" "}
+            <Term id="valence-electron">valence electrons</Term>. As shown above, which shell is the
+            outermost changes depending on the <Term id="element">element</Term>. In hydrogen the
+            valence electron sits in the K shell, whereas in carbon the valence electrons sit in
+            the L shell.
+          </p>
+          <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
+            Sodium (Z=11), for example, has the configuration 2, 8, 1 — two electrons in the K shell,
+            eight in the L shell, and one lone electron in the M shell. That single outermost electron
+            is sodium&apos;s valence electron, and it is almost entirely responsible for how sodium
+            behaves chemically.
+          </p>
+          <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
+            One of the most useful patterns in the <Term id="periodic-table">periodic table</Term> is
+            that <Term id="element">elements</Term> in the same column share the same number of{" "}
+            <Term id="valence-electron">valence electrons</Term>. That is why they behave so similarly
+            — lithium, sodium, and potassium are all in Group 1, all have one valence electron, and
+            all react in strikingly similar ways.
+          </p>
+        </div>
+
         {/* ── NOBLE GASES ─────────────────────────────────── */}
         <h2
           className="font-heading mb-6"
@@ -197,8 +232,9 @@ export default function ElectronShellsLesson() {
             A full outer shell is an exceptionally stable configuration. <Term id="element">Elements</Term> in
             this state have almost no tendency to react with other atoms — they have no electron
             vacancies to fill and nothing to gain from bonding. These elements are called the
-            <strong style={{ color: "var(--oc-text)" }}> noble gases</strong>, and they sit in the
-            rightmost column of the <Term id="periodic-table">periodic table</Term>.
+            <strong style={{ color: "var(--oc-text)" }}> noble gases</strong>, since they are above
+            the squabbles of ordinary reactive elements. They sit in the rightmost column of the{" "}
+            <Term id="periodic-table">periodic table</Term>.
           </p>
           <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
             If you have ever seen a glowing neon sign or a helium balloon that doesn&apos;t catch fire,
@@ -206,38 +242,6 @@ export default function ElectronShellsLesson() {
             fill shells and create stable full-shell configurations — is one of the deepest organising
             principles in all of chemistry. Almost every reaction you will ever study can be traced
             back to atoms trying, in one way or another, to achieve a full outer shell.
-          </p>
-        </div>
-
-        {/* ── ENERGY AND LIGHT ────────────────────────────── */}
-        <h2
-          className="font-heading mb-6"
-          style={{ fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)", letterSpacing: "0.05em", color: "var(--oc-text)" }}
-        >
-          ENERGY, EXCITEMENT & LIGHT
-        </h2>
-        <div className="max-w-2xl mb-12">
-          <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
-            <Term id="electron">Electrons</Term> can change shells — but it costs energy to move to a
-            higher one, and energy is released when they fall back down.
-          </p>
-          <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
-            When an <Term id="electron">electron</Term> absorbs a precise amount of energy — from heat,
-            electricity, or light — it can jump to a higher <Term id="energy-level">energy level</Term>.
-            This is called an <strong style={{ color: "var(--oc-text)" }}>excited state</strong>. But
-            the electron doesn&apos;t stay there long. It quickly falls back to its original shell,
-            releasing exactly the energy it absorbed — often as a photon of visible light.
-          </p>
-          <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
-            The colour of that light depends on how far the electron jumps. This is why different
-            elements produce different colours when heated: sodium burns yellow, copper burns blue-green,
-            lithium burns red. Fireworks are nothing more than very controlled electron excitation.
-          </p>
-          <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
-            Neon signs work the same way: electricity excites the electrons in neon gas, and as they
-            fall back to their ground state, they emit the characteristic orange-red glow. Every
-            colour of every glowing light in the world is an <Term id="electron">electron</Term> falling
-            down a ladder rung and releasing the energy as light.
           </p>
         </div>
 

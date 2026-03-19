@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { MobileNav } from "@/components/ui/MobileNav";
 
 export const metadata = {
   title: "Chemistry I: General Chemistry — Allylic",
@@ -89,6 +90,7 @@ export default function Chemistry1Page() {
         </div>
 
         <div className="flex items-center gap-3">
+          <MobileNav activeLabel="COURSES" />
           <ThemeToggle />
         </div>
       </nav>

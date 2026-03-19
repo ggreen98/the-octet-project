@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { MobileNav } from "@/components/ui/MobileNav";
 import { HexDotGrid } from "@/components/ui/HexDotGrid";
 
 export const metadata = {
@@ -54,6 +55,7 @@ export default function WhoWeArePage() {
         </div>
 
         <div className="flex items-center gap-3">
+          <MobileNav activeLabel="ABOUT" />
           <ThemeToggle />
         </div>
       </nav>

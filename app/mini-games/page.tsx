@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { MobileNav } from "@/components/ui/MobileNav";
 import { ValenceStrategyGame } from "@/components/lessons/ValenceStrategyGame";
 
 export const metadata = {
@@ -61,6 +62,7 @@ export default function MiniGamesPage() {
         </div>
 
         <div className="flex items-center gap-3">
+          <MobileNav activeLabel="MINI GAMES" />
           <ThemeToggle />
         </div>
       </nav>

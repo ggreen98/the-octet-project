@@ -284,12 +284,10 @@ export function ValenceElectronExplorer() {
           </div>
 
           {/* Info panel */}
+          <style>{`.vee-panel{border-top:1px solid var(--oc-green-border-dim)}@media(min-width:1024px){.vee-panel{border-top:none;border-left:1px solid var(--oc-green-border-dim)}}`}</style>
           <div
-            className="flex flex-col p-6"
+            className="vee-panel flex flex-col p-6 w-full lg:w-[260px] lg:flex-shrink-0"
             style={{
-              minWidth: "230px",
-              maxWidth: "270px",
-              borderLeft: "1px solid var(--oc-green-border-dim)",
               background: isLight ? "rgba(240,237,230,0.65)" : "rgba(1,13,10,0.7)",
             }}
           >

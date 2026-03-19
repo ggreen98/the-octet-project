@@ -116,14 +116,9 @@ const QUESTIONS: Question[] = [
   {
     id: 12,
     type: "mc",
-    question: "Which group of elements is completely unreactive because their outer electron shells are already full?",
-    options: [
-      "Alkali Metals (Group 1)",
-      "Halogens (Group 17)",
-      "Alkaline Earth Metals (Group 2)",
-      "Noble Gases (Group 18)",
-    ],
-    correct: "Noble Gases (Group 18)",
+    question: "Carbon is the 6th element on the periodic table. Assuming it has no isotopes, how many neutrons does it have?",
+    options: ["4", "6", "8", "12"],
+    correct: "6",
   },
   {
     id: 13,
@@ -146,9 +141,10 @@ const QUESTIONS: Question[] = [
   },
   {
     id: 15,
-    type: "tf",
-    question: "The periodic table symbol for iron is \"Ir\".",
-    correct: "false",
+    type: "mc",
+    question: "Carbon is the 6th element on the periodic table. What is its approximate atomic mass?",
+    options: ["6", "8", "12", "15"],
+    correct: "12",
   },
 ];
 

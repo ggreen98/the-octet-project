@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { PeriodicTableExplorer } from "@/components/lessons/PeriodicTableExplorer";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { MobileNav } from "@/components/ui/MobileNav";
 
 export const metadata = {
   title: "Periodic Table — Allylic",
@@ -39,6 +40,7 @@ export default function PeriodicTablePage() {
         </div>
 
         <div className="flex items-center gap-3">
+          <MobileNav activeLabel="PERIODIC TABLE" />
           <ThemeToggle />
         </div>
       </nav>

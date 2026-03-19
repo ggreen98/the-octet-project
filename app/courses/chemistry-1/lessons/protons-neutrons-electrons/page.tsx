@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { MobileNav } from "@/components/ui/MobileNav";
 import { MagnetSim } from "@/components/lessons/MagnetSim";
 import { SubatomicExplorer } from "@/components/lessons/SubatomicExplorer";
 import { ElectronsHeading } from "@/components/lessons/ElectronsHeading";
@@ -29,8 +30,8 @@ export default function SubatomicParticlesLesson() {
         }}
       >
         <Link href="/" className="flex items-center gap-2">
-          <span className="text-xl font-heading" style={{ color: "var(--oc-green)" }}>⬡</span>
-          <span className="font-heading text-sm hidden sm:block" style={{ color: "var(--oc-text)", letterSpacing: "0.2em" }}>
+          <span className="text-2xl font-heading" style={{ color: "var(--oc-green)" }}>⬡</span>
+          <span className="font-heading hidden sm:block" style={{ color: "var(--oc-text)", letterSpacing: "0.2em" }}>
             ALLYLIC
           </span>
         </Link>
@@ -44,6 +45,7 @@ export default function SubatomicParticlesLesson() {
         </div>
 
         <div className="flex items-center gap-3">
+          <MobileNav />
           <ThemeToggle />
         </div>
       </nav>
