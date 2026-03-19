@@ -86,20 +86,13 @@ export default function Home() {
             {/* Desktop: plain text */}
             <span className="hidden lg:block glow-blue animate-fade-up anim-d4" style={{ color: "var(--oc-blue)", animationFillMode: "both" }}>WORLD,</span>
             {/* Mobile: O replaced with inline interactive atom */}
-            <span className="lg:hidden glow-blue animate-fade-up anim-d4" style={{ color: "var(--oc-blue)", animationFillMode: "both", display: "flex", alignItems: "center" }}>
+            <span className="lg:hidden glow-blue animate-fade-up anim-d4" style={{ color: "var(--oc-blue)", animationFillMode: "both", display: "flex", alignItems: "center", position: "relative", zIndex: 1 }}>
               W
-              <span
-                className="inline-block relative overflow-hidden"
-                style={{
-                  width: "0.82em",
-                  height: "0.82em",
-                  borderRadius: "50%",
-                  flexShrink: 0,
-                  margin: "0 0.01em",
-                  verticalAlign: "middle",
-                }}
-              >
-                <OrbitalCanvas />
+              {/* Placeholder takes O-width in text flow; canvas overflows from center */}
+              <span style={{ display: "inline-block", position: "relative", width: "0.7em", height: "0.9em", flexShrink: 0 }}>
+                <span style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "5em", height: "5em", zIndex: 10 }}>
+                  <OrbitalCanvas />
+                </span>
               </span>
               RLD,
             </span>
