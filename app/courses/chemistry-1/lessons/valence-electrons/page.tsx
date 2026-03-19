@@ -326,12 +326,20 @@ export default function ValenceElectronsLesson() {
         </div>
 
         {/* ── TEST YOURSELF ───────────────────────────────── */}
-        <h2
-          className="font-heading mb-6"
-          style={{ fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)", letterSpacing: "0.05em", color: "var(--oc-text)" }}
-        >
-          OCTET MINI GAME
-        </h2>
+        <div className="flex items-center gap-3 mb-6">
+          <h2
+            className="font-heading"
+            style={{ fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)", letterSpacing: "0.05em", color: "var(--oc-text)" }}
+          >
+            VALENCE STRATEGY
+          </h2>
+          <span
+            className="font-heading text-xs px-2 py-0.5"
+            style={{ background: "rgba(167,139,250,0.1)", border: "1px solid rgba(167,139,250,0.3)", color: "rgba(167,139,250,0.85)", borderRadius: "3px", letterSpacing: "0.1em", fontSize: "0.55rem" }}
+          >
+            MINI GAME
+          </span>
+        </div>
         <div className="max-w-2xl mb-8">
           <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
             Given an <Term id="element">element</Term>, classify what it tends to do with its{" "}
