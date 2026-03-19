@@ -29,7 +29,7 @@ export function LiCellAnnotated() {
     hovered === part ? "rgba(180,130,80,0.16)" : "transparent";
 
   return (
-    <div style={{ display: "flex", gap: "28px", alignItems: "stretch", flexWrap: "wrap" }}>
+    <div style={{ display: "flex", gap: "20px", alignItems: "stretch" }}>
 
       {/* Cell */}
       <div
@@ -50,6 +50,7 @@ export function LiCellAnnotated() {
         <div
           onMouseEnter={() => setHovered("number")}
           onMouseLeave={() => setHovered(null)}
+          onClick={() => setHovered(h => h === "number" ? null : "number")}
           style={{
             display: "flex",
             justifyContent: "flex-end",
@@ -76,6 +77,7 @@ export function LiCellAnnotated() {
         <div
           onMouseEnter={() => setHovered("symbol")}
           onMouseLeave={() => setHovered(null)}
+          onClick={() => setHovered(h => h === "symbol" ? null : "symbol")}
           style={{
             flex: 1,
             display: "flex",
@@ -104,6 +106,7 @@ export function LiCellAnnotated() {
         <div
           onMouseEnter={() => setHovered("mass")}
           onMouseLeave={() => setHovered(null)}
+          onClick={() => setHovered(h => h === "mass" ? null : "mass")}
           style={{
             display: "flex",
             justifyContent: "center",
@@ -129,7 +132,7 @@ export function LiCellAnnotated() {
       </div>
 
       {/* Info panel */}
-      <div style={{ flex: 1, minWidth: "200px", display: "flex", alignItems: "center" }}>
+      <div style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center" }}>
         {hovered ? (
           <div>
             <div
@@ -154,6 +157,12 @@ export function LiCellAnnotated() {
                 0%, 100% { opacity: 1; text-shadow: 0 0 10px rgba(212,147,62,0.6); }
                 50%       { opacity: 0.35; text-shadow: none; }
               }
+              .li-hint-hover { display: none; }
+              .li-hint-tap   { display: inline; }
+              @media (hover: hover) {
+                .li-hint-hover { display: inline; }
+                .li-hint-tap   { display: none; }
+              }
             `}</style>
             <span
               style={{
@@ -164,7 +173,8 @@ export function LiCellAnnotated() {
                 animation: "li-hint-pulse 2s ease-in-out infinite",
               }}
             >
-              ← HOVER FOR EXPLAINER
+              <span className="li-hint-hover">← HOVER FOR EXPLAINER</span>
+              <span className="li-hint-tap">← TAP FOR EXPLAINER</span>
             </span>
           </>
         )}
