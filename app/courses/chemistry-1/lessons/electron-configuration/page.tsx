@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { MobileNav } from "@/components/ui/MobileNav";
 import { ElectronConfigExplorer } from "@/components/lessons/ElectronConfigExplorer";
+import { OrbitalRush } from "@/components/lessons/OrbitalRush";
 import { Term } from "@/components/ui/Term";
 
 export const metadata = {
@@ -68,11 +69,56 @@ export default function ElectronConfigurationLesson() {
         >
           ELECTRON CONFIGURATION
         </h1>
-        <p className="text-base leading-relaxed mb-12 max-w-2xl" style={{ color: "var(--oc-text-muted)" }}>
+        <p className="text-base leading-relaxed mb-6 max-w-2xl" style={{ color: "var(--oc-text-muted)" }}>
           In lessons 2.1 and 2.2 we talked about shells and valence <Term id="electron">electrons</Term>.
           Now we go one level deeper: a precise address system that tells you exactly where every single
           electron in an atom lives — not just which shell, but which subshell within that shell.
         </p>
+
+        {/* Recurring theme callout */}
+        <div
+          className="max-w-2xl mb-12 p-4"
+          style={{ border: "1px solid rgba(68,153,255,0.2)", background: "rgba(68,153,255,0.04)", borderRadius: "4px", borderLeft: "3px solid rgba(68,153,255,0.5)" }}
+        >
+          <p className="font-heading text-xs mb-2" style={{ color: "#4499ff", letterSpacing: "0.12em", fontSize: "0.6rem" }}>
+            A RECURRING THEME IN CHEMISTRY
+          </p>
+          <p className="text-sm leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
+            Systems in nature tend toward their lowest possible energy state. A ball rolls downhill, a stretched
+            spring contracts, and <Term id="electron">electrons</Term> are no different — given a choice, they
+            always occupy the lowest energy level available before moving to a higher one. This single principle
+            explains almost everything about how electron configurations are built.
+          </p>
+        </div>
+
+        {/* ── ELECTRON SPIN ───────────────────────────────── */}
+        <h2
+          className="font-heading mb-6"
+          style={{ fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)", letterSpacing: "0.05em", color: "var(--oc-text)" }}
+        >
+          ELECTRON SPIN
+        </h2>
+        <div className="max-w-2xl mb-12">
+          <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
+            <Term id="electron">Electrons</Term> have an intrinsic quantum property called{" "}
+            <strong style={{ color: "var(--oc-text)" }}>spin</strong>. Despite the name, electrons are
+            not literally spinning — spin is a fundamental property of the particle itself, like charge
+            or mass. What matters is that spin can only ever take one of two values, which we call{" "}
+            <strong style={{ color: "var(--oc-text)" }}>spin-up (↑)</strong> and{" "}
+            <strong style={{ color: "var(--oc-text)" }}>spin-down (↓)</strong>.
+          </p>
+          <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
+            This two-value property has a profound consequence: the{" "}
+            <strong style={{ color: "var(--oc-text)" }}>Pauli exclusion principle</strong> states that
+            no two electrons in the same atom can be in exactly the same quantum state. Since spin is
+            the only thing that can differ between two electrons in the same orbital, each orbital can
+            hold at most two electrons — one spin-up and one spin-down.
+          </p>
+          <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
+            This is why every subshell capacity is an even number, and why the orbital box diagrams
+            you will see below always show pairs of ↑↓ arrows — each pair represents one full orbital.
+          </p>
+        </div>
 
         {/* ── SUBSHELLS ───────────────────────────────────── */}
         <h2
@@ -122,9 +168,8 @@ export default function ElectronConfigurationLesson() {
           </div>
 
           <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
-            Each orbital can hold exactly 2 electrons (one spin-up, one spin-down — a rule called the
-            {" "}<strong style={{ color: "var(--oc-text)" }}>Pauli exclusion principle</strong>).
-            So an s subshell with 1 orbital holds 2, a p subshell with 3 orbitals holds 6, and so on.
+            Each orbital can hold exactly 2 electrons. So an s subshell with 1 orbital holds 2,
+            a p subshell with 3 orbitals holds 6, and so on.
           </p>
           <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
             For most of general chemistry — and all elements up through krypton (Z=36) — you only need
@@ -148,7 +193,7 @@ export default function ElectronConfigurationLesson() {
           </p>
           <p className="text-base leading-relaxed mb-6" style={{ color: "var(--oc-text-muted)" }}>
             The filling order is not simply 1s → 2s → 2p → 3s → 3p → 3d, because the 4s subshell
-            is actually slightly lower in energy than 3d. The correct order for the first four periods is:
+            is actually slightly lower in energy than 3d. The correct full filling order is:
           </p>
 
           {/* Filling order */}
@@ -161,18 +206,26 @@ export default function ElectronConfigurationLesson() {
               {[
                 { label: "1s", type: "s" }, { label: "2s", type: "s" }, { label: "2p", type: "p" },
                 { label: "3s", type: "s" }, { label: "3p", type: "p" }, { label: "4s", type: "s" },
-                { label: "3d", type: "d" }, { label: "4p", type: "p" },
-              ].map(({ label, type }, i, arr) => (
+                { label: "3d", type: "d" }, { label: "4p", type: "p" }, { label: "5s", type: "s" },
+                { label: "4d", type: "d" }, { label: "5p", type: "p" }, { label: "6s", type: "s" },
+                { label: "4f", type: "f" }, { label: "5d", type: "d" }, { label: "6p", type: "p" },
+                { label: "7s", type: "s" }, { label: "5f", type: "f" }, { label: "6d", type: "d" },
+                { label: "7p", type: "p" },
+              ].map(({ label, type }, i, arr) => {
+                const colors: Record<string, string> = { s: "#4499ff", p: "#a855f7", d: "#f5a623", f: "#72b872" };
+                const borders: Record<string, string> = { s: "#4499ff44", p: "#a855f744", d: "#f5a62344", f: "#72b87244" };
+                return (
                 <span key={label} className="flex items-center gap-2">
                   <span
                     className="font-heading text-sm px-2 py-0.5"
-                    style={{ color: { s: "#4499ff", p: "#a855f7", d: "#f5a623" }[type as "s"|"p"|"d"], border: `1px solid ${{ s: "#4499ff44", p: "#a855f744", d: "#f5a62344" }[type as "s"|"p"|"d"]}`, borderRadius: "3px", letterSpacing: "0.06em" }}
+                    style={{ color: colors[type], border: `1px solid ${borders[type]}`, borderRadius: "3px", letterSpacing: "0.06em" }}
                   >
                     {label}
                   </span>
                   {i < arr.length - 1 && <span style={{ color: "var(--oc-text-faint)" }}>→</span>}
                 </span>
-              ))}
+                );
+              })}
             </div>
           </div>
 
@@ -401,6 +454,19 @@ export default function ElectronConfigurationLesson() {
             participate in bonding — exactly the valence electrons we studied in lesson 2.2.
           </p>
         </div>
+
+        {/* ── ORBITAL RUSH MINIGAME ───────────────────────── */}
+        <h2
+          className="font-heading mb-6"
+          style={{ fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)", letterSpacing: "0.05em", color: "var(--oc-text)" }}
+        >
+          PRACTICE: ORBITAL RUSH
+        </h2>
+        <p className="text-base leading-relaxed mb-8 max-w-2xl" style={{ color: "var(--oc-text-muted)" }}>
+          Put it all together under pressure. You have 60 seconds and 3 lives — fill in the correct
+          electron count for each subshell as fast as you can.
+        </p>
+        <OrbitalRush />
 
         {/* ── UP NEXT ─────────────────────────────────────── */}
         <div

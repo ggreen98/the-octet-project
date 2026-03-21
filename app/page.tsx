@@ -1,9 +1,12 @@
 import Link from "next/link";
 import { OrbitalCanvas } from "@/components/molecules/OrbitalCanvas";
+import { HydrogenCanvas } from "@/components/molecules/HydrogenCanvas";
 import { HexDotGrid } from "@/components/ui/HexDotGrid";
 import { NavTitle } from "@/components/ui/NavTitle";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { MobileNav } from "@/components/ui/MobileNav";
+import { ToolsDropdown } from "@/components/ui/ToolsDropdown";
+import { ProfileButton } from "@/components/ui/ProfileButton";
 
 export default function Home() {
   return (
@@ -37,12 +40,9 @@ export default function Home() {
 
         <div className="hidden md:flex items-center gap-8 tracking-widest absolute left-1/2 -translate-x-1/2" style={{ fontSize: "1rem" }}>
           {[
-            { label: "COURSES",        href: "/courses" },
-            { label: "PERIODIC TABLE", href: "/periodic-table" },
-            { label: "DICTIONARY",     href: "/dictionary" },
-            { label: "UNITS",          href: "/si-units" },
-            { label: "MINI GAMES",     href: "/mini-games" },
-            { label: "ABOUT",          href: "/who-we-are" },
+            { label: "COURSES",    href: "/courses" },
+            { label: "MINI GAMES", href: "/mini-games" },
+            { label: "ABOUT",      href: "/who-we-are" },
           ].map(({ label, href }) => (
             <Link
               key={label}
@@ -53,10 +53,12 @@ export default function Home() {
               {label}
             </Link>
           ))}
+          <ToolsDropdown />
         </div>
 
         <div className="ml-auto flex items-center gap-3">
           <MobileNav amber />
+          <div className="hidden md:block"><ProfileButton /></div>
           <ThemeToggle amber />
         </div>
       </nav>
@@ -64,7 +66,7 @@ export default function Home() {
       {/* ── HERO ────────────────────────────────────────── */}
       <section className="lg:min-h-screen flex flex-col lg:flex-row pt-14">
         {/* Left: Text */}
-        <div className="flex flex-col justify-center px-6 md:px-16 lg:px-24 py-10 lg:py-0 lg:w-[55%] z-10">
+        <div className="relative flex flex-col justify-center px-6 md:px-16 lg:px-24 py-10 lg:py-0 lg:w-[55%] z-10">
           {/* Eyebrow */}
           <div className="flex items-center gap-2 mb-8 animate-fade-up flicker-amber-1" style={{ animationFillMode: "both" }}>
             <span style={{ color: "var(--oc-green)", fontSize: "1rem" }}>⬡</span>
@@ -83,8 +85,16 @@ export default function Home() {
           >
             <span className="block animate-fade-up anim-d2" style={{ animationFillMode: "both" }}>THE</span>
             <span className="block animate-fade-up anim-d3" style={{ animationFillMode: "both" }}>CHEMICAL</span>
-            {/* Desktop: plain text */}
-            <span className="hidden lg:block glow-blue animate-fade-up anim-d4" style={{ color: "var(--oc-blue)", animationFillMode: "both" }}>WORLD,</span>
+            {/* Desktop: O replaced with inline interactive atom (mirrors mobile) */}
+            <span className="hidden lg:flex items-center glow-blue animate-fade-up anim-d4" style={{ color: "var(--oc-blue)", animationFillMode: "both", position: "relative", zIndex: 1 }}>
+              W
+              <span style={{ display: "inline-block", position: "relative", width: "0.7em", height: "0.9em", flexShrink: 0 }}>
+                <span style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "5em", height: "5em", zIndex: 10 }}>
+                  <OrbitalCanvas />
+                </span>
+              </span>
+              RLD,
+            </span>
             {/* Mobile: O replaced with inline interactive atom */}
             <span className="lg:hidden flex items-center glow-blue animate-fade-up anim-d4" style={{ color: "var(--oc-blue)", animationFillMode: "both", position: "relative", zIndex: 1 }}>
               W
@@ -129,18 +139,51 @@ export default function Home() {
 
         </div>
 
-        {/* Right: 3D Orbital — desktop only */}
-        <div className="hidden lg:block lg:w-[45%] lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] relative">
-          <OrbitalCanvas />
+        {/* Right: Element unlock animation — desktop only */}
+        <div className="hidden lg:flex lg:w-[45%] lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] items-center justify-center relative">
 
-          {/* Caption — overlaid at bottom of canvas */}
-          <div
-            className="absolute bottom-3 left-0 right-0 text-center tracking-widest pointer-events-none"
-            style={{ color: "var(--oc-text-dim)", fontSize: "0.75rem" }}
-          >
-            <span className="animate-blink" style={{ color: "var(--oc-green-dim)" }}>■</span>
-            {" "}DRAG TO ROTATE{" "}
-            <span className="animate-blink" style={{ color: "var(--oc-green-dim)", animationDelay: "0.5s" }}>■</span>
+          {/* ── H watermark — behind atom in light mode, in front in dark ── */}
+          <div className="h-watermark-layer absolute inset-0 flex items-center justify-center pointer-events-none" style={{ userSelect: "none" }}>
+            <span className="h-watermark" style={{
+              fontFamily: "monospace", fontSize: "22rem", fontWeight: 700,
+              lineHeight: 1,
+              letterSpacing: "-0.04em",
+            }}>
+              H
+            </span>
+          </div>
+
+          {/* 3D atom canvas — z-index 1, extends left so electron trail fades naturally */}
+          <div className="absolute" style={{ top: 0, bottom: 0, right: 0, left: "-7rem", zIndex: 1 }}>
+            <HydrogenCanvas />
+          </div>
+
+          {/* Element info overlay — always on top */}
+          <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 3 }}>
+
+            {/* ── Top-right: category tag ── */}
+            <div className="absolute top-7 right-8"
+              style={{ fontFamily: "monospace", fontSize: "0.75rem", letterSpacing: "0.14em", color: "var(--oc-text-dim)" }}>
+              ELEMENT
+            </div>
+
+            {/* ── Bottom: element name + unlock icon + info ── */}
+            <div className="absolute bottom-8 left-8 flex flex-col gap-1.5">
+              <div className="element-title flex items-center gap-3" style={{
+                fontFamily: "monospace", fontSize: "1.6rem", fontWeight: 700,
+                letterSpacing: "0.2em",
+                textShadow: "0 0 24px rgba(180,215,255,0.2)",
+              }}>
+                HYDROGEN
+                <svg width="16" height="17" viewBox="0 0 13 14" fill="none" className="lock-icon" style={{ flexShrink: 0, marginBottom: "1px" }}>
+                  <rect x="1" y="6.5" width="11" height="7" rx="1.2" stroke="currentColor" strokeWidth="1.2" />
+                  <path d="M4 6.5V4a2.5 2.5 0 0 1 5 0" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+                </svg>
+              </div>
+              <div style={{ fontFamily: "monospace", fontSize: "0.75rem", letterSpacing: "0.1em", color: "var(--oc-text-dim)" }}>
+                1s¹ · 1.008 u · Atomic No. 1
+              </div>
+            </div>
           </div>
         </div>
       </section>

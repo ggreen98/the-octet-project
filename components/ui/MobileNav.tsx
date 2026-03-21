@@ -3,13 +3,19 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
-const NAV_LINKS = [
+type NavLink = { label: string; href: string; section?: string; indent?: boolean };
+
+const NAV_LINKS: NavLink[] = [
   { label: "COURSES",        href: "/courses" },
-  { label: "PERIODIC TABLE", href: "/periodic-table" },
-  { label: "DICTIONARY",     href: "/dictionary" },
-  { label: "UNITS",          href: "/si-units" },
   { label: "MINI GAMES",     href: "/mini-games" },
   { label: "ABOUT",          href: "/who-we-are" },
+  { label: "TOOLS",          href: "",           section: "TOOLS" },
+  { label: "PERIODIC TABLE", href: "/periodic-table", indent: true },
+  { label: "DICTIONARY",     href: "/dictionary",     indent: true },
+  { label: "UNITS",          href: "/si-units",       indent: true },
+  { label: "PROFILE",        href: "",           section: "PROFILE" },
+  { label: "ACHIEVEMENTS",   href: "/achievements",   indent: true },
+  { label: "SETTINGS",       href: "/settings",       indent: true },
 ];
 
 export function MobileNav({ activeLabel, amber }: { activeLabel?: string; amber?: boolean }) {
@@ -74,7 +80,27 @@ export function MobileNav({ activeLabel, amber }: { activeLabel?: string; amber?
 
             {/* Links */}
             <nav className="flex flex-col px-6 pt-6 flex-1 overflow-y-auto min-h-0">
-              {NAV_LINKS.map(({ label, href }) => {
+              {NAV_LINKS.map(({ label, href, section, indent }) => {
+                // Section header row
+                if (section) {
+                  return (
+                    <div
+                      key={label}
+                      style={{
+                        paddingTop: "1.25rem",
+                        paddingBottom: "0.4rem",
+                        borderBottom: "1px solid var(--oc-green-border-dim)",
+                        color: "var(--oc-green)",
+                        fontSize: "0.65rem",
+                        letterSpacing: "0.2em",
+                        fontFamily: "inherit",
+                      }}
+                    >
+                      {section}
+                    </div>
+                  );
+                }
+
                 const isActive = label === activeLabel;
                 return (
                   <Link
@@ -83,15 +109,15 @@ export function MobileNav({ activeLabel, amber }: { activeLabel?: string; amber?
                     onClick={() => setOpen(false)}
                     className="flex items-center justify-between"
                     style={{
-                      padding: "1.1rem 0",
+                      padding: indent ? "0.75rem 0 0.75rem 0.75rem" : "1.1rem 0",
                       borderBottom: "1px solid var(--oc-green-border-faint)",
-                      color: isActive ? "var(--oc-green)" : "var(--oc-text)",
+                      color: isActive ? "var(--oc-green)" : indent ? "var(--oc-text-sub)" : "var(--oc-text)",
                       textDecoration: "none",
                     }}
                   >
                     <span
                       className="font-heading"
-                      style={{ fontSize: "1.25rem", letterSpacing: "0.04em" }}
+                      style={{ fontSize: indent ? "1rem" : "1.25rem", letterSpacing: "0.04em" }}
                     >
                       {label}
                     </span>

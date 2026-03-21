@@ -110,32 +110,48 @@ function ConfigNotation({ config, noble }: { config: SubEntry[]; noble?: string 
   );
 }
 
-function SubshellBar({ entry }: { entry: SubEntry }) {
-  const max = SUBSHELL_MAX[entry.type];
+function OrbitalBoxRow({ entry }: { entry: SubEntry }) {
+  const numOrbitals = SUBSHELL_MAX[entry.type] / 2;
   const color = SUBSHELL_COLORS[entry.type];
+  // Hund's rule: fill one ↑ per orbital first, then pair ↓
+  const orbitals = Array.from({ length: numOrbitals }, (_, oi) => ({
+    up:   oi < Math.min(entry.n, numOrbitals),
+    down: entry.n > numOrbitals && oi < entry.n - numOrbitals,
+  }));
   return (
     <div className="flex items-center gap-2">
-      <span className="font-heading" style={{ fontSize: "0.65rem", color, letterSpacing: "0.1em", width: "22px", flexShrink: 0, textAlign: "right" }}>
+      <span
+        className="font-heading"
+        style={{ fontSize: "0.65rem", color, letterSpacing: "0.1em", width: "22px", flexShrink: 0, textAlign: "right" }}
+      >
         {entry.label}
       </span>
       <div className="flex gap-[3px]">
-        {Array.from({ length: max }, (_, i) => (
+        {orbitals.map((orb, oi) => (
           <div
-            key={i}
+            key={oi}
             style={{
-              width: "12px",
-              height: "12px",
+              width: "22px",
+              height: "26px",
+              border: `1px solid ${color}44`,
               borderRadius: "2px",
-              background: i < entry.n ? color : "transparent",
-              border: `1px solid ${i < entry.n ? color : "rgba(114,184,114,0.15)"}`,
-              opacity: i < entry.n ? 0.9 : 0.4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "space-evenly",
+              background: (orb.up || orb.down) ? `${color}10` : "transparent",
               flexShrink: 0,
+              fontSize: "0.7rem",
+              lineHeight: 1,
             }}
-          />
+          >
+            {orb.up   && <span style={{ color }}>↑</span>}
+            {orb.down && <span style={{ color, marginTop: orb.up ? "0px" : "auto" }}>↓</span>}
+          </div>
         ))}
       </div>
-      <span style={{ fontSize: "0.65rem", color: "var(--oc-text-dim)" }}>
-        {entry.n}/{max}
+      <span style={{ fontSize: "0.6rem", color: "var(--oc-text-dim)" }}>
+        {entry.n}/{SUBSHELL_MAX[entry.type]}e⁻
       </span>
     </div>
   );
@@ -161,12 +177,12 @@ export function ElectronConfigExplorer() {
       </p>
 
       <div
-        className="flex flex-col lg:flex-row"
+        className="flex flex-col lg:flex-row max-w-2xl"
         style={{ border: "1px solid var(--oc-green-border-dim)", borderRadius: "4px", overflow: "hidden" }}
       >
         {/* ── Left: element card + subshell diagram ── */}
         <div
-          className="flex-1 p-6"
+          className="w-full lg:w-auto lg:min-w-[260px] p-6"
           style={{ background: isLight ? "rgba(240,237,230,0.35)" : "rgba(1,13,10,0.45)" }}
         >
           {/* Element header */}
@@ -190,13 +206,13 @@ export function ElectronConfigExplorer() {
             {BLOCK_LABELS[el.block].toUpperCase()}
           </span>
 
-          {/* Subshell fill diagram */}
+          {/* Orbital box diagram */}
           <p className="font-heading mb-3" style={{ color: "var(--oc-green-dim)", letterSpacing: "0.12em", fontSize: "0.6rem" }}>
-            SUBSHELL FILL
+            ORBITAL DIAGRAM
           </p>
           <div className="flex flex-col gap-2">
             {el.config.map((entry, i) => (
-              <SubshellBar key={i} entry={entry} />
+              <OrbitalBoxRow key={i} entry={entry} />
             ))}
           </div>
 
@@ -257,10 +273,13 @@ export function ElectronConfigExplorer() {
                 <div key={t} className="flex items-center gap-2">
                   <div style={{ width: "8px", height: "8px", borderRadius: "1px", background: SUBSHELL_COLORS[t], flexShrink: 0 }} />
                   <span style={{ fontSize: "0.65rem", color: "var(--oc-text-dim)", letterSpacing: "0.08em" }}>
-                    {t}-subshell (max {SUBSHELL_MAX[t]}e⁻)
+                    {t}-subshell · {SUBSHELL_MAX[t] / 2} orbital{SUBSHELL_MAX[t] / 2 > 1 ? "s" : ""} · max {SUBSHELL_MAX[t]}e⁻
                   </span>
                 </div>
               ))}
+              <div className="flex items-center gap-2 mt-1">
+                <span style={{ fontSize: "0.65rem", color: "var(--oc-text-faint)" }}>↑↓ = one electron per arrow (Hund&apos;s rule)</span>
+              </div>
             </div>
           </div>
 
