@@ -60,8 +60,20 @@ const units = [
       {
         id: "2.3",
         title: "ELECTRON CONFIGURATION",
-        description: "A precise address for every electron — learn to read and write configurations, understand the s/p/d blocks, and see why the periodic table is shaped the way it is.",
+        description: "Subshell types, the Aufbau principle, Hund's rule, and interactive s/p/d/f orbital probability cloud animations.",
         href: "/courses/chemistry-1/lessons/electron-configuration",
+      },
+      {
+        id: "2.4",
+        title: "ELECTRON CONFIGURATION NOTATION",
+        description: "Read and write full and noble-gas-abbreviated configurations. Explore the s/p/d block structure and practice with the interactive configuration explorer.",
+        href: "/courses/chemistry-1/lessons/electron-configuration-notation",
+      },
+      {
+        id: "2.5",
+        title: "PERIODIC TRENDS",
+        description: "Atomic radius, ionization energy, and electronegativity — this is where the periodic table comes alive and the patterns hidden in the element blocks reveal themselves.",
+        href: "/courses/chemistry-1/lessons/periodic-trends",
       },
     ],
   },
@@ -119,7 +131,7 @@ export default function Chemistry1Page() {
           CHEMISTRY I:<br />GENERAL CHEMISTRY
         </h1>
         <p className="text-base leading-relaxed mb-12 max-w-xl" style={{ color: "var(--oc-text-muted)" }}>
-          Start from the ground up. Three lessons covering the atomic world, subatomic particles, and the periodic table.
+          Start from the ground up — atoms, electrons, configurations, and the patterns that make the periodic table tick.
         </p>
 
         {/* Lesson list */}

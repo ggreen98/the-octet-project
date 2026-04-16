@@ -177,6 +177,46 @@ export const TERMS = [
       "Any element in Group 17 of the periodic table: fluorine, chlorine, bromine, iodine, and astatine. Halogens have 7 valence electrons and need just one more to complete their outer shell, making them extremely reactive non-metals. They readily gain an electron from metals to form negatively charged ions (e.g. Cl⁻) and salts (e.g. NaCl, table salt). The name halogen comes from Greek, meaning 'salt-former'.",
     related: ["valence-electron", "element", "periodic-table", "octet-rule"],
   },
+  {
+    id: "atomic-radius",
+    term: "Atomic Radius",
+    category: "Periodic Trends",
+    definition:
+      "A measure of the size of an atom, typically defined as half the distance between the nuclei of two bonded atoms of the same element (covalent radius). Atomic radius decreases across a period (left to right) because more protons pull the electrons closer to the nucleus, and increases down a group because each new period adds an additional electron shell, pushing the outer electrons further away.",
+    related: ["atomic-number", "electron", "effective-nuclear-charge", "electron-shielding", "periodic-table"],
+  },
+  {
+    id: "ionization-energy",
+    term: "Ionization Energy",
+    category: "Periodic Trends",
+    definition:
+      "The minimum energy required to remove the outermost electron from a neutral atom in the gas phase, measured in kJ/mol. Higher ionization energy means the electron is held more tightly. It generally increases across a period (stronger nuclear pull) and decreases down a group (outer electrons are farther from the nucleus and more shielded). Noble gases have the highest ionization energies of their periods.",
+    related: ["electron", "atomic-number", "effective-nuclear-charge", "electron-shielding", "valence-electron"],
+  },
+  {
+    id: "electronegativity",
+    term: "Electronegativity",
+    category: "Periodic Trends",
+    definition:
+      "A measure of how strongly an atom attracts the shared electrons in a chemical bond toward itself, expressed on the dimensionless Pauling scale. Fluorine is the most electronegative element (3.98). Electronegativity increases across a period and decreases down a group — the same general direction as ionization energy. Large differences in electronegativity between two bonded atoms produce polar or ionic bonds.",
+    related: ["electron", "atomic-number", "effective-nuclear-charge", "electron-shielding", "valence-electron"],
+  },
+  {
+    id: "effective-nuclear-charge",
+    term: "Effective Nuclear Charge (Zeff)",
+    category: "Periodic Trends",
+    definition:
+      "The net positive charge experienced by an electron after accounting for the shielding effect of inner electrons. Zeff = Z − S, where Z is the atomic number and S is the shielding constant. As you move across a period, Z increases while S stays roughly constant, so Zeff rises — this is why atomic radius shrinks and ionization energy grows from left to right across the periodic table.",
+    related: ["atomic-number", "electron-shielding", "atomic-radius", "ionization-energy", "electronegativity"],
+  },
+  {
+    id: "electron-shielding",
+    term: "Electron Shielding",
+    category: "Periodic Trends",
+    definition:
+      "The reduction in the effective nuclear attraction felt by outer electrons, caused by inner electrons repelling them and partially cancelling the pull of the nucleus. Core electrons (those in inner shells) shield outer electrons much more effectively than electrons in the same shell shield each other. Shielding explains why outer electrons are easier to remove as you go down a group — each new shell adds more shielding.",
+    related: ["effective-nuclear-charge", "orbital-shell", "electron", "atomic-radius", "ionization-energy"],
+  },
 ];
 
 export default function DictionaryPage() {
