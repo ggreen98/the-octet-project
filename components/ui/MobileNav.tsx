@@ -13,6 +13,7 @@ const NAV_LINKS: NavLink[] = [
   { label: "PERIODIC TABLE", href: "/periodic-table", indent: true },
   { label: "DICTIONARY",     href: "/dictionary",     indent: true },
   { label: "UNITS",          href: "/si-units",       indent: true },
+  { label: "ORBITAL VIEWER", href: "/orbital-viewer", indent: true },
   { label: "PROFILE",        href: "",           section: "PROFILE" },
   { label: "ACHIEVEMENTS",   href: "/achievements",   indent: true },
   { label: "SETTINGS",       href: "/settings",       indent: true },

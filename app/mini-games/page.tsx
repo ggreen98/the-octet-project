@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { MobileNav } from "@/components/ui/MobileNav";
 import { ValenceStrategyGame } from "@/components/lessons/ValenceStrategyGame";
+import { OrbitalRush } from "@/components/lessons/OrbitalRush";
 
 export const metadata = {
   title: "Mini Games — Allylic",
@@ -12,10 +13,22 @@ const GAMES = [
   {
     id: "valence-strategy",
     title: "VALENCE STRATEGY",
+    accent: "rgba(167,139,250,0.25)" as const,
+    accentBg: "rgba(167,139,250,0.04)" as const,
     description: "Given an element, decide whether it tends to lose, gain, share, or hold onto its valence electrons. Covers all main-group elements from the first three periods.",
     lesson: "CHEMISTRY I — LESSON 2.2",
     lessonHref: "/courses/chemistry-1/lessons/valence-electrons",
     tags: ["VALENCE ELECTRONS", "OCTET RULE", "REACTIVITY"],
+  },
+  {
+    id: "orbital-rush",
+    title: "ORBITAL RUSH",
+    accent: "rgba(68,153,255,0.25)" as const,
+    accentBg: "rgba(68,153,255,0.04)" as const,
+    description: "Place electrons onto a 3D atom one spin at a time — applying Aufbau order and Hund's rule from memory. Play in Normal mode for a relaxed challenge, or Race the 60-second clock in Rush mode.",
+    lesson: "CHEMISTRY I — LESSON 2.4",
+    lessonHref: "/courses/chemistry-1/lessons/electron-configuration-notation",
+    tags: ["ELECTRON CONFIGURATION", "HUND'S RULE", "AUFBAU"],
   },
 ];
 
@@ -47,6 +60,7 @@ export default function MiniGamesPage() {
             ["PERIODIC TABLE", "/periodic-table"],
             ["DICTIONARY",     "/dictionary"],
             ["UNITS",          "/si-units"],
+            ["ORBITAL VIEWER", "/orbital-viewer"],
             ["MINI GAMES",     "/mini-games"],
             ["ABOUT",          "/who-we-are"],
           ].map(([label, href]) => (
@@ -100,8 +114,8 @@ export default function MiniGamesPage() {
               <div
                 className="flex flex-col sm:flex-row sm:items-start gap-5 p-5 mb-8"
                 style={{
-                  border: "1px solid rgba(167,139,250,0.25)",
-                  background: "rgba(167,139,250,0.04)",
+                  border: `1px solid ${game.accent}`,
+                  background: game.accentBg,
                   borderRadius: "4px",
                 }}
               >
@@ -117,9 +131,9 @@ export default function MiniGamesPage() {
                       href={game.lessonHref}
                       className="font-heading text-xs px-2 py-0.5 transition-colors hover:opacity-80"
                       style={{
-                        background: "rgba(167,139,250,0.1)",
-                        border: "1px solid rgba(167,139,250,0.25)",
-                        color: "rgba(167,139,250,0.8)",
+                        background: game.accentBg,
+                        border: `1px solid ${game.accent}`,
+                        color: "var(--oc-text-dim)",
                         borderRadius: "3px",
                         letterSpacing: "0.08em",
                         fontSize: "0.55rem",
@@ -153,7 +167,8 @@ export default function MiniGamesPage() {
               </div>
 
               {/* Embedded game */}
-              <ValenceStrategyGame />
+              {game.id === "valence-strategy" && <ValenceStrategyGame />}
+              {game.id === "orbital-rush"     && <OrbitalRush />}
             </div>
           ))}
         </div>

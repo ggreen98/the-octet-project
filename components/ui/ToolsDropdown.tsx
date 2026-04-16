@@ -4,9 +4,10 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 
 const TOOLS = [
-  { label: "PERIODIC TABLE", href: "/periodic-table", sub: "All 118 elements" },
-  { label: "DICTIONARY",     href: "/dictionary",     sub: "Chemistry terms" },
-  { label: "UNITS",          href: "/si-units",       sub: "SI reference" },
+  { label: "PERIODIC TABLE", href: "/periodic-table",  sub: "All 118 elements" },
+  { label: "DICTIONARY",     href: "/dictionary",      sub: "Chemistry terms" },
+  { label: "UNITS",          href: "/si-units",        sub: "SI reference" },
+  { label: "ORBITAL VIEWER", href: "/orbital-viewer",  sub: "s / p / d / f shapes" },
 ];
 
 export function ToolsDropdown() {

@@ -110,7 +110,7 @@ function ConfigNotation({ config, noble }: { config: SubEntry[]; noble?: string 
   );
 }
 
-function OrbitalBoxRow({ entry }: { entry: SubEntry }) {
+function OrbitalBoxRow({ entry, isLight }: { entry: SubEntry; isLight: boolean }) {
   const numOrbitals = SUBSHELL_MAX[entry.type] / 2;
   const color = SUBSHELL_COLORS[entry.type];
   // Hund's rule: fill one ↑ per orbital first, then pair ↓
@@ -118,6 +118,8 @@ function OrbitalBoxRow({ entry }: { entry: SubEntry }) {
     up:   oi < Math.min(entry.n, numOrbitals),
     down: entry.n > numOrbitals && oi < entry.n - numOrbitals,
   }));
+  const borderAlpha = isLight ? "99" : "44"; // 60% vs 27% opacity
+  const fillAlpha   = isLight ? "22" : "10"; // 13% vs 6% opacity
   return (
     <div className="flex items-center gap-2">
       <span
@@ -132,21 +134,22 @@ function OrbitalBoxRow({ entry }: { entry: SubEntry }) {
             key={oi}
             style={{
               width: "22px",
-              height: "26px",
-              border: `1px solid ${color}44`,
+              height: "36px",
+              border: `1px solid ${color}${borderAlpha}`,
               borderRadius: "2px",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              justifyContent: "space-evenly",
-              background: (orb.up || orb.down) ? `${color}10` : "transparent",
+              justifyContent: "space-between",
+              padding: "3px 0",
+              background: (orb.up || orb.down) ? `${color}${fillAlpha}` : "transparent",
               flexShrink: 0,
               fontSize: "0.7rem",
               lineHeight: 1,
             }}
           >
-            {orb.up   && <span style={{ color }}>↑</span>}
-            {orb.down && <span style={{ color, marginTop: orb.up ? "0px" : "auto" }}>↓</span>}
+            {orb.up   ? <span style={{ color }}>↑</span> : <span />}
+            {orb.down ? <span style={{ color }}>↓</span> : <span />}
           </div>
         ))}
       </div>
@@ -212,7 +215,7 @@ export function ElectronConfigExplorer() {
           </p>
           <div className="flex flex-col gap-2">
             {el.config.map((entry, i) => (
-              <OrbitalBoxRow key={i} entry={entry} />
+              <OrbitalBoxRow key={i} entry={entry} isLight={isLight} />
             ))}
           </div>
 

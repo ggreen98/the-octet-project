@@ -1,35 +1,43 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useRef, useState, useEffect, useCallback, useMemo } from "react";
+import { useTheme } from "@/contexts/ThemeContext";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import * as THREE from "three";
 
 // ── Types ──────────────────────────────────────────────────────────────────────
-type SubType   = "s" | "p" | "d" | "f";
-type PlacedSub = { label: string; type: SubType; max: number; upCount: number; downCount: number };
-type TargetSub = { label: string; n: number; type: "s" | "p" | "d" };
-type ElemData  = { symbol: string; name: string; z: number; config: TargetSub[] };
-type Phase     = "idle" | "playing" | "feedback" | "gameover";
+type SubType         = "s" | "p" | "d";
+type TargetSub       = { label: string; n: number; type: SubType };
+type ElemData        = { symbol: string; name: string; z: number; config: TargetSub[] };
+type Phase           = "idle" | "playing" | "gameover";
+type GameMode        = "normal" | "rush";
+type FeedState       = "none" | "correct" | "wrong";
+// Track per-subshell: how many electrons placed + which spin was committed first
+type SubshellProgress = { placed: number; chosenSpin: "up" | "down" | null };
+type Progress         = Record<string, SubshellProgress>;
 
-// ── Style constants ────────────────────────────────────────────────────────────
-const COLORS: Record<SubType, string> = {
-  s: "#4499ff",
-  p: "#a855f7",
-  d: "#f5a623",
-  f: "#72b872",
+// ── Constants ──────────────────────────────────────────────────────────────────
+const SUBSHELL_COLORS: Record<SubType, string> = {
+  s: "#4499ff", p: "#a855f7", d: "#f5a623",
 };
-
-// Ordered sequence of subshells for each type — pressing S/P/D/F
-// the Nth time gives you the Nth entry in these arrays.
-const ORBITAL_SEQ: Record<SubType, { label: string; max: number }[]> = {
-  s: ["1s","2s","3s","4s","5s","6s","7s"].map(l => ({ label: l, max: 2 })),
-  p: ["2p","3p","4p","5p","6p","7p"].map(l => ({ label: l, max: 6 })),
-  d: ["3d","4d","5d","6d"].map(l => ({ label: l, max: 10 })),
-  f: ["4f","5f"].map(l => ({ label: l, max: 14 })),
-};
-
-const TOTAL_TIME = 60;
+const SUBSHELL_MAX: Record<SubType, number> = { s: 2, p: 6, d: 10 };
 const MAX_LIVES  = 3;
+const RUSH_TIME  = 60; // seconds
 
-// ── Element data (H–Kr, excluding Cr Z=24 and Cu Z=29 exceptions) ─────────────
+// Scaled-up ring radii for a bigger atom presentation
+const RING_LAYOUT: Record<string, { r: number; tilt: [number, number, number] }> = {
+  "1s": { r: 1.05, tilt: [ 0.30,  0.00,  0.15] },
+  "2s": { r: 1.55, tilt: [-0.40,  0.20,  0.10] },
+  "2p": { r: 2.00, tilt: [ 0.10,  0.50, -0.20] },
+  "3s": { r: 2.50, tilt: [ 0.60, -0.10,  0.30] },
+  "3p": { r: 2.95, tilt: [-0.20, -0.50,  0.40] },
+  "3d": { r: 3.50, tilt: [ 0.40,  0.30, -0.50] },
+  "4s": { r: 3.95, tilt: [-0.50,  0.10, -0.30] },
+  "4p": { r: 4.40, tilt: [ 0.20, -0.40,  0.20] },
+  "4d": { r: 4.90, tilt: [-0.30,  0.60,  0.10] },
+};
+
+// ── Element data ───────────────────────────────────────────────────────────────
 const se = (l: string, n: number): TargetSub => ({ label: l, n, type: "s" });
 const pe = (l: string, n: number): TargetSub => ({ label: l, n, type: "p" });
 const de = (l: string, n: number): TargetSub => ({ label: l, n, type: "d" });
@@ -71,165 +79,319 @@ const GAME_ELEMENTS: ElemData[] = [
   { symbol:"Kr", name:"Krypton",    z:36, config:[se("1s",2),se("2s",2),pe("2p",6),se("3s",2),pe("3p",6),de("3d",10),se("4s",2),pe("4p",6)] },
 ];
 
-// ── Validation ─────────────────────────────────────────────────────────────────
-// Order-independent: checks the same set of subshells with the same counts.
-function checkConfig(placed: PlacedSub[], target: ElemData): boolean {
-  if (placed.length !== target.config.length) return false;
-  const count = (p: PlacedSub) => p.upCount + p.downCount;
-  // spins must follow Hund's rule: fill all up slots before any down slots
-  const correctSpins = (p: PlacedSub) => {
-    const total = count(p);
-    const upMax = Math.ceil(p.max / 2);
-    return p.upCount === Math.min(total, upMax);
-  };
-  return (
-    target.config.every(t => placed.some(p => p.label === t.label && count(p) === t.n)) &&
-    placed.every(p => target.config.some(t => t.label === p.label && t.n === count(p))) &&
-    placed.every(p => correctSpins(p))
-  );
+// ── Expected spin logic ────────────────────────────────────────────────────────
+// Returns the spin the next electron in this subshell must have, or "either"
+// if this is the very first electron (player may choose freely).
+//
+// Hund's rule is spin-direction agnostic: all singles must be PARALLEL —
+// either all-↑ or all-↓ — before any pairing. The direction is the player's choice.
+function expectedSpin(
+  sub: TargetSub,
+  prog: SubshellProgress | undefined,
+): "up" | "down" | "either" {
+  const placed = prog?.placed ?? 0;
+  const chosen = prog?.chosenSpin ?? null;
+  const orbs   = SUBSHELL_MAX[sub.type] / 2;
+
+  if (placed < orbs) {
+    // Still in the first pass (singly occupying orbitals)
+    return chosen === null ? "either" : chosen;
+  }
+  // Second pass: must be the opposite of the first-pass spin
+  return chosen === "up" ? "down" : "up";
 }
 
-// ── localStorage helpers ───────────────────────────────────────────────────────
+// ── localStorage ───────────────────────────────────────────────────────────────
 function getHS(): number {
   if (typeof window === "undefined") return 0;
   return parseInt(localStorage.getItem("orbital-rush-hs") ?? "0", 10);
 }
-function saveHS(score: number) {
+function saveHS(s: number) {
   if (typeof window === "undefined") return;
-  if (score > getHS()) localStorage.setItem("orbital-rush-hs", String(score));
+  if (s > getHS()) localStorage.setItem("orbital-rush-hs", String(s));
 }
 
-// ── Notation display ───────────────────────────────────────────────────────────
-function NotationLine({ placed, activeIdx }: { placed: PlacedSub[]; activeIdx: number }) {
+// ── 3D: Dynamic camera ─────────────────────────────────────────────────────────
+function CameraController({ targetZ }: { targetZ: number }) {
+  const { camera } = useThree();
+  useEffect(() => {
+    camera.position.setZ(targetZ);
+  }, [camera, targetZ]);
+  return null;
+}
+
+// ── 3D: Nucleus ────────────────────────────────────────────────────────────────
+function GameNucleus() {
+  const coreRef = useRef<THREE.Mesh>(null);
+  const glowRef = useRef<THREE.Mesh>(null);
+  useFrame(({ clock }) => {
+    const t = clock.elapsedTime;
+    const f = 0.5 + 0.5 * (Math.sin(t * 1.7) * 0.6 + Math.sin(t * 4.3) * 0.4);
+    if (coreRef.current)
+      (coreRef.current.material as THREE.MeshStandardMaterial).emissiveIntensity = 5 + f * 5;
+    if (glowRef.current)
+      (glowRef.current.material as THREE.MeshStandardMaterial).opacity = 0.06 + f * 0.06;
+  });
   return (
-    <div className="flex flex-wrap gap-x-1.5 gap-y-1 font-heading min-h-[2rem] items-baseline">
-      {placed.length === 0 ? (
-        <span style={{ color: "var(--oc-text-hint)", fontSize: "0.75rem", letterSpacing: "0.06em" }}>
-          press s / p / d / f to begin...
-        </span>
-      ) : (
-        placed.map((sub, i) => {
-          const isActive = i === activeIdx;
-          return (
-            <span
-              key={i}
-              style={{
-                color: COLORS[sub.type],
-                fontSize: "0.95rem",
-                letterSpacing: "0.04em",
-                opacity: isActive ? 1 : 0.6,
-                borderBottom: isActive ? `1.5px solid ${COLORS[sub.type]}` : "none",
-                paddingBottom: isActive ? "1px" : "2px",
-                transition: "opacity 0.15s",
-              }}
-            >
-              {sub.label}
-              <sup style={{ fontSize: "0.6em", verticalAlign: "super" }}>{sub.upCount + sub.downCount}</sup>
-            </span>
-          );
-        })
+    <group>
+      <mesh ref={glowRef}>
+        <sphereGeometry args={[0.55, 16, 16]} />
+        <meshStandardMaterial color="#ff6622" emissive="#ff6622" emissiveIntensity={0.5}
+          transparent opacity={0.06} roughness={1} depthWrite={false} />
+      </mesh>
+      <mesh ref={coreRef}>
+        <sphereGeometry args={[0.15, 16, 16]} />
+        <meshStandardMaterial color="#ffddaa" emissive="#ff6622" emissiveIntensity={6}
+          roughness={0} toneMapped={false} />
+      </mesh>
+    </group>
+  );
+}
+
+// ── 3D: Electrons distributed around a ring ────────────────────────────────────
+function RingElectrons({ count, radius, color }: { count: number; radius: number; color: string }) {
+  const groupRef = useRef<THREE.Group>(null);
+  useFrame(({ clock }) => {
+    if (groupRef.current) groupRef.current.rotation.y = clock.elapsedTime * 0.30;
+  });
+  const positions = useMemo(
+    () => Array.from({ length: count }, (_, i) => {
+      const a = (2 * Math.PI * i) / count;
+      return [Math.cos(a) * radius, 0, Math.sin(a) * radius] as [number, number, number];
+    }),
+    [count, radius],
+  );
+  return (
+    <group ref={groupRef}>
+      {positions.map((pos, i) => (
+        <mesh key={i} position={pos}>
+          <sphereGeometry args={[0.065, 10, 10]} />
+          <meshStandardMaterial color={color} emissive={color} emissiveIntensity={3} toneMapped={false} />
+        </mesh>
+      ))}
+    </group>
+  );
+}
+
+// ── 3D: One orbital ring ───────────────────────────────────────────────────────
+function GameRing({
+  label, type, placedCount, isActive, feedState,
+}: {
+  label: string; type: SubType; placedCount: number; isActive: boolean; feedState: FeedState;
+}) {
+  const layout = RING_LAYOUT[label];
+  if (!layout) return null;
+
+  const baseColor = SUBSHELL_COLORS[type];
+  const color = isActive && feedState === "correct" ? "#72b872"
+              : isActive && feedState === "wrong"   ? "#e05252"
+              : baseColor;
+
+  const ringRef = useRef<THREE.Mesh>(null);
+  useFrame(({ clock }) => {
+    if (!ringRef.current) return;
+    const mat = ringRef.current.material as THREE.MeshBasicMaterial;
+    mat.color.set(color);
+    mat.opacity = isActive
+      ? 0.22 + 0.10 * Math.sin(clock.elapsedTime * 3.5)
+      : placedCount > 0 ? 0.11 : 0.035;
+  });
+
+  return (
+    <group rotation={layout.tilt}>
+      <mesh ref={ringRef} rotation={[-Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[layout.r, 0.008, 4, 100]} />
+        <meshBasicMaterial color={color} transparent opacity={0.09} depthWrite={false} />
+      </mesh>
+      {placedCount > 0 && (
+        <RingElectrons count={placedCount} radius={layout.r} color={color} />
       )}
+    </group>
+  );
+}
+
+// ── 3D: Full scene ─────────────────────────────────────────────────────────────
+function AtomScene({
+  config, placedPerSubshell, activeSubshell, feedState, targetCameraZ,
+}: {
+  config: TargetSub[];
+  placedPerSubshell: Record<string, number>;
+  activeSubshell: string | null;
+  feedState: FeedState;
+  targetCameraZ: number;
+}) {
+  const masterRef = useRef<THREE.Group>(null);
+  useFrame(({ clock }) => {
+    if (masterRef.current) masterRef.current.rotation.y = clock.elapsedTime * 0.10;
+  });
+  return (
+    <>
+      <CameraController targetZ={targetCameraZ} />
+      <group ref={masterRef}>
+        <GameNucleus />
+        {config.map(({ label, type }) => (
+          <GameRing
+            key={label}
+            label={label}
+            type={type}
+            placedCount={placedPerSubshell[label] ?? 0}
+            isActive={label === activeSubshell}
+            feedState={feedState}
+          />
+        ))}
+      </group>
+    </>
+  );
+}
+
+// ── Active subshell orbital diagram ───────────────────────────────────────────
+// Shows which orbitals are filled and with which spin, respecting the player's
+// chosen spin direction (not assuming ↑ = first).
+function ActiveDiagram({
+  type, placed, chosenSpin, max, isLight,
+}: { type: SubType; placed: number; chosenSpin: "up" | "down" | null; max: number; isLight: boolean }) {
+  const color       = SUBSHELL_COLORS[type];
+  const orbs        = max / 2;
+  const first       = Math.min(placed, orbs);
+  const second      = Math.max(0, placed - orbs);
+  const oppSpin     = chosenSpin === "up" ? "down" : "up";
+  const borderAlpha = isLight ? "99" : "44";
+  const fillAlpha   = isLight ? "22" : "12";
+
+  return (
+    <div style={{ display: "flex", gap: "3px" }}>
+      {Array.from({ length: orbs }, (_, oi) => {
+        const hasFirst  = oi < first;
+        const hasSecond = oi < second;
+        // ↑ shows in top slot, ↓ in bottom slot — regardless of which was placed first
+        const showUp   = (hasFirst && chosenSpin === "up") || (hasSecond && oppSpin === "up");
+        const showDown = (hasFirst && chosenSpin === "down") || (hasSecond && oppSpin === "down");
+        return (
+          <div key={oi} style={{
+            width: "22px", height: "42px",
+            border: `1px solid ${color}${borderAlpha}`,
+            borderRadius: "2px",
+            display: "flex", flexDirection: "column",
+            alignItems: "center", justifyContent: "space-between",
+            padding: "5px 0",
+            background: (hasFirst || hasSecond) ? `${color}${fillAlpha}` : "transparent",
+            fontSize: "0.65rem",
+            lineHeight: 1,
+          }}>
+            {showUp   ? <span style={{ color }}>↑</span> : <span />}
+            {showDown ? <span style={{ color }}>↓</span> : <span />}
+          </div>
+        );
+      })}
     </div>
   );
 }
 
-// ── Orbital type button ────────────────────────────────────────────────────────
-function OrbBtn({
-  type, disabled, onClick,
-}: { type: SubType; disabled: boolean; onClick: () => void }) {
-  const color = COLORS[type];
+// ── Electron bucket button ─────────────────────────────────────────────────────
+function ElectronBucket({
+  spin, onClick, disabled,
+}: { spin: "up" | "down"; onClick: () => void; disabled: boolean }) {
   return (
     <button
       onClick={onClick}
       disabled={disabled}
       style={{
         flex: 1,
-        height: "52px",
-        border: `1px solid ${disabled ? "var(--oc-green-border-faint)" : color + "55"}`,
-        borderRadius: "3px",
-        color: disabled ? "var(--oc-text-hint)" : color,
-        background: disabled ? "transparent" : `${color}0e`,
+        padding: "14px 8px",
+        border: `1px solid ${disabled ? "var(--oc-green-border-faint)" : "var(--oc-green-border-dim)"}`,
+        borderRadius: "4px",
+        background: disabled ? "transparent" : "rgba(114,184,114,0.06)",
         cursor: disabled ? "not-allowed" : "pointer",
-        fontFamily: "inherit",
-        fontSize: "1rem",
-        letterSpacing: "0.1em",
-        fontWeight: 700,
+        display: "flex", flexDirection: "column", alignItems: "center", gap: "4px",
         transition: "background 0.1s, border-color 0.1s",
       }}
     >
-      {type.toUpperCase()}
-    </button>
-  );
-}
-
-// ── Electron +/- button ────────────────────────────────────────────────────────
-function ElBtn({
-  label, disabled, onClick,
-}: { label: string; disabled: boolean; onClick: () => void }) {
-  return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      style={{
-        flex: 1,
-        height: "44px",
-        border: "1px solid var(--oc-green-border-dim)",
-        borderRadius: "3px",
-        color: disabled ? "var(--oc-text-hint)" : "var(--oc-text)",
-        background: "transparent",
-        cursor: disabled ? "not-allowed" : "pointer",
-        fontFamily: "inherit",
-        fontSize: "0.8rem",
-        letterSpacing: "0.06em",
-        transition: "background 0.1s",
-      }}
-    >
-      {label}
+      <span style={{ fontSize: "1.7rem", lineHeight: 1, color: disabled ? "var(--oc-text-hint)" : "var(--oc-text)" }}>
+        {spin === "up" ? "↑" : "↓"}
+      </span>
+      <span className="font-heading" style={{ fontSize: "0.52rem", letterSpacing: "0.1em", color: disabled ? "var(--oc-text-hint)" : "var(--oc-text-dim)" }}>
+        {spin === "up" ? "SPIN UP" : "SPIN DOWN"}
+      </span>
+      <span style={{ fontSize: "0.48rem", color: "var(--oc-text-hint)", letterSpacing: "0.06em" }}>
+        {spin === "up" ? "↑ key" : "↓ key"}
+      </span>
     </button>
   );
 }
 
 // ── Main component ─────────────────────────────────────────────────────────────
 export function OrbitalRush() {
-  const [phase,      setPhase]      = useState<Phase>("idle");
-  const [score,      setScore]      = useState(0);
-  const [lives,      setLives]      = useState(MAX_LIVES);
-  const [timeLeft,   setTimeLeft]   = useState(TOTAL_TIME);
-  const [active,     setActive]     = useState(false);  // timer running
-  const [elIdx,      setElIdx]      = useState(0);
-  const [placed,     setPlaced]     = useState<PlacedSub[]>([]);
-  const [wasCorrect, setWasCorrect] = useState<boolean | null>(null);
-  const [highScore,  setHighScore]  = useState(0);
+  const { theme } = useTheme();
+  const isLight = theme === "light";
+
+  const [phase,         setPhase]         = useState<Phase>("idle");
+  const [mode,          setMode]          = useState<GameMode>("normal");
+  const [score,         setScore]         = useState(0);
+  const [lives,         setLives]         = useState(MAX_LIVES);
+  const [elIdx,         setElIdx]         = useState(0);
+  const [progress,      setProgress]      = useState<Progress>({});
+  const [feedState,     setFeedState]     = useState<FeedState>("none");
+  const [wrongExpected, setWrongExpected] = useState<"up" | "down" | null>(null);
+  const [highScore,     setHighScore]     = useState(0);
+  const [mounted,       setMounted]       = useState(false);
+  const [timeLeft,      setTimeLeft]      = useState(RUSH_TIME);
+  const [timerActive,   setTimerActive]   = useState(false);
 
   const usedRef = useRef<Set<number>>(new Set());
 
-  // Derived
-  const el         = GAME_ELEMENTS[elIdx];
-  const activeIdx  = placed.length - 1;
-  const activeSub  = placed[activeIdx] ?? null;
-  const totalPlaced = placed.reduce((s, p) => s + p.upCount + p.downCount, 0);
-  const timerDanger = timeLeft <= 10;
-  const isFrozen    = phase === "feedback";
-
-  // Load high score
+  useEffect(() => { setMounted(true); }, []);
   useEffect(() => { setHighScore(getHS()); }, []);
 
-  // Timer
+  // Rush-mode countdown timer
   useEffect(() => {
-    if (!active) return;
+    if (!timerActive) return;
     const id = setInterval(() => {
       setTimeLeft(t => {
-        if (t <= 1) { setActive(false); setPhase("gameover"); return 0; }
+        if (t <= 1) {
+          clearInterval(id);
+          setTimerActive(false);
+          setPhase("gameover");
+          setHighScore(prev => { saveHS(score); return getHS(); });
+          return 0;
+        }
         return t - 1;
       });
     }, 1000);
     return () => clearInterval(id);
-  }, [active]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timerActive]);
 
-  // Save HS when game ends
-  useEffect(() => {
-    if (phase === "gameover") { saveHS(score); setHighScore(getHS()); }
-  }, [phase, score]);
+  const el = GAME_ELEMENTS[elIdx];
+
+  // Active subshell = first entry in config that isn't fully filled yet
+  const activeSub = el.config.find(
+    sub => (progress[sub.label]?.placed ?? 0) < sub.n,
+  ) ?? null;
+
+  const activeProg = activeSub ? (progress[activeSub.label] ?? { placed: 0, chosenSpin: null }) : null;
+
+  // Derived counts for display
+  const totalPlaced = useMemo(
+    () => Object.values(progress).reduce((s, p) => s + p.placed, 0),
+    [progress],
+  );
+  const totalTarget = useMemo(
+    () => el.config.reduce((s, c) => s + c.n, 0),
+    [el],
+  );
+
+  // Per-subshell placed counts for the 3D rings
+  const placedPerSubshell = useMemo(() => {
+    const m: Record<string, number> = {};
+    for (const [label, p] of Object.entries(progress)) m[label] = p.placed;
+    return m;
+  }, [progress]);
+
+  // Camera distance: scale to fit the outermost ring of this element
+  const targetCameraZ = useMemo(() => {
+    const maxR = Math.max(...el.config.map(s => RING_LAYOUT[s.label]?.r ?? 1));
+    return Math.max(4.5, maxR * 2.0 + 2.5);
+  }, [el]);
 
   const pickAtom = useCallback((): number => {
     if (usedRef.current.size >= GAME_ELEMENTS.length) usedRef.current.clear();
@@ -242,100 +404,88 @@ export function OrbitalRush() {
 
   const loadAtom = useCallback((idx: number) => {
     setElIdx(idx);
-    setPlaced([]);
-    setWasCorrect(null);
+    setProgress({});
+    setFeedState("none");
+    setWrongExpected(null);
     setPhase("playing");
   }, []);
 
-  const startGame = useCallback(() => {
+  const startGame = useCallback((selectedMode: GameMode) => {
     usedRef.current = new Set();
     setScore(0);
     setLives(MAX_LIVES);
-    setTimeLeft(TOTAL_TIME);
-    setActive(true);
+    if (selectedMode === "rush") {
+      setTimeLeft(RUSH_TIME);
+      setTimerActive(true);
+    } else {
+      setTimerActive(false);
+    }
     loadAtom(pickAtom());
   }, [pickAtom, loadAtom]);
 
-  const addOrbital = useCallback((type: SubType) => {
-    if (isFrozen) return;
-    setPlaced(prev => {
-      const typeCount = prev.filter(p => p.type === type).length;
-      const next = ORBITAL_SEQ[type][typeCount];
-      if (!next) return prev; // no more subshells of this type available
-      return [...prev, { label: next.label, type, max: next.max, upCount: 0, downCount: 0 }];
-    });
-  }, [isFrozen]);
+  const placeElectron = useCallback((spin: "up" | "down") => {
+    if (phase !== "playing" || feedState !== "none") return;
+    if (!activeSub) return;
 
-  const addUp = useCallback(() => {
-    if (isFrozen) return;
-    setPlaced(prev => {
-      if (prev.length === 0) return prev;
-      return prev.map((p, i) => {
-        if (i !== prev.length - 1) return p;
-        if (p.upCount >= Math.ceil(p.max / 2)) return p;
-        return { ...p, upCount: p.upCount + 1 };
-      });
-    });
-  }, [isFrozen]);
+    const prog     = progress[activeSub.label] ?? { placed: 0, chosenSpin: null };
+    const expected = expectedSpin(activeSub, prog);
+    const isRight  = expected === "either" || expected === spin;
 
-  const addDown = useCallback(() => {
-    if (isFrozen) return;
-    setPlaced(prev => {
-      if (prev.length === 0) return prev;
-      return prev.map((p, i) => {
-        if (i !== prev.length - 1) return p;
-        if (p.downCount >= Math.floor(p.max / 2)) return p;
-        return { ...p, downCount: p.downCount + 1 };
-      });
-    });
-  }, [isFrozen]);
+    // Build the new progress state after a correct placement
+    const newProg: SubshellProgress = {
+      placed:     prog.placed + 1,
+      chosenSpin: prog.chosenSpin ?? (isRight ? spin : (expected as "up" | "down")),
+    };
+    const newProgress: Progress = { ...progress, [activeSub.label]: newProg };
 
-  const removeLast = useCallback(() => {
-    if (isFrozen) return;
-    setPlaced(prev => prev.slice(0, -1));
-  }, [isFrozen]);
+    // Check element completion using the updated progress
+    const elementDone = el.config.every(
+      sub => (newProgress[sub.label]?.placed ?? 0) >= sub.n,
+    );
 
-  const submit = useCallback(() => {
-    if (phase !== "playing") return;
-    const correct = checkConfig(placed, el);
-    setWasCorrect(correct);
-    setPhase("feedback");
-
-    if (correct) {
-      setScore(s => s + 10);
-      setTimeout(() => loadAtom(pickAtom()), 1000);
+    if (isRight) {
+      setProgress(newProgress);
+      if (elementDone) {
+        setScore(s => s + 10);
+        setFeedState("correct");
+        setTimeout(() => { setFeedState("none"); loadAtom(pickAtom()); }, 900);
+      }
     } else {
-      setLives(l => {
-        const next = l - 1;
-        if (next <= 0) {
-          setActive(false);
-          setTimeout(() => setPhase("gameover"), 1500);
-        } else {
-          setTimeout(() => loadAtom(pickAtom()), 1600);
-        }
-        return next;
-      });
-    }
-  }, [phase, placed, el, pickAtom, loadAtom]);
+      // Wrong spin — auto-place the correct one after feedback
+      const correctSpin = expected as "up" | "down";
+      setWrongExpected(correctSpin);
+      setFeedState("wrong");
+      const newLives = lives - 1;
+      setLives(newLives);
 
-  // Keyboard: Enter = submit, Backspace = remove last
+      setTimeout(() => {
+        if (newLives <= 0) {
+          setTimerActive(false);
+          saveHS(score);
+          setHighScore(getHS());
+          setPhase("gameover");
+          return;
+        }
+        setProgress(newProgress);
+        setFeedState("none");
+        setWrongExpected(null);
+        if (elementDone) loadAtom(pickAtom());
+      }, 1000);
+    }
+  }, [phase, feedState, activeSub, progress, el, lives, score, pickAtom, loadAtom]);
+
+  // Keyboard: ↑ / ↓ arrow keys
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (phase !== "playing") return;
-      if (e.key === "Enter")                   submit();
-      if (e.key === "Backspace")               removeLast();
-      if (e.key === "s" || e.key === "S")      addOrbital("s");
-      if (e.key === "p" || e.key === "P")      addOrbital("p");
-      if (e.key === "d" || e.key === "D")      addOrbital("d");
-      if (e.key === "f" || e.key === "F")      addOrbital("f");
-      if (e.key === "ArrowUp")   { e.preventDefault(); addUp(); }
-      if (e.key === "ArrowDown") { e.preventDefault(); addDown(); }
+      if (e.key === "ArrowUp")   { e.preventDefault(); placeElectron("up"); }
+      if (e.key === "ArrowDown") { e.preventDefault(); placeElectron("down"); }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [phase, submit, removeLast, addOrbital, addUp, addDown]);
+  }, [phase, placeElectron]);
 
-  // ── Idle / Gameover ──────────────────────────────────────────────────────────
+  // ── Idle / Game over ───────────────────────────────────────────────────────
   if (phase === "idle" || phase === "gameover") {
     const isGO = phase === "gameover";
     return (
@@ -348,7 +498,7 @@ export function OrbitalRush() {
             ORBITAL RUSH
           </h3>
           <p className="font-heading text-xs mb-5" style={{ color: "var(--oc-green)", letterSpacing: "0.12em", fontSize: "0.6rem" }}>
-            ELECTRON CONFIGURATION SPEEDRUN
+            ELECTRON PLACEMENT CHALLENGE
           </p>
 
           {isGO && (
@@ -370,11 +520,11 @@ export function OrbitalRush() {
           {!isGO && (
             <div className="mb-5 flex flex-col gap-2">
               {[
-                "You are shown a random element. Build its electron configuration from scratch.",
-                "Press S / P / D / F to open the next subshell of that type. Use ↑ to add an up-spin electron, ↓ to add a down-spin electron (Hund's rule — fill up spins first).",
-                "Press ← to delete the last subshell if you made a mistake.",
-                "Press SUBMIT (or Enter) when done. Correct = +10 pts. Wrong = lose a life.",
-                "3 lives · 60 seconds · Cr and Cu are excluded (they break Aufbau rules).",
+                "A random element appears. Place its electrons onto the atom one at a time.",
+                "Pick ↑ or ↓ from the buckets. Either spin is fine for the first electron in a subshell — just stay consistent.",
+                "Hund's rule: all singly-occupied orbitals must match your chosen spin before any pairing begins.",
+                "Wrong spin = lose a life. Correct = electron appears on the glowing ring.",
+                "+10 pts per element completed without error.",
               ].map((r, i) => (
                 <div key={i} className="flex gap-2 text-xs" style={{ color: "var(--oc-text-muted)", lineHeight: 1.6 }}>
                   <span className="font-heading shrink-0" style={{ color: "var(--oc-green-dim)" }}>{i + 1}.</span>
@@ -384,6 +534,39 @@ export function OrbitalRush() {
             </div>
           )}
 
+          {/* Mode selector */}
+          <div className="mb-4">
+            <p className="font-heading text-xs mb-2" style={{ fontSize: "0.55rem", color: "var(--oc-text-dim)", letterSpacing: "0.1em" }}>SELECT MODE</p>
+            <div className="flex gap-2">
+              {(["normal", "rush"] as GameMode[]).map(m => {
+                const selected = mode === m;
+                return (
+                  <button
+                    key={m}
+                    onClick={() => setMode(m)}
+                    className="font-heading text-xs flex-1 py-2.5"
+                    style={{
+                      border: `1px solid ${selected ? "var(--oc-green-subtle)" : "var(--oc-green-border-faint)"}`,
+                      borderRadius: "3px",
+                      background: selected ? "rgba(114,184,114,0.12)" : "transparent",
+                      color: selected ? "var(--oc-green)" : "var(--oc-text-dim)",
+                      cursor: "pointer",
+                      letterSpacing: "0.1em",
+                      transition: "all 0.15s",
+                    }}
+                  >
+                    {m === "normal" ? "NORMAL" : "⏱ RUSH"}
+                  </button>
+                );
+              })}
+            </div>
+            <p className="text-xs mt-2" style={{ color: "var(--oc-text-hint)", lineHeight: 1.5 }}>
+              {mode === "normal"
+                ? "No time limit — 3 lives. Take your time."
+                : `${RUSH_TIME}s countdown — 3 lives. Race the clock.`}
+            </p>
+          </div>
+
           {highScore > 0 && !isGO && (
             <p className="text-xs mb-4" style={{ color: "var(--oc-text-dim)" }}>
               Best: <span className="font-heading" style={{ color: "var(--oc-green)" }}>{highScore}</span>
@@ -391,7 +574,7 @@ export function OrbitalRush() {
           )}
 
           <button
-            onClick={startGame}
+            onClick={() => startGame(mode)}
             className="font-heading text-xs px-5 py-3 w-full transition-all duration-150"
             style={{ background: "rgba(114,184,114,0.12)", border: "1px solid var(--oc-green-subtle)", color: "var(--oc-green)", letterSpacing: "0.12em", borderRadius: "3px", cursor: "pointer" }}
           >
@@ -402,8 +585,13 @@ export function OrbitalRush() {
     );
   }
 
-  // ── Game screen ──────────────────────────────────────────────────────────────
-  const borderColor = wasCorrect === true ? "#72b872" : wasCorrect === false ? "#e05252" : "var(--oc-green-border-dim)";
+  // ── Playing ────────────────────────────────────────────────────────────────
+  const borderColor =
+    feedState === "correct" ? "#72b872" :
+    feedState === "wrong"   ? "#e05252" :
+    "var(--oc-green-border-dim)";
+
+  const isFrozen = feedState !== "none";
 
   return (
     <div className="mb-16">
@@ -411,136 +599,124 @@ export function OrbitalRush() {
         {`// MINIGAME — ORBITAL RUSH`}
       </p>
 
-      <div className="max-w-sm" style={{ border: `1px solid ${borderColor}`, borderRadius: "4px", overflow: "hidden", transition: "border-color 0.2s" }}>
-
-        {/* ── Status bar ── */}
+      <div
+        className="max-w-sm"
+        style={{ border: `1px solid ${borderColor}`, borderRadius: "4px", overflow: "hidden", transition: "border-color 0.2s" }}
+      >
+        {/* Status bar */}
         <div className="flex items-center justify-between px-4 py-2.5" style={{ background: "var(--oc-green-bg-surface)", borderBottom: "1px solid var(--oc-green-border-faint)" }}>
-          <span
-            className="font-heading"
-            style={{ fontSize: "1rem", color: timerDanger ? "#e05252" : "var(--oc-text)", letterSpacing: "0.06em", minWidth: "3.5ch", transition: "color 0.3s" }}
-          >
-            {String(Math.floor(timeLeft / 60)).padStart(2, "0")}:{String(timeLeft % 60).padStart(2, "0")}
-          </span>
           <div className="flex gap-1.5">
             {Array.from({ length: MAX_LIVES }).map((_, i) => (
-              <span key={i} style={{ color: i < lives ? "#e05252" : "var(--oc-text-hint)", fontSize: "0.8rem" }}>
+              <span key={i} style={{ color: i < lives ? "#e05252" : "var(--oc-text-hint)", fontSize: "0.85rem" }}>
                 {i < lives ? "●" : "○"}
               </span>
             ))}
           </div>
+          {mode === "rush" ? (
+            <span
+              className="font-heading"
+              style={{
+                fontSize: "0.95rem",
+                letterSpacing: "0.06em",
+                color: timeLeft <= 10 ? "#e05252" : "var(--oc-text)",
+                transition: "color 0.3s",
+                minWidth: "3.5ch",
+                textAlign: "center",
+              }}
+            >
+              {String(Math.floor(timeLeft / 60)).padStart(2, "0")}:{String(timeLeft % 60).padStart(2, "0")}
+            </span>
+          ) : (
+            <span className="font-heading" style={{ fontSize: "0.6rem", color: "var(--oc-text-dim)", letterSpacing: "0.08em" }}>
+              {totalPlaced} / {totalTarget} e⁻
+            </span>
+          )}
           <span className="font-heading text-sm" style={{ color: "var(--oc-green)", letterSpacing: "0.08em" }}>{score}</span>
         </div>
 
-        {/* ── Element ── */}
+        {/* Element header */}
         <div className="px-5 pt-4 pb-3" style={{ background: "rgba(1,13,10,0.5)", borderBottom: "1px solid var(--oc-green-border-faint)" }}>
           <div className="flex items-baseline gap-3 mb-0.5">
             <span className="font-heading" style={{ fontSize: "2.8rem", color: "var(--oc-text)", lineHeight: 1 }}>{el.symbol}</span>
             <span className="font-heading text-sm" style={{ color: "var(--oc-text-dim)" }}>Z = {el.z}</span>
           </div>
-          <p className="font-heading text-xs" style={{ color: "var(--oc-text-dim)", letterSpacing: "0.15em" }}>{el.name.toUpperCase()}</p>
+          <p className="font-heading text-xs" style={{ color: "var(--oc-text-dim)", letterSpacing: "0.15em" }}>
+            {el.name.toUpperCase()}
+          </p>
         </div>
 
-        {/* ── Notation display ── */}
-        <div className="px-5 py-4" style={{ background: "rgba(1,13,10,0.35)", borderBottom: "1px solid var(--oc-green-border-faint)", minHeight: "72px" }}>
-          <NotationLine placed={placed} activeIdx={activeIdx} />
-          <div className="flex items-center gap-2 mt-2">
-            <span style={{ fontSize: "0.6rem", color: "var(--oc-text-hint)", letterSpacing: "0.06em" }}>
-              {totalPlaced} / {el.z} e⁻
-            </span>
-            {activeSub && (
-              <>
-                <span style={{ color: "var(--oc-text-hint)", fontSize: "0.6rem" }}>·</span>
-                <span style={{ fontSize: "0.6rem", color: COLORS[activeSub.type], letterSpacing: "0.06em" }}>
-                  {activeSub.label}: ↑{activeSub.upCount} ↓{activeSub.downCount} / {activeSub.max}
-                </span>
-              </>
-            )}
-          </div>
-        </div>
-
-        {/* ── Buttons ── */}
-        <div className="px-5 py-4 flex flex-col gap-3" style={{ background: "rgba(1,13,10,0.2)" }}>
-          {/* Orbital type row */}
-          <div className="flex gap-2">
-            {(["s","p","d","f"] as SubType[]).map(type => (
-              <OrbBtn
-                key={type}
-                type={type}
-                disabled={isFrozen || ORBITAL_SEQ[type][placed.filter(p => p.type === type).length] === undefined}
-                onClick={() => addOrbital(type)}
-              />
-            ))}
-          </div>
-
-          {/* Electron up/down + delete row */}
-          <div className="flex gap-2">
-            <ElBtn
-              label="↑  e⁻"
-              disabled={isFrozen || !activeSub || activeSub.upCount >= Math.ceil(activeSub.max / 2)}
-              onClick={addUp}
-            />
-            <ElBtn
-              label="↓  e⁻"
-              disabled={isFrozen || !activeSub || activeSub.downCount >= Math.floor(activeSub.max / 2)}
-              onClick={addDown}
-            />
-            <button
-              onClick={removeLast}
-              disabled={isFrozen || placed.length === 0}
-              style={{
-                width: "44px",
-                height: "44px",
-                border: "1px solid var(--oc-green-border-dim)",
-                borderRadius: "3px",
-                color: (isFrozen || placed.length === 0) ? "var(--oc-text-hint)" : "var(--oc-text-muted)",
-                background: "transparent",
-                cursor: (isFrozen || placed.length === 0) ? "not-allowed" : "pointer",
-                fontFamily: "inherit",
-                fontSize: "0.9rem",
-                flexShrink: 0,
-              }}
-              title="Delete last subshell (Backspace)"
+        {/* 3D Atom — taller canvas */}
+        <div style={{ height: "280px", background: "rgba(1,13,10,0.65)" }}>
+          {mounted && (
+            <Canvas
+              camera={{ position: [0, 0, 8], fov: 52 }}
+              style={{ background: "transparent" }}
+              gl={{ antialias: true, alpha: true }}
             >
-              ←
-            </button>
+              <ambientLight intensity={0.05} />
+              <pointLight position={[0, 0, 0]} intensity={4} color="#ff6622" decay={2} />
+              <pointLight position={[4, 3, 4]} intensity={0.6} color="#4499ff" decay={2} />
+              <AtomScene
+                config={el.config}
+                placedPerSubshell={placedPerSubshell}
+                activeSubshell={activeSub?.label ?? null}
+                feedState={feedState}
+                targetCameraZ={targetCameraZ}
+              />
+            </Canvas>
+          )}
+        </div>
+
+        {/* Active subshell hint */}
+        <div
+          className="px-5 py-3"
+          style={{
+            background: "rgba(1,13,10,0.4)",
+            borderTop: "1px solid var(--oc-green-border-faint)",
+            borderBottom: "1px solid var(--oc-green-border-faint)",
+            minHeight: "60px",
+            display: "flex", flexDirection: "column", justifyContent: "center", gap: "6px",
+          }}
+        >
+          {activeSub && activeProg ? (
+            <>
+              <div className="flex items-center gap-2">
+                <span className="font-heading" style={{ fontSize: "0.55rem", color: "var(--oc-text-dim)", letterSpacing: "0.1em" }}>FILLING:</span>
+                <span className="font-heading" style={{ fontSize: "0.7rem", color: SUBSHELL_COLORS[activeSub.type], letterSpacing: "0.08em" }}>
+                  {activeSub.label}
+                </span>
+                <span style={{ fontSize: "0.55rem", color: "var(--oc-text-hint)" }}>
+                  {activeProg.placed}/{SUBSHELL_MAX[activeSub.type]} e⁻
+                </span>
+              </div>
+              <ActiveDiagram
+                type={activeSub.type}
+                placed={activeProg.placed}
+                chosenSpin={activeProg.chosenSpin}
+                max={SUBSHELL_MAX[activeSub.type]}
+                isLight={isLight}
+              />
+            </>
+          ) : feedState === "correct" ? (
+            <p className="font-heading" style={{ fontSize: "0.6rem", color: "#72b872", letterSpacing: "0.1em" }}>
+              ELEMENT COMPLETE  +10 PTS
+            </p>
+          ) : null}
+        </div>
+
+        {/* Wrong-spin feedback */}
+        {feedState === "wrong" && wrongExpected && (
+          <div className="px-5 py-2" style={{ background: "rgba(224,82,82,0.08)", borderBottom: "1px solid rgba(224,82,82,0.20)" }}>
+            <p className="font-heading" style={{ fontSize: "0.6rem", color: "#e05252", letterSpacing: "0.08em" }}>
+              WRONG — SHOULD BE {wrongExpected === "up" ? "↑ SPIN UP" : "↓ SPIN DOWN"}
+            </p>
           </div>
+        )}
 
-          {/* Feedback row */}
-          {phase === "feedback" && wasCorrect === true && (
-            <div className="px-3 py-2 font-heading text-xs" style={{ background: "rgba(114,184,114,0.08)", border: "1px solid rgba(114,184,114,0.25)", borderRadius: "3px", color: "#72b872", letterSpacing: "0.1em", fontSize: "0.6rem" }}>
-              CORRECT  +10 PTS
-            </div>
-          )}
-          {phase === "feedback" && wasCorrect === false && (
-            <div className="px-3 py-2 text-xs" style={{ background: "rgba(224,82,82,0.07)", border: "1px solid rgba(224,82,82,0.25)", borderRadius: "3px", color: "var(--oc-text-muted)", lineHeight: 1.7 }}>
-              <span className="font-heading" style={{ color: "#e05252", letterSpacing: "0.08em", fontSize: "0.6rem" }}>WRONG — CORRECT ANSWER: </span>
-              <span className="font-heading" style={{ fontSize: "0.85rem" }}>
-                {el.config.map((e, i) => (
-                  <span key={i} style={{ color: COLORS[e.type], marginRight: "3px" }}>
-                    {e.label}<sup style={{ fontSize: "0.6em" }}>{e.n}</sup>
-                  </span>
-                ))}
-              </span>
-            </div>
-          )}
-
-          {/* Submit */}
-          <button
-            onClick={submit}
-            disabled={phase !== "playing"}
-            className="font-heading text-xs py-2.5 w-full"
-            style={{
-              background: phase === "playing" ? "rgba(114,184,114,0.12)" : "transparent",
-              border: "1px solid var(--oc-green-subtle)",
-              color: phase === "playing" ? "var(--oc-green)" : "var(--oc-text-hint)",
-              letterSpacing: "0.12em",
-              borderRadius: "3px",
-              cursor: phase === "playing" ? "pointer" : "not-allowed",
-              transition: "background 0.1s",
-            }}
-          >
-            SUBMIT  <span style={{ opacity: 0.45, fontSize: "0.55rem" }}>↵ ENTER</span>
-          </button>
+        {/* Electron buckets */}
+        <div className="px-5 py-4 flex gap-3" style={{ background: "rgba(1,13,10,0.2)" }}>
+          <ElectronBucket spin="up"   onClick={() => placeElectron("up")}   disabled={isFrozen} />
+          <ElectronBucket spin="down" onClick={() => placeElectron("down")} disabled={isFrozen} />
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { OrbitalCanvas } from "@/components/molecules/OrbitalCanvas";
-import { HydrogenCanvas } from "@/components/molecules/HydrogenCanvas";
+import { ElementShowcase } from "@/components/ui/ElementShowcase";
 import { HexDotGrid } from "@/components/ui/HexDotGrid";
 import { NavTitle } from "@/components/ui/NavTitle";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
@@ -139,53 +139,8 @@ export default function Home() {
 
         </div>
 
-        {/* Right: Element unlock animation — desktop only */}
-        <div className="hidden lg:flex lg:w-[45%] lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] items-center justify-center relative">
-
-          {/* ── H watermark — behind atom in light mode, in front in dark ── */}
-          <div className="h-watermark-layer absolute inset-0 flex items-center justify-center pointer-events-none" style={{ userSelect: "none" }}>
-            <span className="h-watermark" style={{
-              fontFamily: "monospace", fontSize: "22rem", fontWeight: 700,
-              lineHeight: 1,
-              letterSpacing: "-0.04em",
-            }}>
-              H
-            </span>
-          </div>
-
-          {/* 3D atom canvas — z-index 1, extends left so electron trail fades naturally */}
-          <div className="absolute" style={{ top: 0, bottom: 0, right: 0, left: "-7rem", zIndex: 1 }}>
-            <HydrogenCanvas />
-          </div>
-
-          {/* Element info overlay — always on top */}
-          <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 3 }}>
-
-            {/* ── Top-right: category tag ── */}
-            <div className="absolute top-7 right-8"
-              style={{ fontFamily: "monospace", fontSize: "0.75rem", letterSpacing: "0.14em", color: "var(--oc-text-dim)" }}>
-              ELEMENT
-            </div>
-
-            {/* ── Bottom: element name + unlock icon + info ── */}
-            <div className="absolute bottom-8 left-8 flex flex-col gap-1.5">
-              <div className="element-title flex items-center gap-3" style={{
-                fontFamily: "monospace", fontSize: "1.6rem", fontWeight: 700,
-                letterSpacing: "0.2em",
-                textShadow: "0 0 24px rgba(180,215,255,0.2)",
-              }}>
-                HYDROGEN
-                <svg width="16" height="17" viewBox="0 0 13 14" fill="none" className="lock-icon" style={{ flexShrink: 0, marginBottom: "1px" }}>
-                  <rect x="1" y="6.5" width="11" height="7" rx="1.2" stroke="currentColor" strokeWidth="1.2" />
-                  <path d="M4 6.5V4a2.5 2.5 0 0 1 5 0" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-                </svg>
-              </div>
-              <div style={{ fontFamily: "monospace", fontSize: "0.75rem", letterSpacing: "0.1em", color: "var(--oc-text-dim)" }}>
-                1s¹ · 1.008 u · Atomic No. 1
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Right: Element showcase — desktop only, switchable between unlocked elements */}
+        <ElementShowcase />
       </section>
 
 

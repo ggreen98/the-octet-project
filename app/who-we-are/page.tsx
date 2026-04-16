@@ -40,6 +40,7 @@ export default function WhoWeArePage() {
             ["PERIODIC TABLE", "/periodic-table"],
             ["DICTIONARY",     "/dictionary"],
             ["UNITS",          "/si-units"],
+            ["ORBITAL VIEWER", "/orbital-viewer"],
             ["MINI GAMES",     "/mini-games"],
             ["ABOUT",          "/who-we-are"],
           ].map(([label, href]) => (

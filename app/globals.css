@@ -669,6 +669,38 @@
   animation: h-flame-flicker 0.9s ease-in-out infinite 0.1s;
 }
 
+/* ── Aufbau diagram — wrong-click flash ── */
+@keyframes aufbau-wrong {
+  0%   { box-shadow: 0 0 0 0   rgba(255,70,70,0);    background: transparent; }
+  30%  { box-shadow: 0 0 0 3px rgba(255,70,70,0.65); background: rgba(255,70,70,0.13); }
+  100% { box-shadow: 0 0 0 0   rgba(255,70,70,0);    background: transparent; }
+}
+.aufbau-wrong-flash { animation: aufbau-wrong 0.55s ease-out; }
+
+@keyframes hunds-shake {
+  0%,100% { transform: translateX(0); }
+  15%     { transform: translateX(-6px); }
+  30%     { transform: translateX(6px); }
+  50%     { transform: translateX(-4px); }
+  70%     { transform: translateX(4px); }
+  85%     { transform: translateX(-2px); }
+}
+.hunds-shake { animation: hunds-shake 0.45s ease-in-out; }
+
+.hunds-orbital-hover:hover svg ellipse { filter: brightness(1.15); }
+.hunds-orbital-hover:hover { opacity: 0.92; }
+
+/* ── Helium discharge tube animation ── */
+@keyframes he-discharge-pulse {
+  0%,  100% { opacity: 0.82; }
+  45%        { opacity: 1.00; }
+  50%        { opacity: 0.94; }
+  55%        { opacity: 1.00; }
+}
+.he-discharge-glow {
+  animation: he-discharge-pulse 2.8s ease-in-out infinite;
+}
+
 /* Shared explorer side panel (ElectronShellDiagram, ElectronConfigExplorer) */
 .esd-panel {
   width: 100%;

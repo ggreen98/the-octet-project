@@ -30,7 +30,7 @@ export default function CoursesPage() {
         </Link>
 
         <div className="hidden md:flex items-center gap-8 tracking-widest" style={{ fontSize: "1rem" }}>
-          {[["COURSES", "/courses"], ["PERIODIC TABLE", "/periodic-table"], ["DICTIONARY", "/dictionary"], ["UNITS", "/si-units"], ["MINI GAMES", "/mini-games"], ["ABOUT", "/who-we-are"]].map(([label, href]) => (
+          {[["COURSES", "/courses"], ["PERIODIC TABLE", "/periodic-table"], ["DICTIONARY", "/dictionary"], ["UNITS", "/si-units"], ["ORBITAL VIEWER", "/orbital-viewer"], ["MINI GAMES", "/mini-games"], ["ABOUT", "/who-we-are"]].map(([label, href]) => (
             <Link
               key={label}
               href={href}

@@ -11,10 +11,11 @@ import {
 } from "@/data/elements";
 import { AtomViewerCanvas } from "@/components/molecules/AtomViewerCanvas";
 import { HydrogenCanvas } from "@/components/molecules/HydrogenCanvas";
-import { BismuthCanvas } from "@/components/molecules/BismuthCanvas";
+import { HeliumCanvas }   from "@/components/molecules/HeliumCanvas";
+import { BismuthCanvas }  from "@/components/molecules/BismuthCanvas";
 
 // ── Unlocked elements ──────────────────────────────────────────────────────────
-const UNLOCKED = new Set([1, 83]); // 83 = Bi (temp: testing crystal model)
+const UNLOCKED = new Set([1, 2, 83]); // 83 = Bi (temp: testing crystal model)
 
 // ── Fun facts per atomic number ────────────────────────────────────────────────
 const FUN_FACTS: Record<number, string[]> = {
@@ -22,6 +23,11 @@ const FUN_FACTS: Record<number, string[]> = {
     "The most abundant element in the universe — over 75% of all normal matter by mass.",
     "Our Sun fuses 600 million tonnes of hydrogen into helium every second.",
     "Liquid hydrogen is used as rocket fuel and burns at over 2,500 °C.",
+  ],
+  2: [
+    "Helium was discovered in the Sun 27 years before it was found on Earth — detected in solar spectral lines in 1868.",
+    "Helium-4 becomes a superfluid at 2.17 K (the lambda point), flowing upward and escaping its container.",
+    "Earth's helium supply is finite and non-renewable — once released into the atmosphere it escapes to space.",
   ],
 };
 
@@ -48,6 +54,18 @@ const ELEMENT_DETAIL: Record<number, ElementDetail> = {
       { name: "Tritium",   mass: 3, stable: false, note: "Radioactive  ·  t½ = 12.3 yr" },
     ],
     uses: ["Rocket propellant", "Fuel cells", "Ammonia synthesis", "Petroleum refining", "Welding (oxy-hydrogen)"],
+  },
+  2: {
+    discovered: "Pierre Janssen & Norman Lockyer",
+    year: 1868,
+    state: "Gas",
+    meltingPoint: "−272.2 °C",
+    boilingPoint: "−268.9 °C",
+    isotopes: [
+      { name: "Helium-3", mass: 3, stable: true,  note: "0.0002% — rare, used in research" },
+      { name: "Helium-4", mass: 4, stable: true,  note: "99.9998% — product of alpha decay" },
+    ],
+    uses: ["MRI cooling", "Party & weather balloons", "Deep-sea diving mix", "Cryogenics", "Leak detection"],
   },
 };
 
@@ -207,7 +225,8 @@ function DetailPanel({ el }: { el: Element }) {
       {/* 3D viewer — artsy model per element, generic fallback */}
       <div style={{ height: "220px", position: "relative" }}>
         {el.z === 1  ? <HydrogenCanvas /> :
-         el.z === 83 ? <BismuthCanvas /> :
+         el.z === 2  ? <HeliumCanvas   /> :
+         el.z === 83 ? <BismuthCanvas  /> :
          <AtomViewerCanvas z={el.z} />}
       </div>
 
@@ -416,6 +435,78 @@ function HydrogenFlame() {
   );
 }
 
+// ── Helium discharge tube ──────────────────────────────────────────────────────
+// Helium glows a distinctive orange-peach in discharge tubes (~587–600 nm).
+function HeliumDischarge() {
+  return (
+    <div>
+      <div style={{ fontSize: "10px", color: "var(--oc-green-dim)", letterSpacing: "0.15em", marginBottom: "8px" }}>
+        DISCHARGE TUBE
+      </div>
+      <div style={{
+        display: "flex", gap: "16px", alignItems: "center",
+        padding: "16px", borderRadius: "3px",
+        background: "rgba(4,6,18,0.9)",
+        border: "1px solid rgba(255,255,255,0.06)",
+      }}>
+        {/* Tube visual */}
+        <div className="he-discharge-glow" style={{ flexShrink: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: "4px" }}>
+          {/* Electrode cap top */}
+          <div style={{ width: "14px", height: "7px", background: "rgba(160,165,175,0.7)", borderRadius: "3px 3px 0 0", border: "1px solid rgba(200,205,215,0.3)" }} />
+          {/* Glass tube */}
+          <div style={{
+            width: "32px", height: "100px", position: "relative",
+            border: "1.5px solid rgba(255,200,150,0.25)",
+            borderRadius: "4px",
+            overflow: "hidden",
+            background: "rgba(255,110,40,0.08)",
+          }}>
+            {/* Inner glow */}
+            <div style={{
+              position: "absolute", inset: "2px",
+              background: "radial-gradient(ellipse at 50% 50%, rgba(255,140,60,0.55), rgba(255,100,30,0.28) 55%, transparent)",
+              borderRadius: "3px",
+              boxShadow: "inset 0 0 12px rgba(255,130,50,0.3), 0 0 18px rgba(255,120,40,0.25)",
+            }} />
+            {/* Highlight streak */}
+            <div style={{
+              position: "absolute", top: "6px", left: "5px", width: "4px", bottom: "6px",
+              background: "linear-gradient(to bottom, rgba(255,220,180,0.3), transparent)",
+              borderRadius: "2px",
+            }} />
+          </div>
+          {/* Electrode cap bottom */}
+          <div style={{ width: "14px", height: "7px", background: "rgba(160,165,175,0.7)", borderRadius: "0 0 3px 3px", border: "1px solid rgba(200,205,215,0.3)" }} />
+          <span style={{ fontSize: "7px", color: "rgba(255,140,60,0.6)", letterSpacing: "0.08em", marginTop: "2px" }}>He</span>
+        </div>
+
+        {/* Info */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px", minWidth: 0 }}>
+          <div>
+            <div style={{ fontSize: "9px", color: "var(--oc-text-hint)", letterSpacing: "0.12em", marginBottom: "3px" }}>EMISSION COLOR</div>
+            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "rgba(255,140,60,0.9)", boxShadow: "0 0 8px rgba(255,120,40,0.8)" }} />
+              <span style={{ fontSize: "11px", color: "#ff9040" }}>Orange-peach</span>
+            </div>
+          </div>
+          <div>
+            <div style={{ fontSize: "9px", color: "var(--oc-text-hint)", letterSpacing: "0.12em", marginBottom: "3px" }}>PEAK WAVELENGTH</div>
+            <div style={{ fontSize: "13px", color: "var(--oc-text)", fontFamily: "var(--font-orbitron, monospace)" }}>
+              ~587 nm
+            </div>
+          </div>
+          <div>
+            <div style={{ fontSize: "9px", color: "var(--oc-text-hint)", letterSpacing: "0.12em", marginBottom: "3px" }}>APPLICATIONS</div>
+            <div style={{ fontSize: "10px", color: "var(--oc-text-sub)", lineHeight: 1.5 }}>
+              Lasers · Spectroscopy<br />Vintage neon-style signs
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Infographic modal ──────────────────────────────────────────────────────────
 function InfographicModal({ el, onClose }: { el: Element; onClose: () => void }) {
   const color    = CATEGORY_COLORS[el.category];
@@ -464,6 +555,7 @@ function InfographicModal({ el, onClose }: { el: Element; onClose: () => void })
         {/* 3D atom canvas */}
         <div style={{ height: "260px", position: "relative", borderBottom: `1px solid rgba(${hexToRgb(color)}, 0.12)` }}>
           {el.z === 1  ? <HydrogenCanvas /> :
+           el.z === 2  ? <HeliumCanvas   /> :
            el.z === 83 ? <BismuthCanvas  /> :
            <AtomViewerCanvas z={el.z} />}
           {/* Floating element badge */}
@@ -528,6 +620,9 @@ function InfographicModal({ el, onClose }: { el: Element; onClose: () => void })
 
           {/* Hydrogen flame (hydrogen only) */}
           {el.z === 1 && <HydrogenFlame />}
+
+          {/* Helium discharge tube (helium only) */}
+          {el.z === 2 && <HeliumDischarge />}
 
           {/* Electron configuration */}
           <div>
