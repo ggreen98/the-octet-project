@@ -224,7 +224,7 @@ export function PeriodicTrendsMap() {
                 const isHov = hovered === z;
                 return (
                   <div
-                    key={z}
+                    key={col}
                     onMouseEnter={() => setHovered(z)}
                     onMouseLeave={() => setHovered(null)}
                     style={{
