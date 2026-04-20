@@ -3,6 +3,7 @@ import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { MobileNav } from "@/components/ui/MobileNav";
 import { Term } from "@/components/ui/Term";
 import { PeriodicTrendsMap } from "@/components/lessons/PeriodicTrendsMap";
+import { PeriodicTableGroups } from "@/components/lessons/PeriodicTableGroups";
 
 export const metadata = {
   title: "Periodic Trends — Chemistry I | Allylic",
@@ -74,6 +75,109 @@ export default function PeriodicTrendsLesson() {
           a period or down a group? The answer reveals the hidden architecture of the{" "}
           <Term id="periodic-table">periodic table</Term>.
         </p>
+
+        {/* ── GROUPS AND PERIODS ──────────────────────────── */}
+        <h2
+          className="font-heading mb-6"
+          style={{ fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)", letterSpacing: "0.05em", color: "var(--oc-text)" }}
+        >
+          GROUPS AND PERIODS — A QUICK REFRESHER
+        </h2>
+        <div className="max-w-2xl mb-8">
+          <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
+            The <Term id="periodic-table">periodic table</Term> is organised along two axes. The horizontal rows are
+            called <strong style={{ color: "var(--oc-text)" }}>periods</strong> (numbered 1–7 down the left side) and
+            the vertical columns are called <strong style={{ color: "var(--oc-text)" }}>groups</strong> (numbered 1–18
+            across the top). Every <Term id="element">element</Term> in the same group has the same number of{" "}
+            <Term id="valence-electron">valence electrons</Term> — which is why the elements in a group share
+            similar chemical behaviour. Every element in the same period has the same number of filled{" "}
+            <Term id="orbital-shell">electron shells</Term>.
+          </p>
+
+          {/* Period vs Group explainer cards */}
+          <div className="flex flex-col sm:flex-row gap-3 mb-8">
+            <div
+              className="flex-1 p-4"
+              style={{ border: "1px solid rgba(68,153,255,0.3)", background: "rgba(68,153,255,0.04)", borderRadius: "4px" }}
+            >
+              <p className="font-heading text-xs mb-2" style={{ color: "#4499ff", letterSpacing: "0.1em", fontSize: "0.62rem" }}>
+                PERIOD = ROW →
+              </p>
+              <p className="text-sm leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
+                Hydrogen and Helium are both in period 1 — they each have one electron shell.
+                Lithium through Neon are in period 2 — two shells. A new period starts every time
+                electrons begin filling a new shell.
+              </p>
+            </div>
+            <div
+              className="flex-1 p-4"
+              style={{ border: "1px solid rgba(114,184,114,0.3)", background: "rgba(114,184,114,0.04)", borderRadius: "4px" }}
+            >
+              <p className="font-heading text-xs mb-2" style={{ color: "#72b872", letterSpacing: "0.1em", fontSize: "0.62rem" }}>
+                GROUP = COLUMN ↕
+              </p>
+              <p className="text-sm leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
+                Lithium, Sodium, Potassium, Rubidium, Caesium, and Francium are all in group 1 —
+                they each have one valence electron. That shared electron count is what makes
+                them react in almost identical ways.
+              </p>
+            </div>
+          </div>
+
+          <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
+            Several groups are important enough to have names. You&apos;ll encounter these constantly
+            in chemistry — it&apos;s worth knowing them cold.
+          </p>
+        </div>
+
+        {/* Full periodic table with colour-coded groups */}
+        <div className="max-w-4xl mb-10">
+          <PeriodicTableGroups />
+        </div>
+
+        {/* Named groups quick reference */}
+        <div className="max-w-2xl mb-12">
+          <p className="text-base leading-relaxed mb-6" style={{ color: "var(--oc-text-muted)" }}>
+            Two special rows — the <strong style={{ color: "var(--oc-text)" }}>lanthanides</strong> and{" "}
+            <strong style={{ color: "var(--oc-text)" }}>actinides</strong> — are pulled out and shown below
+            the main table. They technically belong in periods 6 and 7 between groups 2 and 4, but
+            fitting all 15 elements there would make the table too wide to be practical, so by convention
+            they are displayed separately.
+          </p>
+
+          {/* s/p/d/f block summary */}
+          <div
+            className="mb-6 p-4"
+            style={{ border: "1px solid var(--oc-green-border-dim)", background: "var(--oc-green-badge)", borderRadius: "4px" }}
+          >
+            <p className="font-heading text-xs mb-3" style={{ color: "var(--oc-green-dim)", letterSpacing: "0.12em", fontSize: "0.6rem" }}>
+              THE BLOCKS — WHERE LESSONS 2.3 AND 2.4 MEET THE TABLE
+            </p>
+            <div className="flex flex-col gap-2">
+              {[
+                { label: "s-block", groups: "Groups 1–2", color: "#4499ff", note: "Valence electrons in s orbitals. Includes H, He, alkali metals, and alkaline earth metals." },
+                { label: "d-block", groups: "Groups 3–12", color: "#f5a623", note: "Valence electrons in d orbitals. Transition metals. Properties vary less predictably across the period." },
+                { label: "p-block", groups: "Groups 13–18", color: "#a855f7", note: "Valence electrons in p orbitals. Contains metalloids, non-metals, halogens, and noble gases." },
+                { label: "f-block", groups: "Lanthanides & Actinides", color: "#72b872", note: "Valence electrons in f orbitals. Pulled out below the main table." },
+              ].map(({ label, groups, color, note }) => (
+                <div key={label} style={{ display: "flex", gap: 12, alignItems: "baseline" }}>
+                  <span
+                    className="font-heading"
+                    style={{ fontSize: "0.7rem", color, flexShrink: 0, minWidth: "4rem", letterSpacing: "0.06em" }}
+                  >
+                    {label}
+                  </span>
+                  <span style={{ fontSize: "0.62rem", color: "var(--oc-text-dim)", flexShrink: 0, minWidth: "5.5rem" }}>
+                    {groups}
+                  </span>
+                  <span style={{ fontSize: "0.65rem", color: "var(--oc-text-muted)", lineHeight: 1.5 }}>
+                    {note}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
 
         {/* Recurring theme callout */}
         <div
