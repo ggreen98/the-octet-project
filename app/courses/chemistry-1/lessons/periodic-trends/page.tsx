@@ -2,12 +2,12 @@ import Link from "next/link";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { MobileNav } from "@/components/ui/MobileNav";
 import { Term } from "@/components/ui/Term";
-import { PeriodicTrendsMap } from "@/components/lessons/PeriodicTrendsMap";
+import { PeriodicTableExplorer } from "@/components/lessons/PeriodicTableExplorer";
 import { PeriodicTableGroups } from "@/components/lessons/PeriodicTableGroups";
 
 export const metadata = {
   title: "Periodic Trends — Chemistry I | Allylic",
-  description: "Discover how atomic radius, ionization energy, and electronegativity change across the periodic table — and why.",
+  description: "Discover how atomic radius, ionization energy, electronegativity, and electron affinity change across the periodic table — and why.",
 };
 
 export default function PeriodicTrendsLesson() {
@@ -259,13 +259,6 @@ export default function PeriodicTrendsLesson() {
               </p>
             </div>
           </div>
-
-          <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
-            Select <strong style={{ color: "#4499ff" }}>Atomic Radius</strong> in the map below and you&apos;ll
-            see the colour deepen (larger atoms) moving down and to the left, and lighten (smaller) moving
-            up and to the right. Fluorine (F) and Neon (Ne) are the smallest in their period; Potassium (K)
-            resets the trend at the start of period 4.
-          </p>
         </div>
 
         {/* ── IONIZATION ENERGY ───────────────────────────── */}
@@ -277,47 +270,44 @@ export default function PeriodicTrendsLesson() {
         </h2>
         <div className="max-w-2xl mb-4">
           <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
-            <Term id="ionization-energy">Ionization energy</Term> is the energy you need to rip the outermost
-            electron completely away from a neutral atom. A high ionization energy means the electron is held
-            tightly; a low one means it&apos;s easy to remove.
+            <Term id="ionization-energy">Ionization energy</Term> is the energy required to remove an electron from 
+            a neutral atom. Most elements can lose multiple electrons, one after another, which we call 
+            <strong style={{ color: "var(--oc-text)" }}>successive ionization energies</strong>.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3 mb-6">
-            <div className="flex-1 p-4" style={{ border: "1px solid rgba(114,184,114,0.3)", background: "rgba(114,184,114,0.04)", borderRadius: "4px" }}>
+          <div className="flex flex-col gap-3 mb-6">
+            <div className="p-4" style={{ border: "1px solid rgba(114,184,114,0.3)", background: "rgba(114,184,114,0.04)", borderRadius: "4px" }}>
               <p className="font-heading text-xs mb-2" style={{ color: "#72b872", letterSpacing: "0.1em", fontSize: "0.62rem" }}>
-                ACROSS A PERIOD →
+                1ST IONIZATION ENERGY (IE₁)
               </p>
               <p className="text-sm leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
-                <strong style={{ color: "var(--oc-text)" }}>Generally increases.</strong> Higher Z<sub>eff</sub> means
-                electrons are held more tightly. Noble gases have the highest IE in their period — their complete
-                shells are extremely stable.
+                The energy to remove the first (outermost) electron. It <strong style={{ color: "var(--oc-text)" }}>increases across a period</strong> (stronger nuclear pull) 
+                and <strong style={{ color: "var(--oc-text)" }}>decreases down a group</strong> (outer electrons are further away and more shielded).
               </p>
             </div>
-            <div className="flex-1 p-4" style={{ border: "1px solid rgba(114,184,114,0.3)", background: "rgba(114,184,114,0.04)", borderRadius: "4px" }}>
+            <div className="p-4" style={{ border: "1px solid rgba(114,184,114,0.3)", background: "rgba(114,184,114,0.04)", borderRadius: "4px" }}>
               <p className="font-heading text-xs mb-2" style={{ color: "#72b872", letterSpacing: "0.1em", fontSize: "0.62rem" }}>
-                DOWN A GROUP ↓
+                2ND IONIZATION ENERGY (IE₂)
               </p>
               <p className="text-sm leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
-                <strong style={{ color: "var(--oc-text)" }}>Decreases.</strong> The outermost electron is in a higher
-                shell, farther away and more shielded, so less energy is needed to free it.
+                The energy to remove a second electron. IE₂ is <strong style={{ color: "var(--oc-text)" }}>always higher</strong> than IE₁ because it&apos;s 
+                harder to pull a negative electron away from a positive ion.
               </p>
             </div>
           </div>
 
           <div
             className="mb-4 p-4"
-            style={{ border: "1px solid rgba(245,166,35,0.2)", background: "rgba(245,166,35,0.03)", borderRadius: "4px", borderLeft: "3px solid rgba(245,166,35,0.5)" }}
+            style={{ border: "1px solid rgba(68,153,255,0.2)", background: "rgba(68,153,255,0.03)", borderRadius: "4px", borderLeft: "3px solid rgba(68,153,255,0.5)" }}
           >
-            <p className="font-heading text-xs mb-1" style={{ color: "#f5a623", letterSpacing: "0.1em", fontSize: "0.6rem" }}>
-              NOTABLE EXCEPTIONS
+            <p className="font-heading text-xs mb-1" style={{ color: "#4499ff", letterSpacing: "0.1em", fontSize: "0.6rem" }}>
+              THE GROUP 1 JUMP
             </p>
             <p className="text-sm leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
-              Nitrogen (N) has a higher ionization energy than Oxygen (O) in period 2, even though O has more
-              protons. Why? Nitrogen&apos;s three 2p electrons each occupy their own orbital (Hund&apos;s rule) —
-              no pairing, no repulsion. Oxygen must pair one 2p orbital, and those two electrons repel each
-              other, making one easier to remove. Similarly, Beryllium (Be) sits slightly above Boron (B)
-              because the 2s electrons in Be are harder to remove than the lone 2p electron in B. The trend
-              is real — but quantum details create small bumps in the pattern.
+              Look at Lithium (Li) or Sodium (Na) in the explorer below. Their IE₁ is very low, but their IE₂ 
+              is <strong style={{ color: "var(--oc-text)" }}>massive</strong> — over 10 times higher! This is because 
+              removing the second electron requires breaking into a stable, full inner shell (the noble gas core). 
+              This huge jump tells chemists exactly how many valence electrons an element has.
             </p>
           </div>
         </div>
@@ -333,8 +323,7 @@ export default function PeriodicTrendsLesson() {
           <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
             <Term id="electronegativity">Electronegativity</Term> measures how strongly an atom pulls the shared
             electrons in a chemical bond toward itself. It is not a directly measurable quantity — it&apos;s a
-            calculated scale. The most widely used is the <strong style={{ color: "var(--oc-text)" }}>Pauling scale</strong>,
-            anchored at Fluorine = 3.98 (the most electronegative element) and Caesium ≈ 0.79 (the least).
+            calculated scale. The most widely used is the <strong style={{ color: "var(--oc-text)" }}>Pauling scale</strong>.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 mb-6">
@@ -344,7 +333,7 @@ export default function PeriodicTrendsLesson() {
               </p>
               <p className="text-sm leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
                 <strong style={{ color: "var(--oc-text)" }}>Increases.</strong> Higher Z<sub>eff</sub> means the atom
-                grabs bonding electrons more aggressively. Fluorine is the extreme case — no element pulls harder.
+                grabs bonding electrons more aggressively. Fluorine is the extreme case.
               </p>
             </div>
             <div className="flex-1 p-4" style={{ border: "1px solid rgba(168,85,247,0.3)", background: "rgba(168,85,247,0.04)", borderRadius: "4px" }}>
@@ -353,34 +342,59 @@ export default function PeriodicTrendsLesson() {
               </p>
               <p className="text-sm leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
                 <strong style={{ color: "var(--oc-text)" }}>Decreases.</strong> Larger atoms with more shielding hold
-                bonding electrons less tightly — they can&apos;t attract them as effectively from a greater distance.
+                bonding electrons less tightly.
               </p>
             </div>
           </div>
-
-          <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
-            Electronegativity differences between two atoms in a bond directly determine bond character:
-            small difference → non-polar covalent (electrons shared equally), large difference → polar
-            covalent or ionic (electrons concentrated near the more electronegative atom). This makes
-            it one of the most practically useful periodic trends in all of chemistry.
-          </p>
         </div>
 
-        {/* ── INTERACTIVE MAP ─────────────────────────────── */}
+        {/* ── ELECTRON AFFINITY ───────────────────────────── */}
+        <h2
+          className="font-heading mb-6 mt-10"
+          style={{ fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)", letterSpacing: "0.05em", color: "var(--oc-text)" }}
+        >
+          ELECTRON AFFINITY
+        </h2>
+        <div className="max-w-2xl mb-4">
+          <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
+            <Term id="electron-affinity">Electron affinity</Term> is the energy change that occurs when an electron is added to a neutral atom. 
+            It measures how much an atom &quot;wants&quot; an extra electron. A more negative value indicates a higher affinity (more energy released).
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-3 mb-6">
+            <div className="flex-1 p-4" style={{ border: "1px solid rgba(247,37,133,0.3)", background: "rgba(247,37,133,0.04)", borderRadius: "4px" }}>
+              <p className="font-heading text-xs mb-2" style={{ color: "#f72585", letterSpacing: "0.1em", fontSize: "0.62rem" }}>
+                ACROSS A PERIOD →
+              </p>
+              <p className="text-sm leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
+                <strong style={{ color: "var(--oc-text)" }}>Generally increases.</strong> Halogens have the highest affinities because adding one electron completes their octet.
+              </p>
+            </div>
+            <div className="flex-1 p-4" style={{ border: "1px solid rgba(247,37,133,0.3)", background: "rgba(247,37,133,0.04)", borderRadius: "4px" }}>
+              <p className="font-heading text-xs mb-2" style={{ color: "#f72585", letterSpacing: "0.1em", fontSize: "0.62rem" }}>
+                DOWN A GROUP ↓
+              </p>
+              <p className="text-sm leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
+                <strong style={{ color: "var(--oc-text)" }}>Generally decreases.</strong> Electrons are added further from the nucleus, experiencing less attraction.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* ── INTERACTIVE EXPLORER ─────────────────────────── */}
         <h2
           className="font-heading mb-4 mt-10"
           style={{ fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)", letterSpacing: "0.05em", color: "var(--oc-text)" }}
         >
           EXPLORE THE TRENDS
         </h2>
-        <div className="max-w-3xl mb-4">
+        <div className="max-w-5xl mb-4">
           <p className="text-base leading-relaxed mb-6" style={{ color: "var(--oc-text-muted)" }}>
-            Use the interactive map below to see all three trends across periods 1–4. Toggle between them
-            and hover any element to read its exact value. Notice how the colour gradient shifts direction
-            between atomic radius (larger = darker, bottom-left) and ionization energy / electronegativity
-            (higher = darker, top-right).
+            Use the interactive periodic table below to visualize all four trends across all 118 elements. 
+            Toggle between modes to see the heat map shift, and hover or tap any element to see its 3D 
+            structure and exact data values.
           </p>
-          <PeriodicTrendsMap />
+          <PeriodicTableExplorer />
         </div>
 
         {/* ── HOW THEY RELATE ─────────────────────────────── */}
@@ -388,11 +402,11 @@ export default function PeriodicTrendsLesson() {
           className="font-heading mb-6 mt-12"
           style={{ fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)", letterSpacing: "0.05em", color: "var(--oc-text)" }}
         >
-          HOW THE THREE TRENDS RELATE
+          HOW THE TRENDS RELATE
         </h2>
         <div className="max-w-2xl mb-10">
           <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
-            The three trends are not independent — they all share the same root cause and therefore
+            These trends are not independent — they all share the same root cause and therefore
             mirror each other:
           </p>
 
@@ -404,69 +418,84 @@ export default function PeriodicTrendsLesson() {
             {/* Header */}
             <div
               style={{
-                display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr",
+                display: "grid", gridTemplateColumns: "1.2fr 1fr 1fr 1fr 1fr",
                 background: "var(--oc-green-badge)",
                 borderBottom: "1px solid var(--oc-green-border-dim)",
               }}
             >
-              {["DIRECTION", "ATOMIC RADIUS", "IONIZATION ENERGY", "ELECTRONEGATIVITY"].map(h => (
-                <div key={h} style={{ padding: "8px 10px", fontSize: "0.52rem", letterSpacing: "0.1em", color: "var(--oc-text-dim)" }}>
+              {["DIRECTION", "RADIUS", "IONIZATION", "ELECTRONEG.", "AFFINITY"].map(h => (
+                <div key={h} style={{ padding: "8px 10px", fontSize: "0.5rem", letterSpacing: "0.05em", color: "var(--oc-text-dim)" }}>
                   {h}
                 </div>
               ))}
             </div>
             {/* Rows */}
             {[
-              ["Across a period →", "Decreases ↘", "Increases ↗", "Increases ↗"],
-              ["Down a group ↓",   "Increases ↘", "Decreases ↘", "Decreases ↘"],
-            ].map(([dir, r, ie, en]) => (
+              ["Across Period →", "Decreases ↘", "Increases ↗", "Increases ↗", "Increases ↗"],
+              ["Down Group ↓",   "Increases ↘", "Decreases ↘", "Decreases ↘", "Decreases ↘"],
+            ].map(([dir, r, ie, en, af]) => (
               <div
                 key={dir}
                 style={{
-                  display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr",
+                  display: "grid", gridTemplateColumns: "1.2fr 1fr 1fr 1fr 1fr",
                   borderBottom: "1px solid var(--oc-green-border-faint)",
                 }}
               >
-                <div style={{ padding: "8px 10px", fontSize: "0.65rem", color: "var(--oc-text-muted)" }}>{dir}</div>
-                <div style={{ padding: "8px 10px", fontSize: "0.65rem", color: "#4499ff" }}>{r}</div>
-                <div style={{ padding: "8px 10px", fontSize: "0.65rem", color: "#72b872" }}>{ie}</div>
-                <div style={{ padding: "8px 10px", fontSize: "0.65rem", color: "#a855f7" }}>{en}</div>
+                <div style={{ padding: "8px 10px", fontSize: "0.6rem", color: "var(--oc-text-muted)" }}>{dir}</div>
+                <div style={{ padding: "8px 10px", fontSize: "0.6rem", color: "#4499ff" }}>{r}</div>
+                <div style={{ padding: "8px 10px", fontSize: "0.6rem", color: "#72b872" }}>{ie}</div>
+                <div style={{ padding: "8px 10px", fontSize: "0.6rem", color: "#a855f7" }}>{en}</div>
+                <div style={{ padding: "8px 10px", fontSize: "0.6rem", color: "#f72585" }}>{af}</div>
               </div>
             ))}
           </div>
 
           <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
-            Notice that atomic radius is the inverse of the other two: wherever radius decreases, ionization
-            energy and electronegativity increase. A smaller atom has its outer electrons closer to the nucleus,
-            making them harder to remove and more able to attract bonding electrons from neighbouring atoms.
-            It is one pattern, seen from three different angles.
+            Notice that atomic radius is the inverse of the others: wherever radius decreases, the 
+            nucleus grips its own electrons (IE) and attracts external ones (Electronegativity / Affinity) 
+            more strongly.
           </p>
         </div>
 
         {/* ── UP NEXT ─────────────────────────────────────── */}
-        <div
-          className="max-w-2xl mb-16 p-6"
-          style={{ border: "1px solid var(--oc-green-border-dim)", background: "var(--oc-green-bg-surface)", borderRadius: "4px" }}
-        >
-          <p className="font-heading text-xs tracking-widest mb-3" style={{ color: "var(--oc-green-dim)", letterSpacing: "0.12em", fontSize: "0.6rem" }}>
-            UP NEXT
-          </p>
-          <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
-            Unit 3 moves beyond individual atoms to what happens when they meet each other. Lesson 3.1
-            covers ionic bonding — how the electronegativity difference you just learned about drives
-            electrons to transfer completely from one atom to another, forming charged ions and the
-            crystalline structures that result.
-          </p>
-        </div>
+        <Link href="/courses/chemistry-1/lessons/chemical-bonds" className="block group">
+          <div
+            className="max-w-2xl mb-16 p-6 transition-all duration-200 group-hover:bg-[rgba(114,184,114,0.03)] group-hover:border-[rgba(114,184,114,0.3)]"
+            style={{ border: "1px solid var(--oc-green-border-dim)", background: "var(--oc-green-bg-surface)", borderRadius: "4px" }}
+          >
+            <p className="font-heading text-xs tracking-widest mb-3" style={{ color: "var(--oc-green-dim)", letterSpacing: "0.12em", fontSize: "0.6rem" }}>
+              UP NEXT
+            </p>
+            <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
+              Unit 3 moves beyond individual atoms to what happens when they meet each other. Lesson 3.1
+              covers <strong style={{ color: "var(--oc-text)" }}>chemical bonds</strong> — how the 
+              electronegativity difference you just learned about drives atoms to share or transfer 
+              electrons to reach a stable state.
+            </p>
+            <span
+              className="font-heading text-xs"
+              style={{ color: "var(--oc-green)", letterSpacing: "0.1em" }}
+            >
+              GO TO UNIT 3 →
+            </span>
+          </div>
+        </Link>
 
         {/* ── NAVIGATION ──────────────────────────────────── */}
         <div className="flex flex-col sm:flex-row gap-3 mt-4 pt-8" style={{ borderTop: "1px solid var(--oc-green-border-faint)" }}>
           <Link
             href="/courses/chemistry-1/lessons/electron-configuration-notation"
-            className="font-heading text-xs px-5 py-3 transition-all duration-200 text-center"
+            className="font-heading text-xs px-5 py-3 transition-all duration-200 text-center flex-1"
             style={{ border: "1px solid rgba(167,139,250,0.3)", color: "rgba(167,139,250,0.9)", letterSpacing: "0.12em" }}
           >
             ← PREV: ELECTRON CONFIGURATION NOTATION
+          </Link>
+          <Link
+            href="/courses/chemistry-1"
+            className="font-heading text-xs px-5 py-3 transition-all duration-200 text-center flex-1"
+            style={{ border: "1px solid var(--oc-green-subtle)", color: "var(--oc-green)", letterSpacing: "0.12em" }}
+          >
+            NEXT: UNIT 3 →
           </Link>
         </div>
 

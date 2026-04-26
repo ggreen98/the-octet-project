@@ -318,30 +318,36 @@ export default function ElectronConfigNotationLesson() {
           <p className="font-heading text-xs tracking-widest mb-3" style={{ color: "var(--oc-green-dim)", letterSpacing: "0.12em", fontSize: "0.6rem" }}>
             UP NEXT
           </p>
-          <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
+          <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
             We now know exactly where every <Term id="electron">electron</Term> in an atom lives. In
-            lesson 2.5 we will use that knowledge to understand what happens when atoms come close
-            to each other — the formation of <strong style={{ color: "var(--oc-text)" }}>chemical bonds</strong>.
-            We&apos;ll cover ionic bonds, covalent bonds, and how the <Term id="octet-rule">octet rule</Term> drives
-            both.
+            lesson 2.5 we will see how these configurations drive <strong style={{ color: "var(--oc-text)" }}>periodic trends</strong> —
+            predictable patterns in atomic size, ionization energy, and electronegativity that
+            reveal the hidden architecture of the table.
           </p>
+          <Link
+            href="/courses/chemistry-1/lessons/periodic-trends"
+            className="font-heading text-xs transition-colors hover:text-green-400"
+            style={{ color: "var(--oc-green)", letterSpacing: "0.1em" }}
+          >
+            READ LESSON 2.5 →
+          </Link>
         </div>
 
         {/* ── NAVIGATION ──────────────────────────────────── */}
         <div className="flex flex-col sm:flex-row gap-3 mt-4 pt-8" style={{ borderTop: "1px solid var(--oc-green-border-faint)" }}>
           <Link
             href="/courses/chemistry-1/lessons/electron-configuration"
-            className="font-heading text-xs px-5 py-3 transition-all duration-200 text-center"
+            className="font-heading text-xs px-5 py-3 transition-all duration-200 text-center flex-1"
             style={{ border: "1px solid rgba(167,139,250,0.3)", color: "rgba(167,139,250,0.9)", letterSpacing: "0.12em" }}
           >
             ← PREV: ELECTRON CONFIGURATION
           </Link>
           <Link
-            href="/courses/chemistry-1"
-            className="font-heading text-xs px-5 py-3 transition-all duration-200 text-center"
+            href="/courses/chemistry-1/lessons/periodic-trends"
+            className="font-heading text-xs px-5 py-3 transition-all duration-200 text-center flex-1"
             style={{ border: "1px solid var(--oc-green-subtle)", color: "var(--oc-green)", letterSpacing: "0.12em" }}
           >
-            BACK TO COURSE →
+            NEXT: PERIODIC TRENDS →
           </Link>
         </div>
 
