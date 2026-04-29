@@ -4,6 +4,7 @@ import { MobileNav } from "@/components/ui/MobileNav";
 import { Term } from "@/components/ui/Term";
 import { PeriodicTableExplorer } from "@/components/lessons/PeriodicTableExplorer";
 import { PeriodicTableGroups } from "@/components/lessons/PeriodicTableGroups";
+import { TrendForceSimulator } from "@/components/lessons/TrendForceSimulator";
 
 export const metadata = {
   title: "Periodic Trends — Chemistry I | Allylic",
@@ -131,7 +132,7 @@ export default function PeriodicTrendsLesson() {
         </div>
 
         {/* Full periodic table with colour-coded groups */}
-        <div className="max-w-4xl mb-10">
+        <div className="mb-10">
           <PeriodicTableGroups />
         </div>
 
@@ -309,6 +310,55 @@ export default function PeriodicTrendsLesson() {
               removing the second electron requires breaking into a stable, full inner shell (the noble gas core). 
               This huge jump tells chemists exactly how many valence electrons an element has.
             </p>
+          </div>
+        </div>
+
+        {/* ── FORCE SIMULATOR ─────────────────────────────── */}
+        <h2
+          className="font-heading mb-6 mt-10"
+          style={{ fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)", letterSpacing: "0.05em", color: "var(--oc-text)" }}
+        >
+          INTERACTIVE: THE TREND FORCE SIMULATOR
+        </h2>
+        <div className="max-w-5xl mb-12">
+          <p className="text-base leading-relaxed mb-6" style={{ color: "var(--oc-text-muted)" }}>
+            Now that you&apos;ve seen how atomic radius, shielding, and ionization energy work, use this simulator to watch all three change at once.
+            The blue arrows show the nuclear pull on each electron. The orange arrows show shielding — inner electrons pushing back and weakening that pull.
+            Watch what happens to the atomic radius and ionization energy as you adjust the controls.
+          </p>
+          <TrendForceSimulator />
+
+          {/* Key takeaways */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
+            <div
+              className="p-5"
+              style={{ border: "1px solid rgba(68,153,255,0.25)", background: "rgba(68,153,255,0.04)", borderRadius: "4px", borderLeft: "3px solid rgba(68,153,255,0.6)" }}
+            >
+              <p className="font-heading text-xs mb-3 tracking-widest" style={{ color: "#4499ff", fontSize: "0.6rem" }}>
+                ADD PROTONS → STRONGER PULL
+              </p>
+              <p className="text-sm leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
+                Each proton you add increases the positive charge of the nucleus. That stronger pull grips the valence electrons harder —
+                making them harder to remove, so <strong style={{ color: "var(--oc-text)" }}>ionization energy goes up</strong>.
+                At the same time, the tighter grip drags the electrons closer to the nucleus, so the <strong style={{ color: "var(--oc-text)" }}>atomic radius shrinks</strong>.
+              </p>
+            </div>
+
+            <div
+              className="p-5"
+              style={{ border: "1px solid rgba(255,140,0,0.25)", background: "rgba(255,140,0,0.04)", borderRadius: "4px", borderLeft: "3px solid rgba(255,140,0,0.6)" }}
+            >
+              <p className="font-heading text-xs mb-3 tracking-widest" style={{ color: "#f97316", fontSize: "0.6rem" }}>
+                ADD ELECTRONS → MORE SHIELDING
+              </p>
+              <p className="text-sm leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
+                More electrons mean the nuclear force is spread across more particles — each one feels a little less pull,
+                so the <strong style={{ color: "var(--oc-text)" }}>atomic radius expands slightly</strong> with each electron added.
+                Inner electrons block the nucleus most effectively.
+                When a whole new shell forms, the effect is dramatic: the new electrons sit much farther out,
+                shielded by every inner shell, and the <strong style={{ color: "var(--oc-text)" }}>radius jumps and ionization energy drops sharply</strong> — since these new valence electrons feel much less of the nucleus&apos;s pull.
+              </p>
+            </div>
           </div>
         </div>
 
