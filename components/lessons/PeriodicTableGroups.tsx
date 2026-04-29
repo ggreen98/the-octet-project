@@ -1,7 +1,10 @@
-// Static server component — no client JS needed
+"use client";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 
 type Cat = "h" | "ka" | "ae" | "tr" | "pm" | "md" | "nm" | "ha" | "ng" | "la" | "ac";
 type Cell = { sym: string; cat: Cat } | null;
+type SvgLine = { x1: number; y1: number; x2: number; y2: number };
+type HoverState = { cat: Cat; label: string; detail: string; x: number; y: number } | null;
 
 const CAT_BG: Record<Cat, string> = {
   h:  "rgba(68,153,255,0.55)",
@@ -58,126 +61,275 @@ const LEGEND: { cat: Cat; label: string; detail: string }[] = [
   { cat: "ac", label: "Actinides",              detail: "f-block · many are radioactive · include uranium and plutonium" },
 ];
 
-// Period label column width — keeps group numbers aligned with cells below
 const LABEL_W = 28;
 const GAP = 2;
 
 export function PeriodicTableGroups() {
+  const [hover, setHover] = useState<HoverState>(null);
+
+  const tableWrapRef = useRef<HTMLDivElement>(null);
+  const laStarRef = useRef<HTMLDivElement>(null);
+  const acStarRef = useRef<HTMLDivElement>(null);
+  const laFBlockRef = useRef<HTMLDivElement>(null);
+  const acFBlockRef = useRef<HTMLDivElement>(null);
+
+  const [svgLines, setSvgLines] = useState<SvgLine[]>([]);
+  const [svgDims, setSvgDims] = useState({ w: 0, h: 0 });
+
+  const updateLines = useCallback(() => {
+    const wrap = tableWrapRef.current;
+    if (!wrap) return;
+    const wrapRect = wrap.getBoundingClientRect();
+    setSvgDims({ w: wrapRect.width, h: wrapRect.height });
+
+    const rel = (el: HTMLDivElement | null) => {
+      if (!el) return null;
+      const r = el.getBoundingClientRect();
+      return {
+        cx: r.left - wrapRect.left + r.width / 2,
+        top: r.top - wrapRect.top,
+        bottom: r.bottom - wrapRect.top,
+      };
+    };
+
+    const laStar  = rel(laStarRef.current);
+    const laFBlock = rel(laFBlockRef.current);
+    const acStar  = rel(acStarRef.current);
+    const acFBlock = rel(acFBlockRef.current);
+
+    const lines: SvgLine[] = [];
+    if (laStar  && laFBlock) lines.push({ x1: laStar.cx,  y1: laStar.bottom,  x2: laFBlock.cx, y2: laFBlock.top });
+    if (acStar  && acFBlock) lines.push({ x1: acStar.cx,  y1: acStar.bottom,  x2: acFBlock.cx, y2: acFBlock.top });
+    setSvgLines(lines);
+  }, []);
+
+  useEffect(() => {
+    updateLines();
+    window.addEventListener("resize", updateLines);
+    return () => window.removeEventListener("resize", updateLines);
+  }, [updateLines]);
+
+  const handleEnter = (e: React.MouseEvent, cat: Cat) => {
+    const info = LEGEND.find(l => l.cat === cat);
+    if (info) setHover({ cat, label: info.label, detail: info.detail, x: e.clientX + 14, y: e.clientY - 10 });
+  };
+  const handleMove = (e: React.MouseEvent) => {
+    setHover(prev => prev ? { ...prev, x: e.clientX + 14, y: e.clientY - 10 } : null);
+  };
+  const handleLeave = () => setHover(null);
+
   return (
-    <div style={{
-      border: "1px solid var(--oc-green-border-dim)",
-      background: "var(--oc-green-bg-surface)",
-      borderRadius: "4px",
-      overflow: "hidden",
-    }}>
+    <>
+      <div style={{
+        border: "1px solid var(--oc-green-border-dim)",
+        background: "var(--oc-green-bg-surface)",
+        borderRadius: "4px",
+        overflow: "hidden",
+      }}>
 
-      {/* Header */}
-      <div style={{ padding: "10px 14px 8px", borderBottom: "1px solid var(--oc-green-border-faint)" }}>
-        <p className="font-heading" style={{ fontSize: "0.6rem", color: "var(--oc-text-dim)", letterSpacing: "0.14em" }}>
-          // REFERENCE — all 118 elements · colour-coded by group type · * = f-block continues below
-        </p>
-      </div>
+        {/* Header */}
+        <div style={{ padding: "10px 14px 8px", borderBottom: "1px solid var(--oc-green-border-faint)" }}>
+          <p className="font-heading" style={{ fontSize: "0.6rem", color: "var(--oc-text-dim)", letterSpacing: "0.14em" }}>
+            {"// REFERENCE — all 118 elements · colour-coded by group type · * = f-block continues below · hover for details"}
+          </p>
+        </div>
 
-      {/* Table — uses full width via flex: 1 cells */}
-      <div style={{ padding: "10px 14px", overflowX: "auto" }}>
-        <div style={{ minWidth: 520 }}>
+        {/* Table */}
+        <div style={{ padding: "10px 14px", overflowX: "auto" }}>
+          <div ref={tableWrapRef} style={{ minWidth: 520, position: "relative" }}>
 
-          {/* Group number headers */}
-          <div style={{ display: "flex", gap: GAP, marginBottom: GAP }}>
-            <div style={{ width: LABEL_W, flexShrink: 0 }} />
-            {Array.from({ length: 18 }, (_, i) => (
-              <div key={i} style={{
-                flex: 1, textAlign: "center",
-                fontSize: "0.5rem", color: "var(--oc-text-faint)",
-                fontFamily: "inherit", paddingBottom: 3,
-              }}>
-                {i + 1}
-              </div>
-            ))}
-          </div>
+            {/* SVG connector lines for lanthanide / actinide detachment */}
+            {svgDims.w > 0 && (
+              <svg
+                aria-hidden="true"
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: svgDims.w,
+                  height: svgDims.h,
+                  pointerEvents: "none",
+                  overflow: "visible",
+                }}
+              >
+                {svgLines.map((line, i) => (
+                  <line
+                    key={i}
+                    x1={line.x1} y1={line.y1}
+                    x2={line.x2} y2={line.y2}
+                    stroke="rgba(251,146,60,0.55)"
+                    strokeWidth={1.5}
+                    strokeDasharray="4 3"
+                  />
+                ))}
+              </svg>
+            )}
 
-          {/* Period rows */}
-          {ROWS.map((row, ri) => {
-            const isFBlock = ri >= 7;
-            return (
-              <div key={ri}>
-                {ri === 7 && <div style={{ height: 6 }} />}
-                <div style={{ display: "flex", gap: GAP, marginBottom: GAP, alignItems: "stretch" }}>
-
-                  {/* Period / f-block label */}
-                  <div style={{
-                    width: LABEL_W, flexShrink: 0,
-                    textAlign: "right", paddingRight: 5,
-                    fontSize: "0.5rem",
-                    color: isFBlock ? "var(--oc-text-faint)" : "var(--oc-green-dim)",
-                    fontFamily: "inherit", letterSpacing: "0.05em",
-                    display: "flex", alignItems: "center", justifyContent: "flex-end",
-                  }}>
-                    {isFBlock ? (ri === 7 ? "6*" : "7*") : PERIOD_LABELS[ri]}
-                  </div>
-
-                  {/* Element cells */}
-                  {row.map((cell, ci) => {
-                    const cellStyle: React.CSSProperties = {
-                      flex: 1, minWidth: 0, aspectRatio: "1.05",
-                      flexShrink: 0, borderRadius: 2,
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                    };
-                    if (!cell) return <div key={ci} style={cellStyle} />;
-                    return (
-                      <div
-                        key={ci}
-                        title={cell.sym}
-                        style={{
-                          ...cellStyle,
-                          background: CAT_BG[cell.cat],
-                          border: `1px solid ${CAT_BORDER[cell.cat]}`,
-                        }}
-                      >
-                        <span style={{
-                          fontSize: cell.sym.length > 2 ? "0.42rem" : "0.58rem",
-                          color: "rgba(255,255,255,0.92)",
-                          fontFamily: "inherit", fontWeight: 600, letterSpacing: 0,
-                        }}>
-                          {cell.sym}
-                        </span>
-                      </div>
-                    );
-                  })}
+            {/* Group number headers */}
+            <div style={{ display: "flex", gap: GAP, marginBottom: GAP }}>
+              <div style={{ width: LABEL_W, flexShrink: 0 }} />
+              {Array.from({ length: 18 }, (_, i) => (
+                <div key={i} style={{
+                  flex: 1, textAlign: "center",
+                  fontSize: "0.5rem", color: "var(--oc-text-faint)",
+                  fontFamily: "inherit", paddingBottom: 3,
+                }}>
+                  {i + 1}
                 </div>
+              ))}
+            </div>
+
+            {/* Period rows */}
+            {ROWS.map((row, ri) => {
+              const isFBlock = ri >= 7;
+              return (
+                <div key={ri}>
+                  {ri === 7 && <div style={{ height: 6 }} />}
+                  <div style={{ display: "flex", gap: GAP, marginBottom: GAP, alignItems: "stretch" }}>
+
+                    {/* Period / f-block label */}
+                    <div style={{
+                      width: LABEL_W, flexShrink: 0,
+                      textAlign: "right", paddingRight: 5,
+                      fontSize: "0.5rem",
+                      color: isFBlock ? "var(--oc-text-faint)" : "var(--oc-green-dim)",
+                      fontFamily: "inherit", letterSpacing: "0.05em",
+                      display: "flex", alignItems: "center", justifyContent: "flex-end",
+                    }}>
+                      {isFBlock ? (ri === 7 ? "6*" : "7*") : PERIOD_LABELS[ri]}
+                    </div>
+
+                    {/* Element cells */}
+                    {row.map((cell, ci) => {
+                      // Attach refs to the four connector anchor cells
+                      let cellRef: React.RefObject<HTMLDivElement> | undefined;
+                      if      (ri === 5 && ci === 2) cellRef = laStarRef;
+                      else if (ri === 6 && ci === 2) cellRef = acStarRef;
+                      else if (ri === 7 && ci === 2) cellRef = laFBlockRef;
+                      else if (ri === 8 && ci === 2) cellRef = acFBlockRef;
+
+                      const cellStyle: React.CSSProperties = {
+                        flex: 1, minWidth: 0, aspectRatio: "1.05",
+                        flexShrink: 0, borderRadius: 2,
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                      };
+
+                      if (!cell) {
+                        return <div key={ci} ref={cellRef as React.RefObject<HTMLDivElement>} style={cellStyle} />;
+                      }
+
+                      const isHovered = hover?.cat === cell.cat;
+                      return (
+                        <div
+                          key={ci}
+                          ref={cellRef as React.RefObject<HTMLDivElement>}
+                          title={cell.sym}
+                          onMouseEnter={(e) => handleEnter(e, cell.cat)}
+                          onMouseMove={handleMove}
+                          onMouseLeave={handleLeave}
+                          style={{
+                            ...cellStyle,
+                            background: CAT_BG[cell.cat],
+                            border: `1px solid ${CAT_BORDER[cell.cat]}`,
+                            cursor: "default",
+                            transition: "filter 0.1s",
+                            filter: isHovered ? "brightness(1.4) saturate(1.2)" : undefined,
+                          }}
+                        >
+                          <span style={{
+                            fontSize: cell.sym.length > 2 ? "0.42rem" : "0.58rem",
+                            color: "rgba(255,255,255,0.92)",
+                            fontFamily: "inherit", fontWeight: 600, letterSpacing: 0,
+                          }}>
+                            {cell.sym}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Legend */}
+        <div style={{
+          borderTop: "1px solid var(--oc-green-border-faint)",
+          padding: "14px 14px 16px",
+          display: "flex", flexDirection: "column", gap: 9,
+        }}>
+          <p className="font-heading" style={{ fontSize: "0.7rem", color: "var(--oc-text-dim)", letterSpacing: "0.14em", marginBottom: 2 }}>
+            KEY
+          </p>
+          {LEGEND.map(({ cat, label, detail }) => {
+            const isHovered = hover?.cat === cat;
+            return (
+              <div
+                key={cat}
+                style={{ display: "flex", gap: 10, alignItems: "flex-start", cursor: "default" }}
+                onMouseEnter={(e) => handleEnter(e, cat)}
+                onMouseMove={handleMove}
+                onMouseLeave={handleLeave}
+              >
+                <div style={{
+                  width: 16, height: 16, flexShrink: 0, borderRadius: 2, marginTop: 3,
+                  background: CAT_BG[cat],
+                  border: `1px solid ${CAT_BORDER[cat]}`,
+                  transition: "filter 0.1s",
+                  filter: isHovered ? "brightness(1.4) saturate(1.2)" : undefined,
+                }} />
+                <p style={{ margin: 0, lineHeight: 1.5 }}>
+                  <span style={{
+                    fontSize: "0.82rem",
+                    color: isHovered ? "rgba(255,255,255,0.95)" : "var(--oc-text)",
+                    fontFamily: "inherit", fontWeight: 600,
+                    transition: "color 0.1s",
+                  }}>
+                    {label}
+                  </span>
+                  <span style={{ fontSize: "0.78rem", color: "var(--oc-text-muted)", fontFamily: "inherit" }}>
+                    {" — "}{detail}
+                  </span>
+                </p>
               </div>
             );
           })}
         </div>
       </div>
 
-      {/* Legend */}
-      <div style={{
-        borderTop: "1px solid var(--oc-green-border-faint)",
-        padding: "14px 14px 16px",
-        display: "flex", flexDirection: "column", gap: 9,
-      }}>
-        <p className="font-heading" style={{ fontSize: "0.7rem", color: "var(--oc-text-dim)", letterSpacing: "0.14em", marginBottom: 2 }}>
-          KEY
-        </p>
-        {LEGEND.map(({ cat, label, detail }) => (
-          <div key={cat} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+      {/* Floating tooltip — fixed so it escapes any overflow:hidden parent */}
+      {hover && (
+        <div
+          style={{
+            position: "fixed",
+            left: hover.x,
+            top: hover.y,
+            zIndex: 9999,
+            maxWidth: 280,
+            background: "var(--oc-green-bg-surface, #0f1f18)",
+            border: `1px solid ${CAT_BORDER[hover.cat]}`,
+            borderRadius: 4,
+            padding: "8px 12px",
+            pointerEvents: "none",
+            boxShadow: "0 4px 24px rgba(0,0,0,0.55)",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 5 }}>
             <div style={{
-              width: 16, height: 16, flexShrink: 0, borderRadius: 2, marginTop: 3,
-              background: CAT_BG[cat],
-              border: `1px solid ${CAT_BORDER[cat]}`,
+              width: 12, height: 12, borderRadius: 2, flexShrink: 0,
+              background: CAT_BG[hover.cat],
+              border: `1px solid ${CAT_BORDER[hover.cat]}`,
             }} />
-            <p style={{ margin: 0, lineHeight: 1.5 }}>
-              <span style={{ fontSize: "0.82rem", color: "var(--oc-text)", fontFamily: "inherit", fontWeight: 600 }}>
-                {label}
-              </span>
-              <span style={{ fontSize: "0.78rem", color: "var(--oc-text-muted)", fontFamily: "inherit" }}>
-                {" — "}{detail}
-              </span>
-            </p>
+            <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "rgba(255,255,255,0.95)", fontFamily: "inherit" }}>
+              {hover.label}
+            </span>
           </div>
-        ))}
-      </div>
-    </div>
+          <p style={{ margin: 0, fontSize: "0.75rem", color: "rgba(255,255,255,0.62)", fontFamily: "inherit", lineHeight: 1.55 }}>
+            {hover.detail}
+          </p>
+        </div>
+      )}
+    </>
   );
 }
