@@ -60,8 +60,11 @@ const LEGEND: { cat: Cat; label: string; detail: string }[] = [
   { cat: "ac", label: "Actinides",              detail: "f-block · many are radioactive · include uranium and plutonium" },
 ];
 
+// Width of the period-label column on the left of each row
 const LABEL_W = 32;
 const GAP = 2;
+// CSS string used for every 18-column element grid — ensures identical column widths in header + all rows
+const GRID_COLS = `repeat(18, 1fr)`;
 
 export function PeriodicTableGroups() {
   const [hover, setHover] = useState<HoverState>(null);
@@ -74,6 +77,16 @@ export function PeriodicTableGroups() {
     setHover(prev => prev ? { ...prev, x: e.clientX + 14, y: e.clientY - 10 } : null);
   };
   const handleLeave = () => setHover(null);
+
+  // Shared style for every element cell (null or filled) — grid handles column sizing
+  const cellBase: React.CSSProperties = {
+    aspectRatio: "1.05",
+    minWidth: 0,
+    borderRadius: 2,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  };
 
   return (
     <>
@@ -95,18 +108,22 @@ export function PeriodicTableGroups() {
         <div style={{ padding: "10px 14px", overflowX: "auto" }}>
           <div style={{ minWidth: 520 }}>
 
-            {/* Group number headers */}
-            <div style={{ display: "flex", gap: GAP, marginBottom: GAP }}>
+            {/* Group number headers — same grid structure as each data row */}
+            <div style={{ display: "flex", marginBottom: GAP }}>
               <div style={{ width: LABEL_W, flexShrink: 0 }} />
-              {Array.from({ length: 18 }, (_, i) => (
-                <div key={i} style={{
-                  flex: 1, textAlign: "center",
-                  fontSize: "0.65rem", color: "var(--oc-text-faint)",
-                  fontFamily: "inherit", paddingBottom: 3,
-                }}>
-                  {i + 1}
-                </div>
-              ))}
+              <div style={{ flex: 1, display: "grid", gridTemplateColumns: GRID_COLS, gap: GAP }}>
+                {Array.from({ length: 18 }, (_, i) => (
+                  <div key={i} style={{
+                    textAlign: "center",
+                    fontSize: "0.65rem",
+                    color: "var(--oc-text-faint)",
+                    fontFamily: "inherit",
+                    paddingBottom: 3,
+                  }}>
+                    {i + 1}
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Period rows */}
@@ -115,7 +132,7 @@ export function PeriodicTableGroups() {
               return (
                 <div key={ri}>
                   {ri === 7 && <div style={{ height: 6 }} />}
-                  <div style={{ display: "flex", gap: GAP, marginBottom: GAP, alignItems: "stretch" }}>
+                  <div style={{ display: "flex", marginBottom: GAP, alignItems: "center" }}>
 
                     {/* Period / f-block label */}
                     <div style={{
@@ -124,47 +141,43 @@ export function PeriodicTableGroups() {
                       fontSize: "0.65rem",
                       color: isFBlock ? "var(--oc-text-faint)" : "var(--oc-green-dim)",
                       fontFamily: "inherit", letterSpacing: "0.05em",
-                      display: "flex", alignItems: "center", justifyContent: "flex-end",
                     }}>
                       {isFBlock ? (ri === 7 ? "6*" : "7*") : PERIOD_LABELS[ri]}
                     </div>
 
-                    {/* Element cells */}
-                    {row.map((cell, ci) => {
-                      const cellStyle: React.CSSProperties = {
-                        flex: 1, minWidth: 0, aspectRatio: "1.05",
-                        flexShrink: 0, borderRadius: 2,
-                        display: "flex", alignItems: "center", justifyContent: "center",
-                      };
-                      if (!cell) return <div key={ci} style={cellStyle} />;
+                    {/* Element cells — CSS grid guarantees identical column widths across all rows */}
+                    <div style={{ flex: 1, display: "grid", gridTemplateColumns: GRID_COLS, gap: GAP }}>
+                      {row.map((cell, ci) => {
+                        if (!cell) return <div key={ci} style={cellBase} />;
 
-                      const isHovered = hover?.cat === cell.cat;
-                      return (
-                        <div
-                          key={ci}
-                          title={cell.sym}
-                          onMouseEnter={(e) => handleEnter(e, cell.cat)}
-                          onMouseMove={handleMove}
-                          onMouseLeave={handleLeave}
-                          style={{
-                            ...cellStyle,
-                            background: CAT_BG[cell.cat],
-                            border: `1px solid ${CAT_BORDER[cell.cat]}`,
-                            cursor: "default",
-                            transition: "filter 0.1s",
-                            filter: isHovered ? "brightness(1.4) saturate(1.2)" : undefined,
-                          }}
-                        >
-                          <span style={{
-                            fontSize: cell.sym.length > 2 ? "0.42rem" : "0.58rem",
-                            color: "rgba(255,255,255,0.92)",
-                            fontFamily: "inherit", fontWeight: 600, letterSpacing: 0,
-                          }}>
-                            {cell.sym}
-                          </span>
-                        </div>
-                      );
-                    })}
+                        const isHovered = hover?.cat === cell.cat;
+                        return (
+                          <div
+                            key={ci}
+                            title={cell.sym}
+                            onMouseEnter={(e) => handleEnter(e, cell.cat)}
+                            onMouseMove={handleMove}
+                            onMouseLeave={handleLeave}
+                            style={{
+                              ...cellBase,
+                              background: CAT_BG[cell.cat],
+                              border: `1px solid ${CAT_BORDER[cell.cat]}`,
+                              cursor: "default",
+                              transition: "filter 0.1s",
+                              filter: isHovered ? "brightness(1.4) saturate(1.2)" : undefined,
+                            }}
+                          >
+                            <span style={{
+                              fontSize: cell.sym.length > 2 ? "0.42rem" : "0.58rem",
+                              color: "rgba(255,255,255,0.92)",
+                              fontFamily: "inherit", fontWeight: 600, letterSpacing: 0,
+                            }}>
+                              {cell.sym}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
               );
