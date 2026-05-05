@@ -7,6 +7,7 @@ import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { MobileNav } from "@/components/ui/MobileNav";
 import { ToolsDropdown } from "@/components/ui/ToolsDropdown";
 import { ProfileButton } from "@/components/ui/ProfileButton";
+import { MobileWarning } from "@/components/ui/MobileWarning";
 
 export default function Home() {
   return (
@@ -14,6 +15,8 @@ export default function Home() {
       className="scanlines font-terminal min-h-screen overflow-x-hidden"
       style={{ backgroundColor: "var(--oc-bg)", color: "var(--oc-text)" }}
     >
+      <MobileWarning />
+
       {/* Hex dot grid background */}
       <HexDotGrid />
 
