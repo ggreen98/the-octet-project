@@ -151,7 +151,7 @@ export default function PeriodicTrendsLesson() {
             className="mb-6 p-4"
             style={{ border: "1px solid var(--oc-green-border-dim)", background: "var(--oc-green-badge)", borderRadius: "4px" }}
           >
-            <p className="font-heading text-xs mb-3" style={{ color: "var(--oc-green-dim)", letterSpacing: "0.12em", fontSize: "0.6rem" }}>
+            <p className="font-heading text-xs mb-3" style={{ color: "var(--oc-green-dim)", letterSpacing: "0.12em", fontSize: "0.75rem" }}>
               THE BLOCKS — WHERE LESSONS 2.3 AND 2.4 MEET THE TABLE
             </p>
             <div className="flex flex-col gap-2">
@@ -164,14 +164,14 @@ export default function PeriodicTrendsLesson() {
                 <div key={label} style={{ display: "flex", gap: 12, alignItems: "baseline" }}>
                   <span
                     className="font-heading"
-                    style={{ fontSize: "0.7rem", color, flexShrink: 0, minWidth: "4rem", letterSpacing: "0.06em" }}
+                    style={{ fontSize: "0.85rem", color, flexShrink: 0, minWidth: "4rem", letterSpacing: "0.06em" }}
                   >
                     {label}
                   </span>
-                  <span style={{ fontSize: "0.62rem", color: "var(--oc-text-dim)", flexShrink: 0, minWidth: "5.5rem" }}>
+                  <span style={{ fontSize: "0.78rem", color: "var(--oc-text-dim)", flexShrink: 0, minWidth: "5.5rem" }}>
                     {groups}
                   </span>
-                  <span style={{ fontSize: "0.65rem", color: "var(--oc-text-muted)", lineHeight: 1.5 }}>
+                  <span style={{ fontSize: "0.8rem", color: "var(--oc-text-muted)", lineHeight: 1.5 }}>
                     {note}
                   </span>
                 </div>
@@ -272,7 +272,7 @@ export default function PeriodicTrendsLesson() {
         <div className="max-w-2xl mb-4">
           <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
             <Term id="ionization-energy">Ionization energy</Term> is the energy required to remove an electron from 
-            a neutral atom. Most elements can lose multiple electrons, one after another, which we call 
+            a neutral atom. Most elements can lose multiple electrons, one after another, which we call{" "}
             <strong style={{ color: "var(--oc-text)" }}>successive ionization energies</strong>.
           </p>
 
@@ -506,6 +506,98 @@ export default function PeriodicTrendsLesson() {
             more strongly.
           </p>
         </div>
+
+        {/* ── THE OCTET RULE CONNECTION ───────────────────── */}
+        <h2
+          className="font-heading mb-6 mt-12"
+          style={{ fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)", letterSpacing: "0.05em", color: "var(--oc-text)" }}
+        >
+          HOW IT ALL CONNECTS TO THE OCTET RULE
+        </h2>
+        <div className="max-w-2xl mb-10">
+          <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
+            Every trend in this lesson exists because atoms are constantly working toward the same goal:
+            a full <Term id="valence-shell">valence shell</Term> of eight <Term id="valence-electron">valence electrons</Term> —
+            the <Term id="octet-rule">octet rule</Term>. <Term id="noble-gas">Noble gases</Term> already have it, which is why
+            they sit at the far right of every period and why their properties define the benchmark every other element is measured against.
+          </p>
+          <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
+            The trends you just learned are a direct map of how close — or how far — an atom is from that stable configuration:
+          </p>
+
+          <div className="flex flex-col gap-3 mb-6">
+            <div className="p-4" style={{ border: "1px solid rgba(68,153,255,0.25)", background: "rgba(68,153,255,0.04)", borderRadius: "4px" }}>
+              <p className="font-heading text-xs mb-1" style={{ color: "#4499ff", letterSpacing: "0.1em", fontSize: "0.7rem" }}>
+                IONIZATION ENERGY
+              </p>
+              <p className="text-sm leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
+                Atoms near a full octet (like halogens, one electron short) have very high{" "}
+                <Term id="ionization-energy">ionization energies</Term> — losing an electron would move them
+                further from stability, so the nucleus holds on tightly.
+              </p>
+            </div>
+            <div className="p-4" style={{ border: "1px solid rgba(168,85,247,0.25)", background: "rgba(168,85,247,0.04)", borderRadius: "4px" }}>
+              <p className="font-heading text-xs mb-1" style={{ color: "#a855f7", letterSpacing: "0.1em", fontSize: "0.7rem" }}>
+                ELECTRONEGATIVITY
+              </p>
+              <p className="text-sm leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
+                The closer an atom is to a complete octet, the harder it pulls shared electrons toward itself.
+                High <Term id="electronegativity">electronegativity</Term> is simply an atom's urgency to
+                grab the electrons it needs to fill its shell.
+              </p>
+            </div>
+            <div className="p-4" style={{ border: "1px solid rgba(247,37,133,0.25)", background: "rgba(247,37,133,0.04)", borderRadius: "4px" }}>
+              <p className="font-heading text-xs mb-1" style={{ color: "#f72585", letterSpacing: "0.1em", fontSize: "0.7rem" }}>
+                ELECTRON AFFINITY
+              </p>
+              <p className="text-sm leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
+                Halogens have the highest electron affinities in their periods precisely because adding
+                one electron completes their octet. Gaining that electron releases a large amount of
+                energy — a direct payoff for reaching stability.
+              </p>
+            </div>
+            <div className="p-4" style={{ border: "1px solid rgba(68,153,255,0.25)", background: "rgba(68,153,255,0.04)", borderRadius: "4px" }}>
+              <p className="font-heading text-xs mb-1" style={{ color: "#4499ff", letterSpacing: "0.1em", fontSize: "0.7rem" }}>
+                ATOMIC RADIUS
+              </p>
+              <p className="text-sm leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
+                Small, compact atoms across the right side of a period aren't chasing a full octet by
+                growing — they achieve it by pulling electrons in. A shrinking radius reflects the same
+                drive: the nucleus pulling harder on its own electrons as the shell nears completion.
+              </p>
+            </div>
+          </div>
+
+          <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
+            In Unit 3, this payoff becomes the foundation of chemical bonding. When two atoms meet,
+            what happens next — whether they share, transfer, or ignore each other's electrons — depends
+            almost entirely on where each sits on the trends you just mapped.
+          </p>
+        </div>
+
+        {/* ── UNIT 2 QUIZ ─────────────────────────────────── */}
+        <Link href="/courses/chemistry-1/unit-2-quiz" className="block group max-w-2xl mb-10">
+          <div
+            className="relative overflow-hidden p-6 transition-all duration-200"
+            style={{
+              border: "1px solid rgba(167,139,250,0.4)",
+              background: "rgba(167,139,250,0.05)",
+              borderRadius: "4px",
+            }}
+          >
+            <p className="font-heading text-xs mb-3" style={{ color: "rgba(167,139,250,0.7)", letterSpacing: "0.12em", fontSize: "0.65rem" }}>
+              READY TO TEST YOURSELF?
+            </p>
+            <p className="text-base leading-relaxed mb-4" style={{ color: "var(--oc-text-muted)" }}>
+              You&apos;ve finished Unit 2. Take the{" "}
+              <strong style={{ color: "rgba(167,139,250,0.95)" }}>Unit 2 Quiz</strong> to check your
+              understanding of electron shells, configuration, and periodic trends before moving on.
+            </p>
+            <span className="font-heading text-xs" style={{ color: "rgba(167,139,250,0.9)", letterSpacing: "0.1em" }}>
+              GO TO UNIT 2 QUIZ →
+            </span>
+          </div>
+        </Link>
 
         {/* ── UP NEXT ─────────────────────────────────────── */}
         <Link href="/courses/chemistry-1/lessons/chemical-bonds" className="block group">

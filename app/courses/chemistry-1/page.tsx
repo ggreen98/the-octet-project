@@ -44,6 +44,7 @@ const units = [
   {
     unit: "UNIT 2",
     title: "ELECTRONS & ENERGY",
+    quiz: { href: "/courses/chemistry-1/unit-2-quiz", title: "UNIT 2 QUIZ", description: "15 questions covering electron shells, valence electrons, electron configuration, and periodic trends." },
     lessons: [
       {
         id: "2.1",
@@ -74,6 +75,18 @@ const units = [
         title: "PERIODIC TRENDS",
         description: "Atomic radius, ionization energy, and electronegativity — this is where the periodic table comes alive and the patterns hidden in the element blocks reveal themselves.",
         href: "/courses/chemistry-1/lessons/periodic-trends",
+      },
+    ],
+  },
+  {
+    unit: "UNIT 3",
+    title: "CHEMICAL BONDING",
+    lessons: [
+      {
+        id: "3.1",
+        title: "IONIC BONDING",
+        description: "One atom gives, one atom takes, and opposite charges do the rest. Learn how electron transfer creates the electrostatic bonds that hold ionic compounds together.",
+        href: "/courses/chemistry-1/lessons/ionic-bonding",
       },
     ],
   },

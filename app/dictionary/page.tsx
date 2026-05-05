@@ -217,6 +217,38 @@ export const TERMS = [
       "The reduction in the effective nuclear attraction felt by outer electrons, caused by inner electrons repelling them and partially cancelling the pull of the nucleus. Core electrons (those in inner shells) shield outer electrons much more effectively than electrons in the same shell shield each other. Shielding explains why outer electrons are easier to remove as you go down a group — each new shell adds more shielding.",
     related: ["effective-nuclear-charge", "orbital-shell", "electron", "atomic-radius", "ionization-energy"],
   },
+  {
+    id: "ion",
+    term: "Ion",
+    category: "Chemical Bonding",
+    definition:
+      "An atom (or group of atoms) that has gained or lost one or more electrons, giving it a net electric charge. Losing electrons produces a positively charged ion (cation); gaining electrons produces a negatively charged ion (anion). Ions are the building blocks of ionic compounds and are central to how atoms bond with each other.",
+    related: ["electron", "charge", "cation", "anion", "ionic-bond"],
+  },
+  {
+    id: "cation",
+    term: "Cation",
+    category: "Chemical Bonding",
+    definition:
+      "A positively charged ion, formed when an atom loses one or more electrons. Metals in Groups 1 and 2 readily form cations because losing a small number of valence electrons gives them a full outer shell. For example, sodium (Na) loses one electron to become Na⁺. The name rhymes with 'cat' — a cation is a cat that lost something.",
+    related: ["ion", "anion", "ionic-bond", "valence-electron", "octet-rule"],
+  },
+  {
+    id: "anion",
+    term: "Anion",
+    category: "Chemical Bonding",
+    definition:
+      "A negatively charged ion, formed when an atom gains one or more electrons. Non-metals in Groups 16 and 17 readily form anions because gaining a small number of electrons completes their outer shell. For example, chlorine (Cl) gains one electron to become Cl⁻. Anions are attracted to cations and repelled by other anions.",
+    related: ["ion", "cation", "ionic-bond", "valence-electron", "octet-rule"],
+  },
+  {
+    id: "ionic-bond",
+    term: "Ionic Bond",
+    category: "Chemical Bonding",
+    definition:
+      "A chemical bond formed by the electrostatic attraction between oppositely charged ions. One atom transfers one or more electrons to another — the donor becomes a cation (positive) and the recipient becomes an anion (negative). Because opposite charges attract, the two ions are held together. Ionic bonds typically form between a metal and a non-metal. Table salt (NaCl) is the classic example: sodium gives its valence electron to chlorine, and the resulting Na⁺ and Cl⁻ ions attract each other strongly.",
+    related: ["ion", "cation", "anion", "valence-electron", "octet-rule", "electronegativity"],
+  },
 ];
 
 export default function DictionaryPage() {
