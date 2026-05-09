@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { MobileNav } from "@/components/ui/MobileNav";
 import { Term } from "@/components/ui/Term";
+import { IonicBondVisualizer } from "@/components/lessons/IonicBondVisualizer";
 
 export const metadata = {
   title: "Ionic Bonding — Chemistry I | Allylic",
@@ -130,7 +131,7 @@ export default function IonicBondingLesson() {
 
           {/* Attraction callout */}
           <div
-            className="p-5 mb-6"
+            className="p-5 mb-8"
             style={{ border: "1px solid rgba(52,211,153,0.3)", background: "rgba(52,211,153,0.05)", borderRadius: "4px", borderLeft: "3px solid rgba(52,211,153,0.6)" }}
           >
             <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
@@ -139,6 +140,17 @@ export default function IonicBondingLesson() {
               pull between them is what holds the bond together. This is an ionic bond, and the compound
               they form is <strong style={{ color: "var(--oc-text)" }}>NaCl</strong> — table salt.
             </p>
+          </div>
+
+          {/* Animation */}
+          <div
+            className="p-6 mb-4"
+            style={{ border: "1px solid var(--oc-green-border-dim)", background: "var(--oc-green-badge)", borderRadius: "4px" }}
+          >
+            <p className="font-heading text-xs mb-5" style={{ color: "var(--oc-green-dim)", letterSpacing: "0.12em", fontSize: "0.65rem" }}>
+              WATCH IT HAPPEN
+            </p>
+            <IonicBondVisualizer />
           </div>
         </div>
 
@@ -250,7 +262,7 @@ export default function IonicBondingLesson() {
               { label: "HIGH MELTING POINTS", color: "#f5a623", text: "It takes a lot of energy to break apart an ionic lattice. Most ionic compounds are solid at room temperature and require very high temperatures to melt." },
               { label: "BRITTLE", color: "#a855f7", text: "Strike an ionic crystal and it shatters. Shifting the lattice brings like charges next to each other — repulsion cracks it apart." },
               { label: "CONDUCT ELECTRICITY WHEN DISSOLVED", color: "rgba(52,211,153,0.9)", text: "Solid ionic compounds don't conduct electricity because the ions can't move. Dissolve them in water or melt them and the ions are free to carry charge — they conduct." },
-              { label: "SOLUBLE IN WATER", color: "#4499ff", text: "Water molecules are polar and attract ions away from the lattice, dissolving the compound. Salt dissolves in water for exactly this reason." },
+              { label: "SOLUBLE IN WATER", color: "#4499ff", text: "Water molecules have a slight charge imbalance that lets them attract ions away from the lattice one by one, pulling the compound apart and dissolving it. This is why salt disappears when you stir it into a glass of water." },
             ].map(({ label, color, text }) => (
               <div key={label} className="p-4" style={{ border: `1px solid ${color}33`, background: `${color}08`, borderRadius: "4px" }}>
                 <p className="font-heading text-xs mb-2" style={{ color, letterSpacing: "0.1em", fontSize: "0.7rem" }}>
