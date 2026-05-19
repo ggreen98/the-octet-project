@@ -249,6 +249,86 @@ export const TERMS = [
       "A chemical bond formed by the electrostatic attraction between oppositely charged ions. One atom transfers one or more electrons to another — the donor becomes a cation (positive) and the recipient becomes an anion (negative). Because opposite charges attract, the two ions are held together. Ionic bonds typically form between a metal and a non-metal. Table salt (NaCl) is the classic example: sodium gives its valence electron to chlorine, and the resulting Na⁺ and Cl⁻ ions attract each other strongly.",
     related: ["ion", "cation", "anion", "valence-electron", "octet-rule", "electronegativity"],
   },
+  {
+    id: "polarity",
+    term: "Polarity",
+    category: "Chemical Bonding",
+    definition:
+      "The unequal distribution of electric charge in a chemical bond or molecule, arising when one atom attracts shared electrons more strongly than the other. A polar bond has a partially negative end (δ⁻) and a partially positive end (δ⁺). The greater the difference in electronegativity between the bonded atoms, the more polar the bond. Polarity is quantified by the dipole moment — the larger the dipole moment, the more polar the bond. Polarity determines many physical and chemical properties: polar molecules tend to have higher boiling points, dissolve ionic compounds, and interact strongly with other polar molecules through intermolecular forces.",
+    related: ["polar-covalent-bond", "nonpolar-covalent-bond", "dipole-moment", "electronegativity"],
+  },
+  {
+    id: "dipole-moment",
+    term: "Dipole Moment",
+    category: "Chemical Bonding",
+    definition:
+      "A measurement of the polarity of a chemical bond or molecule, symbolized μ (mu). Formally defined as the product of the magnitude of the partial charge and the distance separating the positive and negative charge centers. Measured in debyes (D). A nonpolar bond has μ = 0 D; the larger the dipole moment, the more polar the bond. Examples from hydrogen halides: H–F has μ = 1.86 D (most polar, largest ΔEN), H–Cl has μ = 1.08 D, H–Br has μ = 0.82 D. The dipole moment vector points from the δ⁺ end toward the δ⁻ end. For whole molecules, the net dipole moment is the vector sum of all individual bond dipoles — which is why CO₂ (two equal, opposing C=O dipoles) has μ = 0 D overall despite having polar bonds.",
+    related: ["polarity", "polar-covalent-bond", "electronegativity"],
+  },
+  {
+    id: "covalent-bond",
+    term: "Covalent Bond",
+    category: "Chemical Bonding",
+    definition:
+      "A chemical bond formed when two atoms share one or more pairs of electrons. Rather than one atom transferring electrons to another (as in ionic bonding), both atoms simultaneously claim the shared electrons — the shared pair is attracted to both nuclei at once, holding the atoms together. Covalent bonds typically form between two non-metal atoms with similar electronegativities. Examples include H₂ (hydrogen gas), H₂O (water), and CO₂ (carbon dioxide).",
+    related: ["ionic-bond", "polar-covalent-bond", "nonpolar-covalent-bond", "bond-pair", "lone-pair", "electronegativity", "octet-rule", "molecular-compound"],
+  },
+  {
+    id: "polar-covalent-bond",
+    term: "Polar Covalent Bond",
+    category: "Chemical Bonding",
+    definition:
+      "A covalent bond in which the shared electrons are not distributed equally between the two atoms. When the bonded atoms have different electronegativities, the more electronegative atom pulls the shared electron pair closer to itself. This creates a partial negative charge (δ⁻) on the more electronegative atom and a partial positive charge (δ⁺) on the other. The greater the electronegativity difference (roughly 0.5–1.7 on the Pauling scale), the more polar the bond. H–Cl and H–F are classic examples.",
+    related: ["covalent-bond", "nonpolar-covalent-bond", "electronegativity", "ionic-bond"],
+  },
+  {
+    id: "nonpolar-covalent-bond",
+    term: "Nonpolar Covalent Bond",
+    category: "Chemical Bonding",
+    definition:
+      "A covalent bond in which the shared electrons are distributed equally between both atoms, with no net charge separation. This occurs when the two bonded atoms are identical (such as H₂ or O₂) or have very similar electronegativities (electronegativity difference < 0.5). Neither atom pulls the shared pair more strongly than the other, so no partial charges develop.",
+    related: ["covalent-bond", "polar-covalent-bond", "electronegativity"],
+  },
+  {
+    id: "lewis-structure",
+    term: "Lewis Structure",
+    category: "Chemical Bonding",
+    definition:
+      "A diagram that shows the arrangement of valence electrons in a molecule or ion. Named after Gilbert N. Lewis (1916), a Lewis structure uses element symbols for atoms, lines (or pairs of dots) between atoms for bond pairs, and pairs of dots on atoms for lone pairs. The goal is to place electrons so that every atom (except hydrogen, which takes 2) satisfies the octet rule — 8 electrons in its outer shell. Lewis structures are the foundation for predicting molecular geometry, polarity, and reactivity.",
+    related: ["bond-pair", "lone-pair", "octet-rule", "covalent-bond", "valence-electron"],
+  },
+  {
+    id: "bond-pair",
+    term: "Bond Pair",
+    category: "Chemical Bonding",
+    definition:
+      "A pair of electrons that is shared between two atoms in a covalent bond. In a Lewis dot structure, a bond pair is shown as a line (—) or as two dots between the atoms. A single bond has one bond pair; a double bond has two; a triple bond has three. Bond pairs count toward the octet of both atoms simultaneously — each atom in the bond 'claims' both electrons of the pair.",
+    related: ["covalent-bond", "lone-pair", "octet-rule"],
+  },
+  {
+    id: "lone-pair",
+    term: "Lone Pair",
+    category: "Chemical Bonding",
+    definition:
+      "A pair of valence electrons on an atom that is not involved in any bond — they belong exclusively to one atom. In a Lewis dot structure, lone pairs are shown as two dots side by side on the atom. Lone pairs count toward an atom's electron count and influence molecular geometry, but they do not contribute to bonding between atoms. Chlorine in HCl, for example, has 3 lone pairs alongside its 1 bond pair.",
+    related: ["bond-pair", "covalent-bond", "valence-electron", "octet-rule"],
+  },
+  {
+    id: "molecular-compound",
+    term: "Molecular Compound",
+    category: "Chemical Bonding",
+    definition:
+      "A compound formed by covalent bonding between non-metal atoms. Unlike ionic compounds, molecular compounds do not form an extended lattice of ions — they exist as discrete molecules with a fixed number of atoms. Molecular compounds generally have lower melting and boiling points than ionic compounds, do not conduct electricity in solution (most are not charged), and are often gases or liquids at room temperature. Water (H₂O), carbon dioxide (CO₂), and glucose (C₆H₁₂O₆) are all molecular compounds.",
+    related: ["covalent-bond", "ionic-bond", "diatomic"],
+  },
+  {
+    id: "diatomic",
+    term: "Diatomic Molecule",
+    category: "Chemical Bonding",
+    definition:
+      "A molecule made of exactly two atoms, which may be the same element or different elements. The seven diatomic elements — hydrogen (H₂), nitrogen (N₂), oxygen (O₂), fluorine (F₂), chlorine (Cl₂), bromine (Br₂), and iodine (I₂) — exist naturally as diatomic molecules rather than single atoms. Diatomic molecules of the same element (homonuclear) always form nonpolar covalent bonds. Heteronuclear diatomics like HCl or CO form polar covalent bonds.",
+    related: ["covalent-bond", "nonpolar-covalent-bond", "polar-covalent-bond", "molecular-compound"],
+  },
 ];
 
 export default function DictionaryPage() {

@@ -145,18 +145,18 @@ export function IonicBondVisualizer() {
   if (showLewis) {
     return (
       <div>
-        <p className="font-heading text-xs mb-1"
-          style={{ color: "var(--oc-green)", letterSpacing: "0.12em", fontSize: "0.65rem" }}>
+        <p className="font-heading mb-1"
+          style={{ color: "var(--oc-green)", letterSpacing: "0.12em", fontSize: "0.78rem" }}>
           LEWIS DOT STRUCTURE
         </p>
-        <p className="text-sm leading-relaxed mb-6" style={{ color: "var(--oc-text-muted)" }}>
+        <p className="text-base leading-relaxed mb-6" style={{ color: "var(--oc-text-muted)" }}>
           This is how chemists represent ionic bonds on paper.
         </p>
 
         <LewisDotStructure />
 
         <div className="mt-6 max-w-xl flex flex-col gap-3">
-          <p className="text-sm leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
+          <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
             <strong style={{ color: "var(--oc-text)" }}>Lewis dot structures</strong> show only the
             valence electrons — one dot per electron. Each pair of dots sitting side by side is a{" "}
             <strong style={{ color: "var(--oc-text)" }}>lone pair</strong>. Here:
@@ -164,20 +164,20 @@ export function IonicBondVisualizer() {
           <div className="flex flex-col gap-2">
             <div className="flex items-start gap-3 p-3" style={{ border: "1px solid rgba(224,80,112,0.2)", background: "rgba(224,80,112,0.04)", borderRadius: "4px" }}>
               <span className="font-heading shrink-0 mt-0.5" style={{ fontSize: "0.68rem", color: "#e05070", letterSpacing: "0.1em" }}>Na⁺</span>
-              <p className="text-sm leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
+              <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
                 No dots — sodium gave away its only valence electron. The ⁺ charge shows it now has
                 one more proton than it has electrons.
               </p>
             </div>
             <div className="flex items-start gap-3 p-3" style={{ border: "1px solid rgba(68,153,255,0.2)", background: "rgba(68,153,255,0.04)", borderRadius: "4px" }}>
               <span className="font-heading shrink-0 mt-0.5" style={{ fontSize: "0.68rem", color: "#4499ff", letterSpacing: "0.1em" }}>Cl⁻</span>
-              <p className="text-sm leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
+              <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
                 8 dots in 4 lone pairs — chlorine now has a completely full outer shell. The brackets
                 and ⁻ show it holds one more electron than it has protons.
               </p>
             </div>
           </div>
-          <p className="text-sm leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
+          <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
             The shorthand <strong style={{ color: "var(--oc-text)" }}>Na⁺[Cl]⁻</strong> captures the
             whole story: a metal cation and a non-metal anion held together by electrostatic
             attraction. You'll use Lewis dot structures throughout Unit 3 to quickly read and
@@ -206,8 +206,8 @@ export function IonicBondVisualizer() {
   return (
     <div>
       {/* Atom legend */}
-      <div className="flex items-center gap-6 mb-2 font-heading text-xs"
-        style={{ color: "var(--oc-text-dim)", letterSpacing: "0.1em", fontSize: "0.6rem" }}>
+      <div className="flex items-center gap-6 mb-2 font-heading"
+        style={{ color: "var(--oc-text-dim)", letterSpacing: "0.1em", fontSize: "0.72rem" }}>
         <span>
           <span style={{ display: "inline-block", width: 10, height: 10, borderRadius: "50%", background: "#9a9a9a", marginRight: 5, verticalAlign: "middle" }} />
           Na — SODIUM
@@ -228,12 +228,12 @@ export function IonicBondVisualizer() {
       </div>
 
       {/* Stage info */}
-      <div className="mt-4 mb-4" style={{ minHeight: "64px" }}>
-        <p className="font-heading text-xs mb-1"
-          style={{ color: "var(--oc-green)", letterSpacing: "0.12em", fontSize: "0.65rem" }}>
+      <div className="mt-4 mb-4" style={{ minHeight: "80px" }}>
+        <p className="font-heading mb-1"
+          style={{ color: "var(--oc-green)", letterSpacing: "0.12em", fontSize: "0.78rem" }}>
           {info.label}
         </p>
-        <p className="text-sm leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
+        <p className="text-base leading-relaxed" style={{ color: "var(--oc-text-muted)" }}>
           {info.text}
         </p>
       </div>

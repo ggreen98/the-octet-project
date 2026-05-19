@@ -3,6 +3,7 @@ import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { MobileNav } from "@/components/ui/MobileNav";
 import { Term } from "@/components/ui/Term";
 import { IonicBondVisualizer } from "@/components/lessons/IonicBondVisualizer";
+import { LewisDotPractice } from "@/components/lessons/LewisDotPractice";
 
 export const metadata = {
   title: "Ionic Bonding — Chemistry I | Allylic",
@@ -276,6 +277,25 @@ export default function IonicBondingLesson() {
           </div>
         </div>
 
+        {/* ── LEWIS DOT PRACTICE ──────────────────────────── */}
+        <h2
+          className="font-heading mb-3 mt-10"
+          style={{ fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)", letterSpacing: "0.05em", color: "var(--oc-text)" }}
+        >
+          PRACTICE: LEWIS DOT STRUCTURES
+        </h2>
+        <p className="text-base leading-relaxed mb-6 max-w-2xl" style={{ color: "var(--oc-text-muted)" }}>
+          Click the empty slots around each element to place its valence electrons. Each side holds
+          up to two — a <strong style={{ color: "var(--oc-text)" }}>lone pair</strong>. Use the group
+          number rule to figure out how many electrons each element has.
+        </p>
+        <div
+          className="max-w-2xl mb-10 p-6"
+          style={{ border: "1px solid var(--oc-green-border-dim)", background: "var(--oc-green-badge)", borderRadius: "4px" }}
+        >
+          <LewisDotPractice />
+        </div>
+
         {/* ── UP NEXT ─────────────────────────────────────── */}
         <div
           className="max-w-2xl mb-16 p-6"
@@ -302,11 +322,11 @@ export default function IonicBondingLesson() {
             ← PREV: PERIODIC TRENDS
           </Link>
           <Link
-            href="/courses/chemistry-1"
+            href="/courses/chemistry-1/lessons/covalent-bonding"
             className="font-heading text-xs px-5 py-3 transition-all duration-200 text-center flex-1"
             style={{ border: "1px solid var(--oc-green-subtle)", color: "var(--oc-green)", letterSpacing: "0.12em" }}
           >
-            BACK TO CHEMISTRY I →
+            NEXT: COVALENT BONDING →
           </Link>
         </div>
 

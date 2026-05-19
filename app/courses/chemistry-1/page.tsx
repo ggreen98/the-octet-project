@@ -88,6 +88,12 @@ const units = [
         description: "One atom gives, one atom takes, and opposite charges do the rest. Learn how electron transfer creates the electrostatic bonds that hold ionic compounds together.",
         href: "/courses/chemistry-1/lessons/ionic-bonding",
       },
+      {
+        id: "3.2",
+        title: "COVALENT BONDING",
+        description: "When both atoms want the electrons, nobody wins by taking — they share. Explore how electron sharing creates covalent bonds, and why some bonds are polar while others aren't.",
+        href: "/courses/chemistry-1/lessons/covalent-bonding",
+      },
     ],
   },
 ];
